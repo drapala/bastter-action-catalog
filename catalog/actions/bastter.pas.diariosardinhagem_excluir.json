@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:41:02+00:00",
-    "evidence": "evidence/runs.jsonl#run=pas-sardinhagem-privado-ciclo-1793742054",
+    "checked_at": "2026-11-03T22:36:49+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-sardinhagem-privado-ciclo-1793745401",
     "notes": "a sardinhagem saiu da lista do dono"
   },
   "sources": [

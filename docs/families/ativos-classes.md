@@ -105,3 +105,8 @@ The cycles did leave hidden rows: `excluir_item` only hides an item. `tools/purg
 - Surprise 6 is wrong. 55738 was a row id. After the purge deleted it, the ETF runs got new rows (55749, 55751, 55754, 55756). `salvar` reused 55738 only while that row existed hidden. A probe on VALE3 (run `dev-data-probe-*`) got a new item (1755507) while the scenario's hidden item 1755506 still existed, so reuse does not always happen. The guards stay, because it can happen.
 - The movement read with `mes: 0, ano: 0` lists past years. `acao_ciclo_completo.yaml` writes a buy dated 01/02/2019, reads it back with `Data: /Date(1546394400000)/` (2 January 2019) and deletes it. The guard `ativo_sem_movimentacao` and the purge recheck rely on this read.
 
+## Update after audit round 6 (2026-11-03)
+
+- A test buy dated before a corporate event makes BS2 apply that event to the test position. The 2019 buy of O created an ONL item (Orion Office REIT spin-off, 2021-11-15) with a 0.1-share buy. The end-of-run state check caught it, and the item was deleted for good (C047). The proof buys of the newer asset scenarios now use 2025-01-02.
+- `get_movement` also lists corporate events as rows (an AAPL buy dated 2019 showed `Split` 4:1 of 2020-08-31). Those rows are shown, not created: they leave with the buy.
+

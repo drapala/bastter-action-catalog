@@ -85,6 +85,25 @@ steps:
     action: bastter.ativos.provento_manual_listar
     inputs: {ativoID: "${item}", tipoClasse: etf}
     assert: {list_excludes: {path: "", where: {EarningID: "${prov}"}}}
+  - name: compra_antiga
+    action: bastter.ativos.save_movement
+    inputs: {ativoID: '${item}', corretagem: 0, data: 01/02/2025, movimentacaoID: 0, quantidade: 1, tipo: etf, totalOperacao: 7, totalOperacaoEstrangeiro: 1}
+    assert: {equals: {Return: true}}
+  - name: compra_antiga_listada
+    postcondition_of: bastter.ativos.save_movement
+    action: bastter.ativos.get_movement
+    inputs: {ativoID: '${item}', symbol: '${ticker}', tipo: etf}
+    assert: {list_contains: {path: Itens, where: {Data: /Date(1735786800000)/, OperacaoReal: 7.0, Tipo: Buy}}}
+    save: {mov_antiga: {field: MovimentacaoID, path: Itens, where: {Data: /Date(1735786800000)/, OperacaoReal: 7.0, Tipo: Buy}}}
+    proves: o lançamento foi gravado em 02/01/2025 e a leitura o lista, então ela cobre os anos anteriores (a conferência de item vazio e o purge dependem disso)
+  - name: excluir_compra_antiga
+    action: bastter.ativos.delete_movement
+    inputs: {movimentacaoID: '${mov_antiga}', tipo: etf}
+    assert: {equals: {Return: OK}}
+  - name: compra_antiga_sumiu
+    action: bastter.ativos.get_movement
+    inputs: {ativoID: '${item}', symbol: '${ticker}', tipo: etf}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: '${mov_antiga}'}}}
   - name: excluir_compra
     action: bastter.ativos.delete_movement
     inputs: {tipo: etf, movimentacaoID: "${mov}"}

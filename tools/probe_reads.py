@@ -1,4 +1,5 @@
-"""Calls every read action whose status is seen, once, with inputs inferred from the field names.
+"""Calls every read action that is not excluded, with inputs inferred from the field names, retrying up to 10
+times when the server names a missing parameter.
 
 The server hides error details (correction C005), so a refused call cannot tell which field was wrong. A read that
 answers 200 with no Error, with no fake ID in its inputs, becomes verified in the next build. A call that needed

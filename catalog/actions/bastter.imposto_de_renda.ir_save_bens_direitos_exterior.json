@@ -126,8 +126,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:39:22+00:00",
-    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793741925",
+    "checked_at": "2026-11-03T22:35:00+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793745262",
     "notes": "os valores digitados substituem o cálculo automático e ficam marcados como do usuário"
   },
   "sources": [

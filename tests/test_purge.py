@@ -1,5 +1,7 @@
 """The permanent delete only touches items that a scenario run hid and that were not restored or already purged."""
 
+from pathlib import Path
+
 import purge_hidden_items as ph
 
 SCENARIOS = {"acao-ciclo-completo", "fii-ciclo"}
@@ -118,24 +120,29 @@ def test_an_item_that_is_visible_again_or_has_movements_is_not_deleted():
     )
     assert ph.unsafe(2, None, None) == "the tab read gave no list"
     assert ph.unsafe(2, {"Items": [{"AtivoID": 3}]}, {"Itens": []}) is None
+    assert ph.unsafe(2, {"Items": []}, {"Itens": None}), (
+        "a null list is not proof of no movements"
+    )
+    assert ph.unsafe(2, {"Items": []}, {"Error": "x"}), (
+        "an answer without Itens is not proof"
+    )
     assert (
         ph.unsafe(2, {"Items": []}, None)
-        == "the item has movements, or no movement read could check it"
+        == "the item has movements, or no movement read gave an empty list"
     )
 
 
 def test_only_movement_reads_proven_for_past_years_can_clear_an_item():
-    """Audit round 5: a read counts only after a scenario reads back a buy dated 2019 with it."""
+    """Audit rounds 5 and 6: a (read, tipo) counts only after a scenario reads back an entry from a past year (2019 or 2025)."""
+    import glob
+
     import yaml
 
     proven = set()
-    for name in ("acao_ciclo_completo", "stock_ciclo"):
-        steps = yaml.safe_load((ph.ROOT / f"scenarios/{name}.yaml").read_text())[
-            "steps"
-        ]
-        proven |= {
-            s["action"] for s in steps if "1546394400000" in str(s.get("assert"))
-        }
+    for path in glob.glob(str(ph.ROOT / "scenarios/*.yaml")):
+        for s in yaml.safe_load(Path(path).read_text())["steps"]:
+            if any(stamp in str(s.get("assert")) for stamp in ("1546394400000", "1735786800000")):
+                proven.add((s["action"], s["inputs"]["tipo"]))
     assert ph.MOVEMENT_READS == proven
 
 
@@ -192,3 +199,51 @@ def test_purge_one_never_deletes_an_unsafe_item():
     )
     call, sent = account([], [])
     assert ph.purge_one(call, [tab, mov], "fii", 2, run)[0] == "GONE"
+
+
+def test_a_failed_movement_read_blocks_the_delete():
+    """Audit round 6: only the ok check stopped an Error answer from counting as empty."""
+    run = "fii-ciclo-1793731200"
+    tab = {
+        "run": run,
+        "action": "bastter.ativos.obter_itens",
+        "ok": True,
+        "inputs": {"tipo": "fii"},
+        "shape": {},
+    }
+    mov = {
+        "run": run,
+        "action": "bastter.ativos.obter_movimentacao",
+        "ok": True,
+        "inputs": {"tipo": "fii", "ativoID": 2},
+        "shape": {},
+    }
+    sent = []
+
+    def call(action_id, body, note):
+        sent.append(action_id)
+        if action_id == "bastter.ativos.obter_itens":
+            return {"ok": True, "error": None, "payload": {"Items": []}}
+        return {"ok": False, "error": "500", "payload": {"Itens": []}}
+
+    assert ph.purge_one(call, [tab, mov], "fii", 2, run)[0] == "SKIPPED"
+    assert "bastter.ativos.excluir_movimentacao_ativo" not in sent
+
+
+def test_a_movement_read_of_an_unproven_tipo_is_not_used():
+    run = "x-ciclo-1793731200"
+    tab = {
+        "run": run,
+        "action": "bastter.ativos.obter_itens",
+        "ok": True,
+        "inputs": {"tipo": "cripto"},
+        "shape": {},
+    }
+    mov = {
+        "run": run,
+        "action": "bastter.ativos.obter_movimentacao",
+        "ok": True,
+        "inputs": {"tipo": "cripto", "ativoID": 2},
+        "shape": {},
+    }
+    assert ph.prechecks([tab, mov], run, "cripto", 2) == (tab["inputs"], None)

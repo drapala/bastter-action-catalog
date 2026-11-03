@@ -92,8 +92,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:41:47+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793742106",
+    "checked_at": "2026-11-03T22:37:47+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793745465",
     "notes": "o dia aparece no diário com o humor da manhã, da noite e as ações enviadas"
   },
   "sources": [

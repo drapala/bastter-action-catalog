@@ -89,8 +89,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:33:08+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-colunas-salvar-1793741583",
+    "checked_at": "2026-11-03T22:28:37+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-colunas-salvar-1793744912",
     "notes": "a lista de colunas escondidas voltou a ser a de antes"
   },
   "sources": [

@@ -57,6 +57,24 @@ steps:
     inputs: "${itens_filtro}"
     assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Quantidade: 2.0, PrecoMedio: 10.0}}}
     proves: a posição do BDR soma 2 BDRs a preço médio 10
+  - name: compra_antiga
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {ativoID: '${item}', data: 01/02/2025, gasto: false, ignoraIsencao: false, ignorair: false, movimentacaoID: 0, observacao: null, quantidade: 1, subscricaoID: 0, tipo: bdr, tipomov: compra, totalOperacaoBruto: 7, totalOperacaoLiq: null}
+    assert: {equals: {Return: true}}
+  - name: compra_antiga_listada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {ano: 0, ativoID: '${item}', codigo: '${ticker}', mes: 0, tipo: bdr}
+    assert: {list_contains: {path: Itens, where: {Data: /Date(1735786800000)/, Tipo: Compra}}}
+    save: {mov_antiga: {field: MovimentacaoID, path: Itens, where: {Data: /Date(1735786800000)/, Tipo: Compra}}}
+    proves: o lançamento foi gravado em 02/01/2025 e a leitura o lista, então ela cobre os anos anteriores (a conferência de item vazio e o purge dependem disso)
+  - name: excluir_compra_antiga
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {ativoID: '${item}', movimentacaoID: '${mov_antiga}', tipo: bdr, tipomov: compra}
+  - name: compra_antiga_sumiu
+    action: bastter.ativos.obter_movimentacao
+    inputs: {ano: 0, ativoID: '${item}', codigo: '${ticker}', mes: 0, tipo: bdr}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: '${mov_antiga}'}}}
   - name: excluir_compra
     action: bastter.ativos.excluir_movimentacao
     inputs: {tipo: bdr, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}

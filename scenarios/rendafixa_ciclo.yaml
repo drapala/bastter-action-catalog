@@ -63,6 +63,24 @@ steps:
     action: bastter.ativos.renda_fixa_cupom_listar
     inputs: {ativoID: "${item}"}
     assert: {list_excludes: {path: "", where: {CupomID: "${cupom}"}}}
+  - name: entrada_antiga
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {ativoID: '${item}', data: 01/02/2025, gasto: false, ignoraIsencao: false, ignorair: false, movimentacaoID: 0, observacao: null, quantidade: 0, subscricaoID: 0, tipo: rendafixa, tipomov: compra, totalOperacaoBruto: 7, totalOperacaoLiq: null}
+    assert: {equals: {Return: true}}
+  - name: entrada_antiga_listada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {ano: 0, ativoID: '${item}', codigo: '${prefix} CDB ${ts}', mes: 0, tipo: rendafixa}
+    assert: {list_contains: {path: Itens, where: {Data: /Date(1735786800000)/, Operacao: 7.0}}}
+    save: {mov_antiga: {field: MovimentacaoID, path: Itens, where: {Data: /Date(1735786800000)/, Operacao: 7.0}}}
+    proves: o lançamento foi gravado em 02/01/2025 e a leitura o lista, então ela cobre os anos anteriores (a conferência de item vazio e o purge dependem disso)
+  - name: excluir_entrada_antiga
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {ativoID: '${item}', movimentacaoID: '${mov_antiga}', tipo: rendafixa, tipomov: compra}
+  - name: entrada_antiga_sumiu
+    action: bastter.ativos.obter_movimentacao
+    inputs: {ano: 0, ativoID: '${item}', codigo: '${prefix} CDB ${ts}', mes: 0, tipo: rendafixa}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: '${mov_antiga}'}}}
   - name: excluir_entrada
     action: bastter.ativos.excluir_movimentacao
     inputs: {tipo: rendafixa, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}

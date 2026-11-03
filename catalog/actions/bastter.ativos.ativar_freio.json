@@ -87,8 +87,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:39:45+00:00",
-    "evidence": "evidence/runs.jsonl#run=item-ajustes-1793741971",
+    "checked_at": "2026-11-03T22:35:23+00:00",
+    "evidence": "evidence/runs.jsonl#run=item-ajustes-1793745308",
     "notes": "o freio pôs o item em Quarentena e gravou a data do freio"
   },
   "sources": [

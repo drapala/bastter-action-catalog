@@ -83,8 +83,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:38:16+00:00",
-    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793741885",
+    "checked_at": "2026-11-03T22:33:50+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793745218",
     "notes": "o checkbox Pago ficou gravado na despesa"
   },
   "sources": [

@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:42:15+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-gym-1793742120",
+    "checked_at": "2026-11-03T22:38:14+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793745479",
     "notes": "ok"
   },
   "sources": [

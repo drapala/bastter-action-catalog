@@ -4,8 +4,8 @@
 > app do BS2 chama, com a sessão do próprio usuário, para uso pessoal (ver os [termos do Bastter](https://bastter.com/regras)).
 > Os cenários escrevem na conta de quem os roda. Leia `docs/SCENARIO_GUIDE.md` antes. Nesta cópia, o ID de usuário
 > e o ID de carteira da conta usada no mapeamento viraram 1000001 e 2000002. Os IDs dos registros de teste
-> continuam, então a Bastter consegue ligar esses registros à conta. A ferramenta de dados de mercado do repositório
-> original ficou de fora.
+> continuam, então a Bastter consegue ligar esses registros à conta. A ferramenta de dados de mercado e o script que
+> gera esta cópia ficaram no repositório original.
 
 Um catálogo das ações de negócio do Bastter System (bastter.com/bs2), feito para um agente de IA operar o BS2 por você. Exemplos: lançar uma compra, ver a posição de um ativo, registrar um gasto ou um DARF.
 

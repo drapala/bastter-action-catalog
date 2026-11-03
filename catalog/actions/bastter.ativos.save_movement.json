@@ -137,8 +137,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:42:45+00:00",
-    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793742153",
+    "checked_at": "2026-11-03T22:38:44+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793745512",
     "notes": "a compra foi gravada em 02/01/2019 e get_movement a lista, então a leitura cobre os anos anteriores (a conferência sem_movimentacao e o purge dependem disso)"
   },
   "sources": [

@@ -93,8 +93,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:34:08+00:00",
-    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793741637",
+    "checked_at": "2026-11-03T22:29:36+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793744965",
     "notes": "a mesma doação mudou de valor, sem criar outra"
   },
   "sources": [

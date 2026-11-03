@@ -528,7 +528,7 @@ def test_a_hide_after_a_read_back_that_does_not_stop_still_needs_the_check(
         "name: t\nsteps:\n"
         "  - {name: criar, action: a.b.criar, save: {item: AtivoID}}\n"
         "  - {name: sumiu, action: a.b.ler, stop_on_fail: false, assert: {empty: [Itens]}}\n"
-        "  - {name: vazio, action: a.b.ler, inputs: {ativoID: '${item}'}, assert: {empty: [Itens]}}\n"
+        "  - {name: vazio, action: a.b.ler, stop_on_fail: false, inputs: {ativoID: '${item}'}, assert: {empty: [Itens]}}\n"
         "  - {name: esconder, action: bastter.ativos.excluir_item, requires: vazio, inputs: {ativoID: '${item}'}}\n"
     )
     answers = {
@@ -548,7 +548,12 @@ def test_hiding_an_item_needs_an_empty_check_unless_it_is_deleted_for_good_after
         "inputs": {"ativoID": "${item}"},
     }
     make = {"name": "criar", "action": "a.b.criar", "save": {"item": "AtivoID"}}
-    check = {"name": "vazio", "action": "a.b.ler", "assert": {"empty": ["Itens"]}}
+    check = {
+        "name": "vazio",
+        "action": "a.b.ler",
+        "inputs": {"ativoID": "${item}"},
+        "assert": {"empty": ["Itens"]},
+    }
     assert any(
         "hiding an item" in p
         for p in bx.scenario_problems({"steps": [make, hide]}, CATALOG_ITEMS)
@@ -565,3 +570,63 @@ def test_hiding_an_item_needs_an_empty_check_unless_it_is_deleted_for_good_after
         "inputs": {"ativoID": "${item}"},
     }
     assert bx.scenario_problems({"steps": [make, hide, purge]}, CATALOG_ITEMS) == []
+
+
+def test_the_hide_rule_refuses_a_wrong_required_step():
+    """Audit round 6: the rule checked only that the required step was earlier and asserted empty Itens."""
+    make = {
+        "name": "criar",
+        "action": "a.b.criar",
+        "save": {"item": "AtivoID", "outro": "OutroID"},
+    }
+    hide = {
+        "name": "esconder",
+        "action": "bastter.ativos.excluir_item",
+        "requires": "vazio",
+        "inputs": {"ativoID": "${item}"},
+    }
+    good = {
+        "name": "vazio",
+        "action": "a.b.ler",
+        "inputs": {"ativoID": "${item}"},
+        "assert": {"empty": ["Itens"]},
+    }
+    assert bx.scenario_problems({"steps": [make, good, hide]}, CATALOG_ITEMS) == []
+    excludes = {
+        **good,
+        "assert": {"list_excludes": {"path": "Itens", "where": {"Id": 1}}},
+    }
+    other_item = {**good, "inputs": {"ativoID": "${outro}"}}
+    a_write = {**good, "action": "a.b.editar"}
+    for wrong in (excludes, other_item, a_write):
+        assert bx.scenario_problems({"steps": [make, wrong, hide]}, CATALOG_ITEMS), (
+            wrong
+        )
+    assert bx.scenario_problems({"steps": [make, hide, good]}, CATALOG_ITEMS), (
+        "the required step comes later"
+    )
+    purge_other = {
+        "name": "apagar_de_vez",
+        "action": "bastter.ativos.excluir_movimentacao_ativo",
+        "inputs": {"ativoID": "${outro}"},
+    }
+    plain_hide = {k: v for k, v in hide.items() if k != "requires"}
+    assert bx.scenario_problems(
+        {"steps": [make, plain_hide, purge_other]}, CATALOG_ITEMS
+    ), "the delete for good is on another item"
+
+
+def test_requires_must_name_an_earlier_read():
+    """Audit round 6: required_ok ran any step that had not run, not only a read."""
+    spec = {
+        "steps": [
+            {"name": "editar", "action": "a.b.editar"},
+            {
+                "name": "apagar",
+                "action": "a.b.apagar",
+                "requires": "editar",
+                "undoes": "editar",
+            },
+        ]
+    }
+    assert any("earlier read" in p for p in bx.scenario_problems(spec, CATALOG))

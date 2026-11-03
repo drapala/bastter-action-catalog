@@ -77,8 +77,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:40:47+00:00",
-    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793742038",
+    "checked_at": "2026-11-03T22:36:34+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793745385",
     "notes": "a segunda chamada com a mesma referência desmarca a meta"
   },
   "sources": [

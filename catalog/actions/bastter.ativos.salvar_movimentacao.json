@@ -159,9 +159,9 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:41:35+00:00",
-    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793742089",
-    "notes": "a mesma movimentação passou a ter o total 15, sem criar outra",
+    "checked_at": "2026-11-03T22:37:37+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793745444",
+    "notes": "o lançamento foi gravado em 02/01/2025 e a leitura o lista, então ela cobre os anos anteriores (a conferência de item vazio e o purge dependem disso)",
     "captured_keys": [
       "ativoID",
       "data",

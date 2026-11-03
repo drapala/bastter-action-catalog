@@ -296,3 +296,47 @@ def test_a_delete_that_answers_ok_but_leaves_the_movement_keeps_the_item_visible
     problems = dc.clean(BEFORE, ok_but_no_effect, MADE)
     assert "200" in account.items and len(account.movements["200"]) == 1
     assert any("still has movements: not hidden" in p for p in problems)
+
+
+def test_a_failed_delete_marks_the_item_untouched_before_any_reread():
+    account = FakeAccount()
+    account.refuse.add(
+        (
+            "ativos.excluir_movimentacao",
+            json.dumps(
+                {
+                    "ativoID": 200,
+                    "movimentacaoID": 2,
+                    "tipo": "acao",
+                    "tipomov": "compra",
+                },
+                sort_keys=True,
+            ),
+        )
+    )
+    problems = dc.clean(BEFORE, account, MADE)
+    assert any("or a movement on it is left: not hidden" in p for p in problems)
+    rereads = [
+        b
+        for a, b in account.calls
+        if a == "ativos.obter_movimentacao" and b["ativoID"] == 200
+    ]
+    assert len(rereads) == 2, "only the two state reads, no reread before a hide"
+
+
+def test_a_failed_reread_keeps_the_item_visible():
+    """Audit round 6: the reread's ok check had no test."""
+    account = FakeAccount()
+    original = account.__call__
+    reads = {"n": 0}
+
+    def reread_fails(action, body):
+        if action == "ativos.obter_movimentacao" and body["ativoID"] == 200:
+            reads["n"] += 1
+            if reads["n"] == 2:
+                return {"ok": False, "error": "500", "payload": None}
+        return original(action, body)
+
+    problems = dc.clean(BEFORE, reread_fails, MADE)
+    assert "200" in account.items
+    assert any("still has movements: not hidden" in p for p in problems)

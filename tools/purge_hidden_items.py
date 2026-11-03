@@ -30,8 +30,15 @@ import session
 
 NOT_FOUND = "Erro ao excluir"
 NO_PERMANENT_DELETE = {"imovel"}
-# Reads proven to list movements of past years: acao_ciclo_completo and stock_ciclo read back a 2019 buy.
-MOVEMENT_READS = {"bastter.ativos.obter_movimentacao", "bastter.ativos.get_movement"}
+# (read, tipo) pairs proven to list movements of past years: each asset scenario reads back an entry dated
+# 2019-01-02 (acao, stock) or 2025-01-02 (the others, to stay after corporate events such as spin-offs).
+MOVEMENT_READS = {
+    ("bastter.ativos.obter_movimentacao", tipo)
+    for tipo in ("acao", "bdr", "fii", "fixo", "moeda", "outro", "re", "rendafixa")
+} | {
+    ("bastter.ativos.get_movement", tipo)
+    for tipo in ("stock", "etf", "bond", "reit", "europa")
+}
 
 
 def hidden_items(runs: list[dict], scenarios: set[str]) -> list[tuple[str, int]]:
@@ -89,7 +96,9 @@ def prechecks(
             and inputs.get("tipo") == tipo
         ):
             tab = inputs
-        if line.get("action") in MOVEMENT_READS and inputs.get("ativoID") == ativo_id:
+        if (line.get("action"), inputs.get("tipo")) in MOVEMENT_READS and inputs.get(
+            "ativoID"
+        ) == ativo_id:
             movements = (line["action"], inputs)
     return tab, movements
 
@@ -107,11 +116,8 @@ def unsafe(
         for i in tab_answer["Items"]
     ):
         return "the item is visible again (the ticker was added since)"
-    if not isinstance(movement_answer, dict) or movement_answer.get("Itens") not in (
-        None,
-        [],
-    ):
-        return "the item has movements, or no movement read could check it"
+    if not isinstance(movement_answer, dict) or movement_answer.get("Itens") != []:
+        return "the item has movements, or no movement read gave an empty list"
     return None
 
 

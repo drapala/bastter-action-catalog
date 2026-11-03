@@ -84,8 +84,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:38:51+00:00",
-    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793741925",
+    "checked_at": "2026-11-03T22:34:28+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793745262",
     "notes": "o mesmo DARF mudou de valor, sem criar outro"
   },
   "sources": [

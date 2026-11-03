@@ -19,12 +19,12 @@ The current values, generated from `catalog/claims.json` by the build (do not ed
 | `verified_writes` | 90 | Verified actions that change data. Each one passed a read-back in a scenario. |
 | `writes_with_passing_read_back` | 90 | Write actions with at least one passing read-back line in the evidence log. |
 | `requires_confirmation` | 86 | Actions that need the user's OK before they run: deletes, writes that cannot be undone or that change a whole tab or setting, and writes that reach people (those never run). |
-| `live_calls` | 4952 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
+| `live_calls` | 6311 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
 | `screens_walked` | 105 | BS2 screens the crawler fetched with the session (the browser capture opened the same screens). |
 | `captured_calls` | 606 | Web service calls the app made while the browser opened the screens. |
 | `scenarios` | 40 | Scenario files (in scenarios/ and scenarios/archive/) with at least one write proved by a read-back. |
-| `corrections` | 45 | Mistakes logged while building the catalog. |
-| `corrections_with_check` | 41 | Logged mistakes that name the automated check that now catches them. |
+| `corrections` | 47 | Mistakes logged while building the catalog. |
+| `corrections_with_check` | 43 | Logged mistakes that name the automated check that now catches them. |
 | `lint_errors` | 0 | Errors from the catalog lint. Must be 0. |
 <!-- claims:end -->
 
@@ -97,7 +97,7 @@ Some writes that publish or notify other users have status `seen`, and two have 
 | Item vs asset ID | `pesquisar` returns the asset ID, which is also the item's `ReferenciaID`. `salvar` adds the asset to a tab and returns the item ID. All movement actions use the item ID. | `scenarios/acao_ciclo_completo.yaml` (steps `pesquisar`, `incluir_ativo`, `itens_com_ativo`) |
 | Date formats change by screen | Movements: `mm/dd/yyyy`. Finanças: `dd/mm/yyyy`. Imóvel rent: `dd/mm/yyyy`. Imóvel purchase, improvements, expenses and donations: `yyyy-mm-dd`. DARF: `yyyy-MM-01`. Use the format in the field description. The examples can hold another format that the server also took. | `docs/families/*.md` |
 | Removing an item is two steps | `excluir_item` hides the item (`restaurar_item` brings it back). It refuses with `Error` while the item has an open position. `excluir_movimentacao_ativo` then deletes it for good. | `docs/families/ativos-classes.md`, `scenarios/item_ajustes.yaml`, `scenarios/fii_excluir_definitivo.yaml` |
-| Adding an asset you already have returns your item | `salvar` with `ativoID: 0` and a ticker the tab already holds, even a hidden one, returns the existing item. It does not create a new one. Look the ticker up in the tab first. | `evidence/runs.jsonl` (VOO item reused by `etf-ciclo` runs) |
+| Adding an asset you already have can return your item | `salvar` with `ativoID: 0` and a ticker the tab already holds, even a hidden one, can return the existing item instead of a new one. It does not always: a probe on VALE3 got a new item while a hidden one existed. Look the ticker up in the tab first. | `evidence/runs.jsonl` (VOO item reused by `etf-ciclo` runs; new item in run `dev-data-probe-1793739096`) |
 | An imóvel shows up in the income tax screens | Adding a purchase to an imóvel also creates IR rows. Deleting the purchase removes them. | `scenarios/archive/imovel_ciclo.yaml` |
 | Bonds | Send the CUSIP as `descricao` in `salvar`. `obter_itens` then returns it in `AtivoRelacionado`, and `Descricao` holds the bond name. | `scenarios/bond_ciclo.yaml` |
 | Slow methods | `provento_manual_deletar` takes about 145 s (its route sets `timeout_s` 300). Several clients on the same session made calls take 65 s to more than 120 s. Use one client at a time. | C013, `docs/families/ativos-classes.md`, `docs/families/financeiro-e-ir.md` |

@@ -92,8 +92,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:38:58+00:00",
-    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793741925",
+    "checked_at": "2026-11-03T22:34:35+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793745262",
     "notes": "o mesmo item mudou de descrição e valor"
   },
   "sources": [

@@ -53,8 +53,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:42:28+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793742139",
+    "checked_at": "2026-11-03T22:38:27+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793745498",
     "notes": "o usuário volta a não ter periodização, igual ao início"
   },
   "sources": [

@@ -454,17 +454,23 @@ def scenario_problems(spec: dict, catalog: dict) -> list[str]:
             and not refs(step.get("inputs") or {}) & saves
         ):
             problems.append(f"{step['name']}: a delete with no saved ID needs undoes")
+        need = by_name_all.get(step.get("requires") or "")
+        if step.get("requires") and (
+            not need
+            or need["name"] not in names
+            or catalog.get(need["action"], {}).get("operation_class") != "read"
+        ):
+            problems.append(f"{step['name']}: requires must name an earlier read step")
         if step[
             "action"
         ] == "bastter.ativos.excluir_item" and not deleted_for_good_after(steps, i):
-            need = by_name_all.get(step.get("requires") or "")
-            if (
-                not need
-                or need["name"] not in names
-                or "Itens" not in ((need.get("assert") or {}).get("empty") or [])
-            ):
+            same_item = need and refs(
+                (need.get("inputs") or {}).get("ativoID", "")
+            ) == refs((step.get("inputs") or {}).get("ativoID", ""))
+            empty = need and "Itens" in ((need.get("assert") or {}).get("empty") or [])
+            if not (need and need["name"] in names and empty and same_item):
                 problems.append(
-                    f"{step['name']}: hiding an item needs `requires` on an earlier read that asserts empty Itens"
+                    f"{step['name']}: hiding an item needs `requires` on an earlier read of the same item that asserts empty Itens"
                 )
         saves |= set(step.get("save") or {})
         names.append(step["name"])
@@ -528,10 +534,7 @@ def scenario(file: str) -> int:
         need = step.get("requires")
         if not need or need in passed:
             return None
-        if (
-            need not in reached
-            or catalog.get(by_name[need]["action"], {}).get("operation_class") == "read"
-        ):
+        if catalog.get(by_name[need]["action"], {}).get("operation_class") == "read":
             done, why = run_step(by_name[need])
             print(
                 f"CHECK {'PASS' if done else 'FAIL'} {need:26} {by_name[need]['action']} {'' if done else why}"

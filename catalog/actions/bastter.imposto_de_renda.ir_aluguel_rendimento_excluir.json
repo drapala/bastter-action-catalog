@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:39:13+00:00",
-    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793741925",
+    "checked_at": "2026-11-03T22:34:50+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793745262",
     "notes": "ok"
   },
   "sources": [

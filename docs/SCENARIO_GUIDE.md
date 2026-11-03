@@ -9,7 +9,7 @@ The account is the owner's real account. Its portfolio was empty at the start. T
 1. Only change or delete what your own scenario created in the same run. Never touch an item that existed before.
 2. Name every free-text field with the prefix `ZZTESTE` (for example `ZZTESTE gasto ${ts}`). Use small values (quantity 1 to 3, money 1 to 20).
 3. Every scenario deletes what it created and reads back to confirm it is gone. If a family has a create but no delete, do NOT run the create. Report it instead.
-4. Before a scenario adds an asset by ticker, a `guard` step right before `salvar` must check that the tab does not hold that ticker, and a `guard` step right after `salvar` must check that the item has no movements. `salvar` with `ativoID: 0` returns the user's existing item for that ticker, even a hidden one. `scenario_problems` fails when either guard is missing.
+4. Before a scenario adds an asset by ticker, a `guard` step right before `salvar` must check that the tab does not hold that ticker, and a `guard` step right after `salvar` must check that the item has no movements. `salvar` with `ativoID: 0` can return the user's existing item for that ticker, even a hidden one, instead of a new one. `scenario_problems` fails when either guard is missing.
 5. A settings write (layout, options, objectives) must first read the current value, then change it, read it back, then restore the old value and read it back again. The restore step names the change step in `undoes`.
 6. Never run a method that notifies or reaches other people, or that changes security or integrations: names with `Notificacao`, `Email`, `Token`, `Auth`, `B3`, `Importar`, `Strava`, `RemessaOnline`, `SolicitarAnalise`, `PedirBDR`, `PedirETF`, `Topico`, `Compartilha`, `Sorteio`, and `CarteiraExcluir` (it needs the account password). If something you plan to run could be public (a ranking, a timeline, a forum post), do not run it. Report it.
 7. Do not edit anything under `tools/`, `catalog/` or `sources/`. Do not run `git`. Write only your own files in `scenarios/` and your report.
@@ -35,7 +35,7 @@ Every call is logged to `evidence/runs.jsonl` with the SHAPE of the answer, neve
 
 ## Scenario format
 
-See `scenarios/acao_ciclo_completo.yaml` (passes, 18 steps). Rules:
+See `scenarios/acao_ciclo_completo.yaml` (passes, 19 steps). Rules:
 
 - `vars:` constants. `${ts}` is a run stamp, `${prefix}` is `ZZTESTE`.
 - `save:` stores a value from the answer: `{name: "path.to.field"}` or `{name: {path: List, where: {Field: value}, field: IdField}}`. A save that finds nothing fails the step. A saved null fails too, unless the rule says `nullable: true` (for an old setting that is really null): `{name: {path: Opcoes.Campo, nullable: true}}`.
