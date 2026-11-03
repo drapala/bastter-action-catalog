@@ -485,3 +485,83 @@ def test_a_failed_guard_leaves_a_log_line(monkeypatch, tmp_path):
     assert (
         line["check"] == "guard" and line["passed"] is False and line["step"] == "antes"
     )
+
+
+CATALOG_ITEMS = {
+    **CATALOG,
+    "bastter.ativos.excluir_item": {"operation_class": "delete"},
+    "bastter.ativos.excluir_movimentacao_ativo": {"operation_class": "delete"},
+}
+
+
+def test_a_hide_after_a_failure_first_checks_the_item_is_empty(monkeypatch, tmp_path):
+    """Audit round 5: the buy delete sent only ${mov}, so nothing blocked the hide, and the buy stayed inside."""
+    spec = tmp_path / "s.yaml"
+    spec.write_text(
+        "name: t\nsteps:\n"
+        "  - {name: criar, action: a.b.criar, save: {item: AtivoID}}\n"
+        "  - {name: compra, action: a.b.criar, inputs: {ativoID: '${item}'}}\n"
+        "  - {name: compra_lida, action: a.b.ler, save: {mov: Id}}\n"
+        "  - {name: apagar_compra, action: a.b.apagar, inputs: {movID: '${mov}'}}\n"
+        "  - {name: vazio, action: a.b.ler, inputs: {ativoID: '${item}'}, assert: {empty: [Itens]}}\n"
+        "  - {name: esconder, action: bastter.ativos.excluir_item, requires: vazio, inputs: {ativoID: '${item}'}}\n"
+    )
+    answers = {
+        "criar": {"AtivoID": 7},
+        "compra": {},
+        "compra_lida": {"Outro": 1},
+        "vazio": {"Itens": [{"Id": 5}]},
+    }
+    calls = _fake_run(monkeypatch, tmp_path, answers, CATALOG_ITEMS)
+    assert bx.scenario(str(spec)) == 1
+    assert [c[0] for c in calls] == ["criar", "compra", "compra_lida", "vazio"], (
+        "the check ran, found the buy, and the hide did not run"
+    )
+
+
+def test_a_hide_after_a_read_back_that_does_not_stop_still_needs_the_check(
+    monkeypatch, tmp_path
+):
+    """Audit round 5: a read-back with stop_on_fail false let the hide run in the main loop."""
+    spec = tmp_path / "s.yaml"
+    spec.write_text(
+        "name: t\nsteps:\n"
+        "  - {name: criar, action: a.b.criar, save: {item: AtivoID}}\n"
+        "  - {name: sumiu, action: a.b.ler, stop_on_fail: false, assert: {empty: [Itens]}}\n"
+        "  - {name: vazio, action: a.b.ler, inputs: {ativoID: '${item}'}, assert: {empty: [Itens]}}\n"
+        "  - {name: esconder, action: bastter.ativos.excluir_item, requires: vazio, inputs: {ativoID: '${item}'}}\n"
+    )
+    answers = {
+        "criar": {"AtivoID": 7},
+        "sumiu": {"Itens": [1]},
+        "vazio": {"Itens": [1]},
+    }
+    calls = _fake_run(monkeypatch, tmp_path, answers, CATALOG_ITEMS)
+    assert bx.scenario(str(spec)) >= 1
+    assert "esconder" not in [c[0] for c in calls]
+
+
+def test_hiding_an_item_needs_an_empty_check_unless_it_is_deleted_for_good_after():
+    hide = {
+        "name": "esconder",
+        "action": "bastter.ativos.excluir_item",
+        "inputs": {"ativoID": "${item}"},
+    }
+    make = {"name": "criar", "action": "a.b.criar", "save": {"item": "AtivoID"}}
+    check = {"name": "vazio", "action": "a.b.ler", "assert": {"empty": ["Itens"]}}
+    assert any(
+        "hiding an item" in p
+        for p in bx.scenario_problems({"steps": [make, hide]}, CATALOG_ITEMS)
+    )
+    assert (
+        bx.scenario_problems(
+            {"steps": [make, check, {**hide, "requires": "vazio"}]}, CATALOG_ITEMS
+        )
+        == []
+    )
+    purge = {
+        "name": "apagar_de_vez",
+        "action": "bastter.ativos.excluir_movimentacao_ativo",
+        "inputs": {"ativoID": "${item}"},
+    }
+    assert bx.scenario_problems({"steps": [make, hide, purge]}, CATALOG_ITEMS) == []

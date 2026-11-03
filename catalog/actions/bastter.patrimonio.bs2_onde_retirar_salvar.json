@@ -119,8 +119,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:58:24+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-onde-retirar-1793739498",
+    "checked_at": "2026-11-03T21:33:40+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-onde-retirar-1793741614",
     "notes": "todos os campos voltaram aos valores antigos"
   },
   "sources": [

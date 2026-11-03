@@ -30,6 +30,7 @@ import session
 
 NOT_FOUND = "Erro ao excluir"
 NO_PERMANENT_DELETE = {"imovel"}
+# Reads proven to list movements of past years: acao_ciclo_completo and stock_ciclo read back a 2019 buy.
 MOVEMENT_READS = {"bastter.ativos.obter_movimentacao", "bastter.ativos.get_movement"}
 
 
@@ -128,6 +129,38 @@ def verdict(first: dict, again: dict | None) -> str:
     return "LEFT"
 
 
+def purge_one(
+    call, runs: list[dict], tipo: str, ativo_id: int, hid_in: str
+) -> tuple[str, str]:
+    """Rechecks one hidden item and deletes it for good only when it is safe. Returns (verdict, detail).
+
+    `call(action_id, body, note)` sends one logged call. The verdict is SKIPPED, GONE, ALREADY GONE or LEFT.
+    """
+    tab, movements = prechecks(runs, hid_in, tipo, ativo_id)
+    if tab is None:
+        return "SKIPPED", "its run logged no tab read to check against"
+    tab_out = call("bastter.ativos.obter_itens", tab, "purge check tab")
+    mov_out = (
+        call(movements[0], movements[1], "purge check movements") if movements else None
+    )
+    reason = unsafe(
+        ativo_id,
+        tab_out["payload"] if tab_out["ok"] else None,
+        mov_out["payload"] if mov_out and mov_out["ok"] else None,
+    )
+    if reason:
+        return "SKIPPED", reason
+    body = {"tipo": tipo, "ativoID": ativo_id}
+    first = call("bastter.ativos.excluir_movimentacao_ativo", body, "purge")
+    again = (
+        call("bastter.ativos.excluir_movimentacao_ativo", body, "purge proof")
+        if first["ok"]
+        else None
+    )
+    detail = f"first: {'OK' if first['ok'] else first['error']}  repeat: {again['error'] if again else '-'}"
+    return verdict(first, again), detail
+
+
 def main() -> int:
     runs = [
         json.loads(line)
@@ -142,68 +175,20 @@ def main() -> int:
         return 0
     http, catalog = session.client(), bastter_exec.load_catalog()
     run = f"purge-hidden-items-{int(time.time())}"
-    left, skipped = [], []
+
+    def call(action_id, body, note):
+        return bastter_exec.call(
+            action_id, body, run=run, http=http, catalog=catalog, note=note
+        )
+
+    counts = {"GONE": 0, "ALREADY GONE": 0, "LEFT": 0, "SKIPPED": 0}
     for (tipo, ativo_id), hid_in in items:
-        tab, movements = prechecks(runs, hid_in, tipo, ativo_id)
-        if tab is None:
-            reason = "its run logged no tab read to check against"
-        else:
-            tab_out = bastter_exec.call(
-                "bastter.ativos.obter_itens",
-                tab,
-                run=run,
-                http=http,
-                catalog=catalog,
-                note="purge check tab",
-            )
-            mov_out = None
-            if movements:
-                mov_out = bastter_exec.call(
-                    movements[0],
-                    movements[1],
-                    run=run,
-                    http=http,
-                    catalog=catalog,
-                    note="purge check movements",
-                )
-            reason = unsafe(
-                ativo_id,
-                tab_out["payload"] if tab_out["ok"] else None,
-                mov_out["payload"] if mov_out and mov_out["ok"] else None,
-            )
-        if reason:
-            print(f"{'SKIPPED':12} {tipo:10} {ativo_id}  {reason}")
-            skipped.append((tipo, ativo_id))
-            continue
-        body = {"tipo": tipo, "ativoID": ativo_id}
-        first = bastter_exec.call(
-            "bastter.ativos.excluir_movimentacao_ativo",
-            body,
-            run=run,
-            http=http,
-            catalog=catalog,
-            note="purge",
-        )
-        again = None
-        if first["ok"]:
-            again = bastter_exec.call(
-                "bastter.ativos.excluir_movimentacao_ativo",
-                body,
-                run=run,
-                http=http,
-                catalog=catalog,
-                note="purge proof",
-            )
-        result = verdict(first, again)
-        print(
-            f"{result:12} {tipo:10} {ativo_id}  first: {'OK' if first['ok'] else first['error']}  repeat: {again['error'] if again else '-'}"
-        )
-        if result == "LEFT":
-            left.append((tipo, ativo_id))
-    print(
-        f"run {run}: {len(items) - len(left) - len(skipped)} gone, {len(left)} left, {len(skipped)} skipped"
-    )
-    return 1 if left or skipped else 0
+        result, detail = purge_one(call, runs, tipo, ativo_id, hid_in)
+        counts[result] += 1
+        print(f"{result:12} {tipo:10} {ativo_id}  {detail}")
+    gone = counts["GONE"] + counts["ALREADY GONE"]
+    print(f"run {run}: {gone} gone, {counts['LEFT']} left, {counts['SKIPPED']} skipped")
+    return 1 if counts["LEFT"] or counts["SKIPPED"] else 0
 
 
 if __name__ == "__main__":

@@ -66,11 +66,15 @@ def files_to_check() -> dict[str, str]:
 
 def main() -> int:
     failures = []
+    try:
+        cookies = session.load_cookies()
+    except RuntimeError:
+        print(
+            "no Bastter session is stored on this machine: there is no cookie to look for"
+        )
+        cookies = {}
     secrets = [
-        form
-        for v in session.load_cookies().values()
-        if len(v) >= 12
-        for form in secret_forms(v)
+        form for v in cookies.values() if len(v) >= 12 for form in secret_forms(v)
     ]
     files = files_to_check()
     for path, text in files.items():

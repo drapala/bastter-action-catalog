@@ -63,7 +63,7 @@
     },
     {
       "id": "live_calls",
-      "value": 4295,
+      "value": 4952,
       "meaning": "Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log.",
       "recompute": "jq -s '[.[] | select(.status != null)] | length' evidence/runs.jsonl"
     },
@@ -87,13 +87,13 @@
     },
     {
       "id": "corrections",
-      "value": 41,
+      "value": 45,
       "meaning": "Mistakes logged while building the catalog.",
       "recompute": "wc -l < docs/corrections.jsonl"
     },
     {
       "id": "corrections_with_check",
-      "value": 38,
+      "value": 41,
       "meaning": "Logged mistakes that name the automated check that now catches them.",
       "recompute": "jq -s '[.[] | select(.now_checked_by != null)] | length' docs/corrections.jsonl"
     },

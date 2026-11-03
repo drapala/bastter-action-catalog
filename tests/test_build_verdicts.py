@@ -161,3 +161,12 @@ def test_a_later_run_that_stopped_early_does_not_hide_a_failed_second_read_back(
         rb("bdr-ciclo-200", "w", True, "compra_gravada"),
     ]
     assert bc.read_back_verdicts(runs, {"bdr-ciclo"})["w"]["status"] == "failed"
+
+
+def test_a_failure_in_an_older_run_of_one_scenario_beats_a_newer_pass_of_another():
+    """Correction C014: each scenario's latest run counts; a newer pass elsewhere does not hide it."""
+    runs = [
+        rb("acao-ciclo-1793730000", "w", False),
+        rb("bond-ciclo-1793739999", "w", True),
+    ]
+    assert bc.read_back_verdicts(runs, SCEN)["w"]["status"] == "failed"

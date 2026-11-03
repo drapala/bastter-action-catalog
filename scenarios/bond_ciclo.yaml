@@ -93,7 +93,13 @@ steps:
     action: bastter.ativos.get_movement
     inputs: {symbol: "${ticker}", tipo: bond, ativoID: "${item}"}
     assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: ativo_vazio
+    action: bastter.ativos.get_movement
+    inputs: {ativoID: '${item}', symbol: '${ticker}', tipo: bond}
+    assert: {empty: [Itens]}
+    proves: o item não tem mais movimentação, então escondê-lo não deixa uma movimentação de teste dentro
   - name: excluir_ativo
+    requires: ativo_vazio
     action: bastter.ativos.excluir_item
     inputs: {tipo: bond, ativoID: "${item}", carteiraID: 0}
   - name: ativo_sumiu

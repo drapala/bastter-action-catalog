@@ -65,8 +65,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:57:58+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-insights-classes-1793739473",
+    "checked_at": "2026-11-03T21:33:14+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-insights-classes-1793741589",
     "notes": "o filtro voltou ao valor antigo e nenhuma outra opção da carteira mudou"
   },
   "sources": [

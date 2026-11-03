@@ -106,8 +106,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:02:53+00:00",
-    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793739768",
+    "checked_at": "2026-11-03T21:38:09+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793741885",
     "notes": "as cinco opções de Aportes voltaram ao valor lido no início"
   },
   "sources": [

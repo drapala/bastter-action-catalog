@@ -102,8 +102,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:05:41+00:00",
-    "evidence": "evidence/runs.jsonl#run=pas-sardinhagem-privado-ciclo-1793739935",
+    "checked_at": "2026-11-03T21:41:00+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-sardinhagem-privado-ciclo-1793742054",
     "notes": "o mesmo registro passou a ter o texto novo e continua privado"
   },
   "sources": [

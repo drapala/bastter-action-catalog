@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:58:55+00:00",
-    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793739520",
+    "checked_at": "2026-11-03T21:34:12+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793741637",
     "notes": "a instituição criada não está mais no seletor"
   },
   "sources": [

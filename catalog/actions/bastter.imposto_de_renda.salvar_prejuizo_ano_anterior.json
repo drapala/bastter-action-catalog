@@ -80,8 +80,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:03:49+00:00",
-    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793739808",
+    "checked_at": "2026-11-03T21:39:05+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793741925",
     "notes": "ok"
   },
   "sources": [

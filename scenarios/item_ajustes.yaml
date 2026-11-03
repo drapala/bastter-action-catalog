@@ -104,7 +104,13 @@ steps:
     inputs: "${itens_filtro}"
     assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Classificacao: "${comprar}", DataFreio: null}}}
 
+  - name: ativo_vazio
+    action: bastter.ativos.obter_movimentacao
+    inputs: {ano: 0, ativoID: '${item}', codigo: '${ticker}', mes: 0, tipo: acao}
+    assert: {empty: [Itens]}
+    proves: o item não tem mais movimentação, então escondê-lo não deixa uma movimentação de teste dentro
   - name: excluir_ativo
+    requires: ativo_vazio
     action: bastter.ativos.excluir_item
     inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
     assert: {equals: {Return: Item excluído com sucesso.}}
@@ -124,6 +130,7 @@ steps:
     assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}"}}}
     proves: o item excluído voltou para a aba com o mesmo AtivoID (a exclusão é lógica)
   - name: excluir_de_novo
+    requires: ativo_vazio
     action: bastter.ativos.excluir_item
     inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
     assert: {equals: {Return: Item excluído com sucesso.}}

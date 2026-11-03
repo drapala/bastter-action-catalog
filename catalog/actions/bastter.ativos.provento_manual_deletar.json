@@ -88,8 +88,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:01:55+00:00",
-    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793739536",
+    "checked_at": "2026-11-03T21:37:07+00:00",
+    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793741653",
     "notes": "ok"
   },
   "sources": [

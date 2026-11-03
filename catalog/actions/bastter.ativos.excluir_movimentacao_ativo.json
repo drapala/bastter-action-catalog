@@ -88,8 +88,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:02:48+00:00",
-    "evidence": "evidence/runs.jsonl#run=fii-excluir-definitivo-1793739755",
+    "checked_at": "2026-11-03T21:38:04+00:00",
+    "evidence": "evidence/runs.jsonl#run=fii-excluir-definitivo-1793741872",
     "notes": "a compra e a venda do item foram apagadas junto"
   },
   "sources": [

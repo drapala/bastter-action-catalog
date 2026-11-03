@@ -139,8 +139,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:59:09+00:00",
-    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793739536",
+    "checked_at": "2026-11-03T21:34:26+00:00",
+    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793741653",
     "notes": "o mesmo provento passou a ter valor 2.5, sem criar outro"
   },
   "sources": [

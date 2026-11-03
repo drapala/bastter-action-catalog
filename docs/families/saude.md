@@ -61,7 +61,7 @@ The evidence comes from the minified scripts in `.cache/discover/` and from live
 
 | Action | Why it was not run |
 |---|---|
-| `psfg_save` | Body `{parametro: "exercise-0".."exercise-9", nota: 1..5}`. The current value is "no rating" (`PSFGList.Items` is `[]`, `Media` 0). There is no PSFG delete method, so after a save the old state cannot be restored. Rules 3 and 4 of the guide apply. The record looks private (no rank reads it), but the change is permanent. |
+| `psfg_save` | Body `{parametro: "exercise-0".."exercise-9", nota: 1..5}`. The current value is "no rating" (`PSFGList.Items` is `[]`, `Media` 0). There is no PSFG delete method, so after a save the old state cannot be restored. Rules 3 and 5 of the guide apply. The record looks private (no rank reads it), but the change is permanent. |
 
 Out of scope and not run: every action with Strava, Validar, Fila, Layout, Lembrete or PegaUm in the name, and `race_sequencia_meta_salvar`.
 

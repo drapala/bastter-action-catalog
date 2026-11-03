@@ -18,7 +18,7 @@ Os números atuais (quantas ações, quantas verificadas, quantas chamadas ao vi
 1. **Descoberta.** Um crawler buscou as 105 telas do BS2 com a sessão e leu o JavaScript de cada uma. Ele achou 424 métodos de web service.
 2. **Captura.** Um navegador logado abriu cada tela e gravou as chamadas que o app fez, com o corpo exato. Isso deu os parâmetros de cada leitura.
 3. **Verificação.** Um script repetiu cada leitura capturada. Cenários fazem cada escrita por completo: criar, ler de volta, editar, ler de volta, apagar e confirmar que sumiu.
-4. **Regras.** Um lint roda sobre o catálogo. Os erros reais cometidos no caminho estão em `docs/corrections.jsonl`, cada um com o teste ou a regra que agora o pega.
+4. **Regras.** Um lint roda sobre o catálogo. Os erros reais cometidos no caminho estão em `docs/corrections.jsonl`. Quase todos citam o teste ou a regra que agora os pega (a contagem está em `AGENT.md`, seção 0).
 
 ## Usar com um agente
 
@@ -48,7 +48,7 @@ O Chrome abre na página de login. Você entra (email e senha, ou Google), e o s
 - Excluir um ativo só esconde a linha. `tools/purge_hidden_items.py` apaga de vez só o que os cenários esconderam. Antes, ele lê o item de novo e confere que continua escondido e sem movimentação. Um item que você escondeu sem nenhuma movimentação, com o ticker de um cenário, ainda pode ser reaproveitado pelo cenário e apagado. Imóvel não tem exclusão definitiva no BS2: 5 imóveis ZZTESTE (IDs 41241 a 41245) ficaram escondidos e não aparecem em nenhuma tela.
 - As chamadas que um agente faz pelo MCP ficam em `logs/mcp-runs.jsonl`, fora do git, porque têm as suas operações reais.
 - O log de evidência guarda o formato das respostas, nunca os valores. Os seus dados financeiros não ficam no repositório. Ele guarda as entradas enviadas: os IDs da sua conta, os valores de teste ZZTESTE e, nos passos que restauram uma configuração, o valor antigo dela (por exemplo o nome da carteira). A transcrição do demo (`demo/agent-demo-*.md`) é outra coisa: mostra as respostas reais das chamadas do demo, feitas com dados de teste.
-- `tools/presubmit_check.py` roda em todo commit, pelo hook `tools/pre-commit` (instale com `ln -s ../../tools/pre-commit .git/hooks/pre-commit`). Ele falha se um valor de cookie aparecer em algum arquivo, mesmo codificado em URL ou base64.
+- `tools/presubmit_check.py` roda em todo commit, pelo hook `tools/pre-commit` (instale com `ln -s ../../tools/pre-commit .git/hooks/pre-commit`). Ele falha se um valor de cookie aparecer em algum arquivo, mesmo codificado em URL ou base64. Sem sessão guardada, ele avisa e pula a busca de cookies, porque não há cookie para vazar.
 
 ## Instalar
 

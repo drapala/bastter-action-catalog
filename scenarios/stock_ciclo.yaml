@@ -57,6 +57,25 @@ steps:
     inputs: "${itens_filtro}"
     assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Quantidade: 2.0}}}
     proves: a posição do ativo soma 2 unidades
+  - name: lancar_compra_antiga
+    action: bastter.ativos.save_movement
+    inputs: {movimentacaoID: 0, tipo: stock, ativoID: "${item}", quantidade: 1, data: "01/02/2019", totalOperacao: 5, totalOperacaoEstrangeiro: 1, corretagem: 0}
+    assert: {equals: {Return: true}}
+  - name: compra_antiga_listada
+    postcondition_of: bastter.ativos.save_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: stock, ativoID: "${item}"}
+    assert: {list_contains: {path: Itens, where: {Tipo: Buy, Quantidade: 1.0, Data: "/Date(1546394400000)/"}}}
+    save: {mov_antiga: {path: Itens, where: {Tipo: Buy, Quantidade: 1.0, Data: "/Date(1546394400000)/"}, field: MovimentacaoID}}
+    proves: a compra foi gravada em 02/01/2019 e get_movement a lista, então a leitura cobre os anos anteriores (a conferência sem_movimentacao e o purge dependem disso)
+  - name: excluir_compra_antiga
+    action: bastter.ativos.delete_movement
+    inputs: {tipo: stock, movimentacaoID: "${mov_antiga}"}
+    assert: {equals: {Return: OK}}
+  - name: compra_antiga_sumiu
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: stock, ativoID: "${item}"}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov_antiga}"}}}
   - name: excluir_compra
     action: bastter.ativos.delete_movement
     inputs: {tipo: stock, movimentacaoID: "${mov}"}
@@ -66,7 +85,13 @@ steps:
     action: bastter.ativos.get_movement
     inputs: {symbol: "${ticker}", tipo: stock, ativoID: "${item}"}
     assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: ativo_vazio
+    action: bastter.ativos.get_movement
+    inputs: {ativoID: '${item}', symbol: '${ticker}', tipo: stock}
+    assert: {empty: [Itens]}
+    proves: o item não tem mais movimentação, então escondê-lo não deixa uma movimentação de teste dentro
   - name: excluir_ativo
+    requires: ativo_vazio
     action: bastter.ativos.excluir_item
     inputs: {tipo: stock, ativoID: "${item}", carteiraID: 0}
   - name: ativo_sumiu

@@ -87,8 +87,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:07:23+00:00",
-    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793740031",
+    "checked_at": "2026-11-03T21:42:49+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793742153",
     "notes": "ok"
   },
   "sources": [

@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:05:19+00:00",
-    "evidence": "evidence/runs.jsonl#run=pas-agradecer-privado-ciclo-1793739911",
+    "checked_at": "2026-11-03T21:40:38+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-agradecer-privado-ciclo-1793742030",
     "notes": "o agradecimento saiu da lista do dono"
   },
   "sources": [

@@ -19,12 +19,12 @@ The current values, generated from `catalog/claims.json` by the build (do not ed
 | `verified_writes` | 90 | Verified actions that change data. Each one passed a read-back in a scenario. |
 | `writes_with_passing_read_back` | 90 | Write actions with at least one passing read-back line in the evidence log. |
 | `requires_confirmation` | 86 | Actions that need the user's OK before they run: deletes, writes that cannot be undone or that change a whole tab or setting, and writes that reach people (those never run). |
-| `live_calls` | 4295 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
+| `live_calls` | 4952 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
 | `screens_walked` | 105 | BS2 screens the crawler fetched with the session (the browser capture opened the same screens). |
 | `captured_calls` | 606 | Web service calls the app made while the browser opened the screens. |
 | `scenarios` | 40 | Scenario files (in scenarios/ and scenarios/archive/) with at least one write proved by a read-back. |
-| `corrections` | 41 | Mistakes logged while building the catalog. |
-| `corrections_with_check` | 38 | Logged mistakes that name the automated check that now catches them. |
+| `corrections` | 45 | Mistakes logged while building the catalog. |
+| `corrections_with_check` | 41 | Logged mistakes that name the automated check that now catches them. |
 | `lint_errors` | 0 | Errors from the catalog lint. Must be 0. |
 <!-- claims:end -->
 
@@ -43,7 +43,7 @@ Each value has a `recompute` command in `catalog/claims.json`. Run it from the r
 | `evidence/runs.jsonl` | One line per call made by the scripts, and one line per read-back check. Answers are stored as their shape only. The inputs are stored as sent. |
 | `scenarios/*.yaml` | Live cycles: create, read back, update, read back, delete, confirm it is gone. |
 | `sources/discover/` | The crawl: screens, scripts, and the web service calls found in them. |
-| `docs/corrections.jsonl` | Every mistake made while building, what caught it, the fix, and the check that now catches it. |
+| `docs/corrections.jsonl` | Every mistake made while building, what caught it, the fix, and, for most of them, the check that now catches it (`corrections_with_check` in section 0). |
 | `tools/mcp_server.py` | MCP server with 3 catalog tools: `find_actions`, `get_action`, `run_action`. |
 | `tools/bastter_exec.py` | Executor, scenario runner and evidence log. The MCP server calls the same code. |
 
@@ -58,7 +58,7 @@ Each value has a `recompute` command in `catalog/claims.json`. Run it from the r
 | `seen` | Found in the app's JavaScript. No call counts as proof: some were called with fake IDs or during development. The input fields can be incomplete. | Do not run it. Give the user the screen in `routes[1].start_url`. |
 | `excluded` | Out of scope: site-wide shell calls (cookies, notifications, email), admin methods, and the methods on the never-run list (notifications, email, tokens, 2FA, B3 and other integrations, imports, forum topics, raffles, portfolio delete), reads included. | Never run it. |
 
-Some writes that publish or notify other users have status `seen`, and one has status `verified`. `run_action` refuses every action whose `side_effects.external_effect` is `publishes` or `notifies_people`, whatever its status.
+Some writes that publish or notify other users have status `seen`, and two have status `verified` (the activity diary save and delete). `run_action` refuses every action whose `side_effects.external_effect` is `publishes` or `notifies_people`, whatever its status.
 
 ## 3. Protocol for one user request
 

@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:06:31+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793739984",
+    "checked_at": "2026-11-03T21:41:53+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793742106",
     "notes": "ok"
   },
   "sources": [

@@ -53,7 +53,7 @@ Reads that the scenarios run with assertions: `financa_obter_itens`, `financa_ob
 
 | Action | Why |
 |---|---|
-| `bastter.financeiro.calculadora_juros_save_topico` | It posts the simulation as a forum topic (`WsForum`), which other users see. Safety rule 5. |
+| `bastter.financeiro.calculadora_juros_save_topico` | It posts the simulation as a forum topic (`WsForum`), which other users see. Safety rule 6. |
 
 Reads in the Financeiro area that no write of this family changes, so the scenarios do not call them: `get_aportes_historico`, `listar_movimentacao`, `obter_dividas_dados_graficos`. Other IR writes that were not in the assigned list were not touched: `salvar_ir_imovel_aluguel_previdencia_dep`, `salvar_opcoes_ir_copiar_marcar`, `ir_marcar_linha`.
 

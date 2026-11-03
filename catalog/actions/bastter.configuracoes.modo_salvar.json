@@ -65,8 +65,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:58:08+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-modo-salvar-1793739483",
+    "checked_at": "2026-11-03T21:33:24+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-modo-salvar-1793741600",
     "notes": "o modo voltou ao antigo e nenhuma outra opção nem aba escondida mudou"
   },
   "sources": [

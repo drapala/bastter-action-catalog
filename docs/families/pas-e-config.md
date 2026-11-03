@@ -9,7 +9,7 @@ Result: 21 write actions pass a full cycle on the live account (10 PAS, 11 setti
 | Scenario | Run id | Steps | Failures | Verifies |
 |---|---|---|---|---|
 | `scenarios/pas_metas_ciclo.yaml` | `pas-metas-ciclo-1793729732` | 17 | 0 | metas_salvar (create, edit), metas_salvar_concluido (mark, unmark), metas_arquivar (archive, unarchive), metas_excluir |
-| `scenarios/pas_diario_atividade_ciclo.yaml` | `pas-diario-atividade-ciclo-1793729934` | 9 | 0 | diario_atividade_salvar (create, edit), diario_atividade_excluir |
+| `scenarios/archive/pas_diario_atividade_ciclo.yaml` | `pas-diario-atividade-ciclo-1793729934` | 9 | 0 | diario_atividade_salvar (create, edit), diario_atividade_excluir |
 | `scenarios/pas_agradecer_privado_ciclo.yaml` | `pas-agradecer-privado-ciclo-1793730125` | 9 | 0 | agradecer_salvar (create, edit), agradecer_excluir |
 | `scenarios/pas_sardinhagem_privado_ciclo.yaml` | `pas-sardinhagem-privado-ciclo-1793730146` | 9 | 0 | diario_sardinhagem_salvar (create, edit), diariosardinhagem_excluir |
 | `scenarios/config_salvar_opcao.yaml` | `config-salvar-opcao-1793730341` | 5 | 0 | salvar_opcao |

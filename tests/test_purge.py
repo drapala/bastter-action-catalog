@@ -122,3 +122,73 @@ def test_an_item_that_is_visible_again_or_has_movements_is_not_deleted():
         ph.unsafe(2, {"Items": []}, None)
         == "the item has movements, or no movement read could check it"
     )
+
+
+def test_only_movement_reads_proven_for_past_years_can_clear_an_item():
+    """Audit round 5: a read counts only after a scenario reads back a buy dated 2019 with it."""
+    import yaml
+
+    proven = set()
+    for name in ("acao_ciclo_completo", "stock_ciclo"):
+        steps = yaml.safe_load((ph.ROOT / f"scenarios/{name}.yaml").read_text())[
+            "steps"
+        ]
+        proven |= {
+            s["action"] for s in steps if "1546394400000" in str(s.get("assert"))
+        }
+    assert ph.MOVEMENT_READS == proven
+
+
+def test_purge_one_never_deletes_an_unsafe_item():
+    """Audit round 5: replacing the safety branch of main() with a no-op left every test green."""
+    run = "fii-ciclo-1793731200"
+    tab = {
+        "run": run,
+        "action": "bastter.ativos.obter_itens",
+        "ok": True,
+        "inputs": {"tipo": "fii"},
+        "shape": {},
+    }
+    mov = {
+        "run": run,
+        "action": "bastter.ativos.obter_movimentacao",
+        "ok": True,
+        "inputs": {"tipo": "fii", "ativoID": 2},
+        "shape": {},
+    }
+    not_found = {
+        "ok": False,
+        "error": "the answer has Error: Erro ao excluir movimentações.",
+        "payload": None,
+    }
+
+    def account(items, movements):
+        sent = []
+
+        def call(action_id, body, note):
+            sent.append(action_id)
+            if action_id == "bastter.ativos.obter_itens":
+                return {"ok": True, "error": None, "payload": {"Items": items}}
+            if action_id == "bastter.ativos.obter_movimentacao":
+                return {"ok": True, "error": None, "payload": {"Itens": movements}}
+            first = sent.count("bastter.ativos.excluir_movimentacao_ativo") == 1
+            return (
+                {"ok": True, "error": None, "payload": {"Return": "OK"}}
+                if first
+                else not_found
+            )
+
+        return call, sent
+
+    call, sent = account([{"AtivoID": 2}], [])
+    assert ph.purge_one(call, [tab, mov], "fii", 2, run)[0] == "SKIPPED"
+    assert "bastter.ativos.excluir_movimentacao_ativo" not in sent
+    call, sent = account([], [{"MovimentacaoID": 9}])
+    assert ph.purge_one(call, [tab, mov], "fii", 2, run)[0] == "SKIPPED"
+    assert "bastter.ativos.excluir_movimentacao_ativo" not in sent
+    call, sent = account([], [])
+    assert ph.purge_one(call, [tab], "fii", 2, run)[0] == "SKIPPED", (
+        "no movement read logged"
+    )
+    call, sent = account([], [])
+    assert ph.purge_one(call, [tab, mov], "fii", 2, run)[0] == "GONE"

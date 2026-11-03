@@ -91,8 +91,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:05:06+00:00",
-    "evidence": "evidence/runs.jsonl#run=outro-ciclo-1793739895",
+    "checked_at": "2026-11-03T21:40:24+00:00",
+    "evidence": "evidence/runs.jsonl#run=outro-ciclo-1793742013",
     "notes": "ok"
   },
   "sources": [

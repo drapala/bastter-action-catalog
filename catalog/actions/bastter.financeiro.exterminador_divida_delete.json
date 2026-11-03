@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T21:02:20+00:00",
-    "evidence": "evidence/runs.jsonl#run=exterminador-ciclo-1793739733",
+    "checked_at": "2026-11-03T21:37:36+00:00",
+    "evidence": "evidence/runs.jsonl#run=exterminador-ciclo-1793741849",
     "notes": "o get do ID apagado devolve null"
   },
   "sources": [

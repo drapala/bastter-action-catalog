@@ -177,13 +177,28 @@ def clean(before: dict, call, made: dict) -> list[str]:
             }
             if must(call("ativos.excluir_movimentacao", body), f"movement {m['id']}"):
                 print(f"movement {m['id']} on item {item_id} deleted")
+            else:
+                untouched.add(item_id)
     for item_id, code in now["items"].items():
         if item_id in before["items"]:
             continue
         if code not in made["tickers"] or item_id in untouched:
             problems.append(
-                f"item {item_id} ({code}) is new but the demo did not add it: not touched"
+                f"item {item_id} ({code}) is new but the demo did not add it, or a movement on it is left: not hidden"
             )
+            continue
+        left = call(
+            "ativos.obter_movimentacao",
+            {
+                "codigo": code or "",
+                "tipo": "acao",
+                "ativoID": int(item_id),
+                "mes": 0,
+                "ano": 0,
+            },
+        )
+        if not left["ok"] or (left["payload"] or {}).get("Itens"):
+            problems.append(f"item {item_id} ({code}) still has movements: not hidden")
             continue
         if must(
             call(

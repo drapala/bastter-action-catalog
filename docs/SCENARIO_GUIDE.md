@@ -18,7 +18,7 @@ The account is the owner's real account. Its portfolio was empty at the start. T
 ## How to find a method's payload
 
 - `catalog/actions/<id>.json` has the entry. `routes[0].url` is the method, `inputs.schema` the known fields, `routes[0].notes` the JS expression that builds the body.
-- `.cache/discover/ws_snippets.json` has, per method (`WS_Carteira.Metodo`), up to 2 snippets of the minified JS around the call and the `data_args`.
+- `.cache/discover/ws_snippets.json` has, per method (`WS_Carteira.Metodo`), up to 2 snippets of the minified JS around the call and the `data_args`. The `.cache/discover/` files exist only after `sources/discover/crawl.py` ran with a stored session.
 - The full minified scripts are in `.cache/discover/*.txt` (one file per script). Find the function that builds the object, for example `grep -l '"FinancaSalvar"' .cache/discover/*.txt`, then read around it with python.
 - `evidence/ui-capture-2026-11-03-screens.jsonl` has real request bodies the app sent when each screen loaded. The read methods of your family are usually there, with exact bodies.
 - ASP.NET needs every parameter in the body. A missing or mistyped field gives `500 There was an error processing the request.` with no detail. Date formats change by screen: see `catalog/date_formats.yaml` (most fields take `yyyy-mm-dd`, movements take `mm/dd/yyyy`, finanças and rent take `dd/mm/yyyy`).
@@ -44,7 +44,8 @@ See `scenarios/acao_ciclo_completo.yaml` (passes, 18 steps). Rules:
 - `guard: true` marks a read that checks the account holds no real data the scenario would touch. When a guard fails, the run stops and nothing else runs.
 - `undoes: <step>` marks a step that undoes a write step (a restore, or a delete that takes no ID).
 - Default `stop_on_fail: true`. When a step fails, the run stops and runs only the later steps that undo its own writes: a step with `undoes` whose write step was reached, and a delete step whose inputs use IDs this run saved. No cleanup step runs past a guard that has not run. A guard always stops the run. Every skipped step is printed. Check the saved values the run prints, and run any cleanup that is still needed by hand with `call`.
-- `scenario_problems` checks five rules: a delete needs a saved ID or `undoes`; `undoes` names an earlier step; a guard is a read; a guard stops the run; a `salvar` that adds a ticker has a guard right before and right after it. `bastter_exec.py scenario` refuses to run a file that breaks one, and `tests/test_scenario_engine.py::test_every_scenario_file_follows_the_cleanup_rules` checks every file.
+- `scenario_problems` checks six rules: a delete needs a saved ID or `undoes`; `undoes` names an earlier step; a guard is a read; a guard stops the run; a `salvar` that adds a ticker has a guard right before and right after it; a step that hides an item has `requires` on a read that asserts the item has no movements (unless a later step deletes the item for good). `bastter_exec.py scenario` refuses to run a file that breaks one, and `tests/test_scenario_engine.py::test_every_scenario_file_follows_the_cleanup_rules` checks every file in `scenarios/` (not `archive/`).
+- `requires: <step>` makes a step run only after that step passed in this run. In a cleanup, a required read that has not passed runs first.
 
 ## Report
 

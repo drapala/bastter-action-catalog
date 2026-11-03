@@ -258,3 +258,41 @@ def test_a_clean_pass_deletes_the_snapshot(monkeypatch, tmp_path):
     account.entries, account.categories = {10: "aluguel"}, {}
     monkeypatch.setattr(dc, "caller", lambda run, note: account)
     assert dc.main() == 0 and not snap.exists()
+
+
+def test_a_refused_movement_delete_keeps_the_item_visible():
+    """Audit round 5: a refused delete left the movement, and the item was hidden with it inside."""
+    account = FakeAccount()
+    account.refuse.add(
+        (
+            "ativos.excluir_movimentacao",
+            json.dumps(
+                {
+                    "ativoID": 200,
+                    "movimentacaoID": 2,
+                    "tipo": "acao",
+                    "tipomov": "compra",
+                },
+                sort_keys=True,
+            ),
+        )
+    )
+    problems = dc.clean(BEFORE, account, MADE)
+    assert "200" in account.items and len(account.movements["200"]) == 1
+    assert any("not hidden" in p for p in problems)
+
+
+def test_a_delete_that_answers_ok_but_leaves_the_movement_keeps_the_item_visible():
+    """The reread before the hide fires: the server said OK and the movement is still there."""
+    account = FakeAccount()
+    original = account.__call__
+
+    def ok_but_no_effect(action, body):
+        if action == "ativos.excluir_movimentacao":
+            account.calls.append((action, body))
+            return {"ok": True, "error": None, "payload": {"Return": True}}
+        return original(action, body)
+
+    problems = dc.clean(BEFORE, ok_but_no_effect, MADE)
+    assert "200" in account.items and len(account.movements["200"]) == 1
+    assert any("still has movements: not hidden" in p for p in problems)

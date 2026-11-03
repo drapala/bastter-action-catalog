@@ -410,14 +410,27 @@ def adds_existing_ticker(step: dict) -> bool:
     )
 
 
+def deleted_for_good_after(steps: list[dict], i: int) -> bool:
+    """A later step deletes the item hidden at step i for good (excluir_movimentacao_ativo on the same ID)."""
+    hidden = refs((steps[i].get("inputs") or {}).get("ativoID", ""))
+    return any(
+        s["action"] == "bastter.ativos.excluir_movimentacao_ativo"
+        and refs((s.get("inputs") or {}).get("ativoID", "")) == hidden
+        for s in steps[i + 1 :]
+    )
+
+
 def scenario_problems(spec: dict, catalog: dict) -> list[str]:
     """Breaks of the cleanup rules in a scenario file: what undo_blocker relies on.
 
     A salvar that adds an asset by ticker needs a guard right before it (the tab does not hold the ticker) and a
     guard right after it (the returned item has no movements), so no other step can touch the item first.
+    A step that hides an item needs `requires` on a read that asserts the item has no movements, unless a later
+    step deletes the item for good, so a test movement never stays inside a hidden item.
     """
     problems, names, saves = [], [], set()
     steps = spec["steps"]
+    by_name_all = {step["name"]: step for step in steps}
     for i, step in enumerate(steps):
         if adds_existing_ticker(step):
             before = steps[i - 1] if i else {}
@@ -441,6 +454,18 @@ def scenario_problems(spec: dict, catalog: dict) -> list[str]:
             and not refs(step.get("inputs") or {}) & saves
         ):
             problems.append(f"{step['name']}: a delete with no saved ID needs undoes")
+        if step[
+            "action"
+        ] == "bastter.ativos.excluir_item" and not deleted_for_good_after(steps, i):
+            need = by_name_all.get(step.get("requires") or "")
+            if (
+                not need
+                or need["name"] not in names
+                or "Itens" not in ((need.get("assert") or {}).get("empty") or [])
+            ):
+                problems.append(
+                    f"{step['name']}: hiding an item needs `requires` on an earlier read that asserts empty Itens"
+                )
         saves |= set(step.get("save") or {})
         names.append(step["name"])
     return problems
@@ -494,6 +519,26 @@ def scenario(file: str) -> int:
     http = _session.client()
     saved: dict = {}
     reached: set[str] = set()
+    passed: set[str] = set()
+    by_name = {step["name"]: step for step in spec["steps"]}
+
+    def required_ok(step: dict) -> str | None:
+        """Why a step with `requires: <read step>` must not run, or None. A required read that has not passed
+        yet runs now (this is how a cleanup checks the item is empty before it hides it)."""
+        need = step.get("requires")
+        if not need or need in passed:
+            return None
+        if (
+            need not in reached
+            or catalog.get(by_name[need]["action"], {}).get("operation_class") == "read"
+        ):
+            done, why = run_step(by_name[need])
+            print(
+                f"CHECK {'PASS' if done else 'FAIL'} {need:26} {by_name[need]['action']} {'' if done else why}"
+            )
+            if done:
+                return None
+        return f"it requires {need}, which did not pass"
 
     def run_step(step: dict) -> tuple[bool | None, str]:
         """True or False for a step that ran, None for a step that could not run (the write may have run)."""
@@ -543,12 +588,17 @@ def scenario(file: str) -> int:
         saved.update(values)
         if error and ok:
             ok, why = False, error
+        if ok:
+            passed.add(step["name"])
+        else:
+            passed.discard(step["name"])
         return ok, why
 
     failures = 0
     steps = spec["steps"]
     for i, step in enumerate(steps):
-        ok, why = run_step(step)
+        refusal = required_ok(step)
+        ok, why = (False, refusal) if refusal else run_step(step)
         if step.get("postcondition_of"):
             log(
                 {
@@ -606,6 +656,8 @@ def scenario(file: str) -> int:
                         for n in refs(later.get("inputs") or {})
                         if saved.get(n) is not None
                     }
+                if not blocker:
+                    blocker = required_ok(later)
                 if blocker:
                     print(
                         f"CLEANUP skipped {later['name']:24} {later['action']}: {blocker}"

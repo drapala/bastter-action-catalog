@@ -97,7 +97,7 @@ The cycles did leave hidden rows: `excluir_item` only hides an item. `tools/purg
 
 - Surprise 1 is out of date for the tools: the route of `provento_manual_deletar` sets `timeout_s` 300, and the ETF cycle passes.
 - The earlier purge runs counted a first `Return: OK` as proof. They had no repeat call. Run `purge-hidden-items-1793735050` repeated the check with the current rule (gone only after the not-found Error): 48 items gone, 34 of them already gone from the earlier runs.
-- Every asset scenario now has two guard steps before it writes: the tab does not hold the ticker, and the item that `salvar` returns has no movements. `salvar` with `ativoID: 0` returns the existing item for a ticker, even a hidden one (the ETF runs reused item 55738).
+- Every scenario that adds an asset by ticker now has two guard steps before it writes: the tab does not hold the ticker, and the item that `salvar` returns has no movements. `salvar` with `ativoID: 0` returns the existing item for a ticker, even a hidden one (the ETF runs reused item 55738).
 - Correction after audit round 3: the second guard (no movements) runs right after `salvar`, before any other step, and the cleanup never runs past a guard that has not run. The guards cannot tell a hidden item of the user that has no movements from a new one. The purge reads each item again before it deletes it.
 
 ## Update after audit round 4 (2026-11-03)

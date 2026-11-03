@@ -77,8 +77,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:58:45+00:00",
-    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793739520",
+    "checked_at": "2026-11-03T21:34:02+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793741637",
     "notes": "o mesmo ID passou a ter o nome novo"
   },
   "sources": [

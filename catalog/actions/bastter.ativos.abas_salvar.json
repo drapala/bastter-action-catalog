@@ -81,8 +81,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:57:41+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-abas-salvar-1793739456",
+    "checked_at": "2026-11-03T21:32:56+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-abas-salvar-1793741571",
     "notes": "as listas de abas escondidas voltaram a ser as de antes"
   },
   "sources": [
