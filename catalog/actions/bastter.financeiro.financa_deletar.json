@@ -1,0 +1,117 @@
+{
+  "id": "bastter.financeiro.financa_deletar",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa",
+  "operation_class": "delete",
+  "label": "Excluir um lançamento de receita ou despesa",
+  "description": "WS_Carteira.FinancaDeletar. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "excluirRecorrentes": {
+          "examples": [
+            true,
+            false,
+            true
+          ]
+        },
+        "lancamentoID": {
+          "type": "integer",
+          "description": "ID of the lancamento.",
+          "examples": [
+            280337,
+            280336,
+            280352
+          ]
+        }
+      },
+      "required": [
+        "excluirRecorrentes",
+        "lancamentoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "lancamentoID",
+        "entity": "lancamento",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "excluirRecorrentes": "body",
+        "lancamentoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({lancamentoID:n,excluirRecorrentes:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.financa_obter_itens",
+    "assert": "excluirRecorrentes=true apagou todos os meses da série, em todos os meses",
+    "from_scenario": "scenarios/financas_ciclo.yaml#serie_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:16+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "notes": "a despesa sumiu e a categoria continua (apagar lançamentos não apaga a categoria)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    }
+  ],
+  "intent_examples": [
+    "apaga a despesa do mercado de ontem",
+    "exclui o aluguel recorrente e todas as repetições",
+    "remove esse lançamento das finanças"
+  ]
+}

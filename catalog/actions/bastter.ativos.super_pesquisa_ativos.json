@@ -1,0 +1,97 @@
+{
+  "id": "bastter.ativos.super_pesquisa_ativos",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "super_ativos",
+  "operation_class": "read",
+  "label": "Buscar ativos por nome ou código em todas as classes",
+  "description": "WS_Carteira.SuperPesquisaAtivos. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "termo": {
+          "examples": [
+            "PETR4"
+          ]
+        }
+      },
+      "required": [
+        "termo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SuperPesquisaAtivos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "termo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({termo:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:13:27+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "procura Itaú nos meus ativos",
+    "busca o ativo AAPL",
+    "onde está o FII de logística que tenho"
+  ]
+}

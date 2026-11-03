@@ -1,0 +1,95 @@
+{
+  "id": "bastter.financeiro.calc_juros_delete",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "calc_juros",
+  "operation_class": "delete",
+  "label": "Excluir uma simulação de juros compostos",
+  "description": "WsWorks.CalcJurosDelete. Called from: Financeiro - Juros Compostos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "simulacaoID": {
+          "type": "integer",
+          "description": "ID of the simulacao.",
+          "examples": [
+            99,
+            100,
+            101
+          ]
+        }
+      },
+      "required": [
+        "simulacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "simulacaoID",
+        "entity": "simulacao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsWorks.asmx/CalcJurosDelete",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "simulacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({simulacaoID:bsCalcJuros.simulacaoID})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/juros-compostos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.calc_juros_list",
+    "assert": "the read shows the change (see scenarios/juros_ciclo.yaml, step sumiu)",
+    "from_scenario": "scenarios/juros_ciclo.yaml#sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:47+00:00",
+    "evidence": "evidence/runs.jsonl#run=juros-ciclo-1793737600",
+    "notes": "o get do ID apagado devolve null"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.calculadorajuros-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/juros-compostos"
+    }
+  ],
+  "intent_examples": [
+    "apaga a simulação de juros Aposentadoria",
+    "exclui essa simulação de juros compostos"
+  ]
+}

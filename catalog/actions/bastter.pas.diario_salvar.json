@@ -1,0 +1,80 @@
+{
+  "id": "bastter.pas.diario_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "diario",
+  "operation_class": "update",
+  "label": "Salvar o peso inicial e o peso atual no diário #PAS",
+  "description": "WS_Carteira.DiarioSalvar. Called from: #PAS - Diário.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "diario": {}
+      },
+      "required": [
+        "diario"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "diario": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({diario:{PesoInicial:n,PesoAtual:t}})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/diario"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.diario_obter",
+    "assert": "the item in the list shows the new values"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "publishes",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Weights feed a public ranking that shows logins, and there is no delete method. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.pas.diario-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.diario-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/diario"
+    }
+  ],
+  "intent_examples": [
+    "meu peso atual é 80 kg",
+    "atualiza meu peso inicial para 92"
+  ]
+}

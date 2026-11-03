@@ -1,0 +1,1238 @@
+# Plain-Portuguese labels for each non-excluded action in catalog/actions.
+# label: user-visible effect, starts with a verb. uncertain: true marks a literal reading of the method name.
+bastter.ativos.abas_salvar:
+  label: "Escolher quais abas aparecem em cada área do sistema"
+  intent_examples: ["esconde a aba Eventos em Ativos", "mostra de novo a aba Onde Aportar", "configura as abas visíveis do Patrimônio"]
+bastter.ativos.alerta_critico_regras_list:
+  label: "Ver as regras de alerta crítico de um ativo"
+  intent_examples: ["quais alertas críticos posso ligar para PETR4", "mostra as regras de alerta da minha ação"]
+bastter.ativos.alerta_diversificacao:
+  label: "Verificar se um ativo passa de 2% do patrimônio"
+  intent_examples: ["a VALE3 já passou de 2% do meu patrimônio?", "checa o alerta de diversificação do ITUB4"]
+bastter.ativos.alterar_categoria:
+  label: "Alterar a classificação de um ativo, como quarentena"
+  intent_examples: ["coloca PETR4 em quarentena", "muda a classificação da TAEE11", "tira a MGLU3 da quarentena"]
+bastter.ativos.alterar_pais:
+  label: "Alterar o país de um ativo"
+  intent_examples: ["muda o país do ETF IVV para Estados Unidos", "corrige o país desse bond"]
+bastter.ativos.ativar_freio:
+  label: "Ativar o freio automático e pôr o ativo em quarentena"
+  intent_examples: ["ativa o freio na MGLU3", "coloca essa ação de quarentena pelo freio"]
+bastter.ativos.atualizar_preco:
+  label: "Atualizar à mão o preço de um ativo cadastrado manualmente"
+  intent_examples: ["muda a cotação do bond para 98", "atualiza o preço do meu ativo manual em Outros", "ajusta o preço dessa stock que cadastrei à mão"]
+bastter.ativos.bond_cupom_deletar:
+  label: "Excluir um cupom recebido de um bond"
+  intent_examples: ["apaga o cupom do bond de março", "exclui esse cupom lançado errado"]
+bastter.ativos.bond_cupom_listar:
+  label: "Listar os cupons recebidos de um bond"
+  intent_examples: ["quais cupons meu bond já pagou", "mostra os cupons do bond"]
+bastter.ativos.bond_cupom_salvar:
+  label: "Lançar ou editar um cupom recebido de um bond"
+  intent_examples: ["lança um cupom de 35 dólares no meu bond", "registra o cupom que o bond pagou hoje", "corrige o valor do cupom do bond"]
+bastter.ativos.bs2_aberturas_limite_salvar:
+  label: "Definir após quantas aberturas no dia o sistema avisa"
+  intent_examples: ["me avisa quando eu abrir o BS mais de 10 vezes no dia", "desliga o aviso de aberturas"]
+bastter.ativos.bs2_init:
+  label: "Ver a carteira ativa, as opções e a lista de carteiras"
+  intent_examples: ["qual carteira está ativa agora", "lista minhas carteiras", "quais são minhas opções do sistema"]
+bastter.ativos.bs2_list_ativos:
+  label: "Listar todos os ativos da carteira consolidada"
+  intent_examples: ["lista todos os meus ativos", "mostra a carteira consolidada", "quais ativos eu tenho em posição"]
+bastter.ativos.bs2_navegacao_carregar:
+  label: "Ver as páginas recentes, mais acessadas e favoritas"
+  intent_examples: ["quais páginas eu abri por último", "mostra minhas páginas favoritas"]
+bastter.ativos.bs2_navegacao_favorito_alternar:
+  label: "Marcar ou desmarcar uma página como favorita"
+  intent_examples: ["favorita a página de proventos", "tira essa tela dos favoritos"]
+bastter.ativos.bs2_ocultar_financeiro:
+  label: "Ocultar ou mostrar os valores financeiros na tela"
+  intent_examples: ["esconde os valores da tela", "mostra os valores em reais de novo", "oculta meu financeiro"]
+bastter.ativos.bs2_possui_analises:
+  label: "Ver quais análises de carteira já foram pedidas"
+  intent_examples: ["já pedi análise da minha carteira de ações?", "tenho análise de FIIs disponível?"]
+bastter.ativos.carteira_alterar_nome:
+  label: "Renomear a carteira ativa"
+  intent_examples: ["muda o nome da carteira para Aposentadoria", "renomeia minha carteira"]
+bastter.ativos.carteira_carregar:
+  label: "Trocar para outra carteira"
+  intent_examples: ["muda para a carteira da minha esposa", "abre a carteira Aposentadoria", "troca de carteira"]
+bastter.ativos.carteira_criar:
+  label: "Criar uma nova carteira"
+  intent_examples: ["cria uma carteira chamada Filhos", "quero uma carteira nova"]
+bastter.ativos.carteira_excluir:
+  label: "Excluir a carteira ativa, confirmando com a senha"
+  intent_examples: ["apaga essa carteira", "exclui a carteira de teste"]
+bastter.ativos.colunas_salvar:
+  label: "Escolher quais colunas aparecem na tabela de ativos"
+  intent_examples: ["esconde a coluna de dividend yield", "mostra só algumas colunas na tabela de ações"]
+bastter.ativos.config_list:
+  label: "Ver as preferências salvas de gráficos e telas"
+  intent_examples: ["quais preferências de gráfico estão salvas", "como estão configurados meus gráficos de proventos"]
+bastter.ativos.config_save:
+  label: "Salvar uma preferência de tela ou gráfico"
+  intent_examples: ["salva essa configuração do gráfico", "guarda essa preferência da tela"]
+bastter.ativos.consolidado_obter_eventos:
+  label: "Listar os eventos dos ativos, com filtro de ativo, mês e lidos"
+  intent_examples: ["quais eventos tem para minhas ações este mês", "mostra os eventos não lidos", "tem algum evento da PETR4?"]
+bastter.ativos.consolidado_obter_proventos:
+  label: "Listar proventos e dividendos recebidos, por ativo, tipo e período"
+  intent_examples: ["quanto recebi de dividendos em 2026", "lista os proventos de PETR4", "mostra os rendimentos dos FIIs deste mês"]
+bastter.ativos.copiar_item:
+  label: "Copiar um ativo para outra carteira"
+  intent_examples: ["copia a PETR4 para a carteira da minha esposa", "duplica esse FII na outra carteira"]
+bastter.ativos.delete_movement:
+  label: "Excluir uma compra ou venda de um ativo do exterior"
+  intent_examples: ["apaga a compra de AAPL de ontem", "exclui essa venda de stock"]
+bastter.ativos.eventos_marcar_lido:
+  label: "Marcar eventos de ativos como lidos"
+  intent_examples: ["marca esse evento como lido", "já li os eventos da VALE3"]
+bastter.ativos.excluir_item:
+  label: "Excluir um ativo da carteira"
+  intent_examples: ["remove a OIBR3 da carteira", "exclui esse ativo", "tira o FII XPLG11 da minha carteira"]
+bastter.ativos.excluir_movimentacao:
+  label: "Excluir uma compra ou venda de um ativo"
+  intent_examples: ["apaga a compra de PETR4 que lancei errado", "exclui a venda de VALE3 de ontem"]
+bastter.ativos.excluir_movimentacao_ativo:
+  label: "Excluir de vez um ativo já removido da carteira"
+  intent_examples: ["apaga definitivamente esse ativo excluído", "some com esse ativo de todas as telas"]
+bastter.ativos.freio_automatico_tempo_salvar:
+  label: "Configurar o tempo de quarentena do freio automático"
+  intent_examples: ["muda o tempo de quarentena do freio para 6 meses", "configura o freio automático"]
+bastter.ativos.gerar_minha_holding:
+  label: "Ver a Minha Holding: resultado proporcional da carteira por ano"
+  intent_examples: ["mostra minha holding de ações", "como está a minha holding de FIIs", "gera a minha holding consolidada"]
+bastter.ativos.get_comunicado:
+  label: "Ver um comunicado comentado de um FII"
+  intent_examples: ["abre o relatório comentado do HGLG11", "mostra esse comunicado do FII"]
+bastter.ativos.get_movement:
+  label: "Listar as compras e vendas de um ativo do exterior"
+  intent_examples: ["mostra minhas compras de AAPL", "lista as movimentações dessa stock"]
+bastter.ativos.imovel_aluguel_automatico_salvar:
+  label: "Configurar o lançamento automático do aluguel de um imóvel"
+  intent_examples: ["lança o aluguel do apartamento todo dia 5 automático", "desliga o aluguel automático do imóvel"]
+bastter.ativos.imovel_aluguel_cotar:
+  label: "Converter para reais um aluguel em moeda estrangeira"
+  intent_examples: ["quanto dá em reais esse aluguel de 1000 dólares", "converte o aluguel em euro para real"]
+bastter.ativos.imovel_aluguel_deletar:
+  label: "Excluir um aluguel lançado de um imóvel"
+  intent_examples: ["apaga o aluguel de março do apartamento", "exclui esse aluguel lançado errado"]
+bastter.ativos.imovel_aluguel_listar:
+  label: "Listar os aluguéis recebidos de um imóvel"
+  intent_examples: ["quanto recebi de aluguel este ano", "mostra os aluguéis do apartamento"]
+bastter.ativos.imovel_aluguel_salvar:
+  label: "Lançar ou editar um aluguel recebido de um imóvel"
+  intent_examples: ["lança o aluguel de 2500 do apartamento", "registra o aluguel que recebi hoje", "corrige o valor do aluguel de maio"]
+bastter.ativos.imovel_aluguel_salvar_inquilino:
+  label: "Salvar o nome e o CNPJ do inquilino de um imóvel"
+  intent_examples: ["o inquilino da sala é a empresa X, CNPJ tal", "cadastra o inquilino do apartamento"]
+bastter.ativos.imovel_benfeitoria_deletar:
+  label: "Excluir uma benfeitoria de um imóvel"
+  intent_examples: ["apaga a reforma que lancei no apartamento", "exclui essa benfeitoria"]
+bastter.ativos.imovel_benfeitoria_salvar:
+  label: "Lançar ou editar uma benfeitoria de um imóvel"
+  intent_examples: ["lança a reforma da cozinha de 20 mil no apartamento", "registra uma benfeitoria na casa"]
+bastter.ativos.imovel_despesa_deletar:
+  label: "Excluir uma despesa de um imóvel"
+  intent_examples: ["apaga o IPTU lançado errado", "exclui essa despesa do apartamento"]
+bastter.ativos.imovel_despesa_salvar:
+  label: "Lançar ou editar uma despesa de um imóvel"
+  intent_examples: ["lança o IPTU de 1200 do apartamento", "registra o condomínio da sala", "marca essa despesa como dedutível no IR"]
+bastter.ativos.imovel_movimentacao_obter:
+  label: "Ver os dados de compra e de venda de um imóvel"
+  intent_examples: ["quando comprei o apartamento e por quanto", "mostra os dados de aquisição da casa"]
+bastter.ativos.imovel_movimentacao_salvar:
+  label: "Salvar os dados de compra ou de venda de um imóvel"
+  intent_examples: ["registra que vendi o apartamento por 800 mil", "atualiza o valor de compra da casa", "lança a venda do terreno"]
+bastter.ativos.incluir_grupo:
+  label: "Incluir de uma vez um grupo de ativos na carteira"
+  intent_examples: ["inclui todas as ações viáveis na carteira", "adiciona todos os FIIs viáveis de uma vez"]
+bastter.ativos.integracao_b3_termos_aceitar:
+  label: "Aceitar os termos da integração com a B3"
+  intent_examples: ["aceito os termos da B3", "concorda com os termos da integração B3"]
+bastter.ativos.integracao_b3_termos_recusar:
+  label: "Recusar os termos e desativar a integração com a B3"
+  intent_examples: ["recusa os termos da B3", "desativa a integração com a B3 nesta carteira"]
+bastter.ativos.listar_alertas:
+  label: "Ver os alertas do sistema e dos ativos"
+  intent_examples: ["tenho algum alerta?", "mostra meus alertas", "quais avisos o BS tem para mim"]
+bastter.ativos.listar_anotacao_classe:
+  label: "Listar as anotações dos ativos de uma classe"
+  intent_examples: ["mostra minhas anotações das ações", "lista as notas que fiz nos FIIs"]
+bastter.ativos.listar_classificacao:
+  label: "Listar as classificações de ativo para filtro"
+  intent_examples: ["quais classificações de ativo existem", "filtra por classificação, quais opções tenho"]
+bastter.ativos.listar_comunicado_comentarios:
+  label: "Listar os relatórios comentados dos FIIs"
+  intent_examples: ["mostra os relatórios comentados dos meus FIIs", "tem comentário novo sobre algum FII?"]
+bastter.ativos.listar_curiosidades:
+  label: "Ver as curiosidades dos ativos da carteira"
+  intent_examples: ["mostra curiosidades das minhas ações", "quais curiosidades tem dos meus FIIs e stocks"]
+bastter.ativos.listar_fii_segmento:
+  label: "Listar os segmentos de FII do filtro da tela de FIIs"
+  intent_examples: ["quais segmentos de FII posso filtrar", "lista os segmentos de fundos imobiliários"]
+bastter.ativos.listar_industry:
+  label: "Listar as indústrias de um setor de stocks e BDRs"
+  intent_examples: ["quais indústrias tem no setor de tecnologia", "lista as indústrias do setor de saúde das stocks"]
+bastter.ativos.listar_rapidinhas_audio:
+  label: "Listar as rapidinhas em áudio dos ativos da carteira"
+  intent_examples: ["tem rapidinha em áudio das minhas ações?", "toca as rapidinhas dos meus FIIs"]
+bastter.ativos.listar_rapidinhas_texto:
+  label: "Listar as rapidinhas em texto dos ativos da carteira"
+  intent_examples: ["mostra as rapidinhas das minhas ações", "tem rapidinha escrita sobre meus FIIs?"]
+bastter.ativos.listar_sector:
+  label: "Listar os setores de stocks e BDRs"
+  intent_examples: ["quais setores de stocks existem", "lista os setores para filtrar BDRs"]
+bastter.ativos.listar_sector_reit:
+  label: "Listar os setores de REITs"
+  intent_examples: ["quais setores de REIT existem", "lista os setores dos REITs"]
+bastter.ativos.listar_segmento:
+  label: "Listar os segmentos de ações de um setor"
+  intent_examples: ["quais segmentos tem no setor financeiro", "lista os segmentos do setor de energia"]
+bastter.ativos.listar_segmento_fii:
+  label: "Listar os segmentos de FII"
+  intent_examples: ["quais segmentos de FII existem", "lista os tipos de fundo imobiliário"]
+bastter.ativos.listar_setor:
+  label: "Listar os setores de ações brasileiras"
+  intent_examples: ["quais setores de ações existem", "lista os setores da bolsa para filtrar"]
+bastter.ativos.meu_bs_list_panels:
+  label: "Listar os painéis da página Meu Bastter System"
+  intent_examples: ["quais painéis estão na minha home", "mostra os painéis fechados do Meu BS"]
+bastter.ativos.meu_bs_proventos:
+  label: "Ver o total de proventos (dividendos) de hoje, semana, mês e ano"
+  intent_examples: ["quanto recebi de proventos hoje", "total de dividendos do mês", "quanto já caiu de proventos este ano"]
+bastter.ativos.meu_bs_proventos_detalhes:
+  label: "Ver os proventos de hoje, da semana, do mês ou do ano"
+  intent_examples: ["quais proventos caíram esta semana", "detalha os dividendos de hoje", "lista os proventos do mês por ativo"]
+bastter.ativos.meu_bs_save_home_padrao:
+  label: "Definir a página inicial padrão do sistema"
+  intent_examples: ["quero abrir o BS direto na tela de proventos", "define essa página como inicial"]
+bastter.ativos.meu_bs_save_panel:
+  label: "Abrir ou fechar um painel da página Meu Bastter System"
+  intent_examples: ["fecha o painel de eventos da home", "mostra de novo o painel de proventos no Meu BS"]
+bastter.ativos.modo_onde_aportar_salvar:
+  label: "Alterar o modo da tela Onde Aportar"
+  intent_examples: ["muda o modo do Onde Aportar", "liga o modo alternado no Onde Aportar"]
+bastter.ativos.moeda_cotacao_obter:
+  label: "Ver a cotação de uma moeda em uma data"
+  intent_examples: ["qual era o dólar em 10/03/2020", "cotação do euro na data da venda"]
+bastter.ativos.mover_item:
+  label: "Mover um ativo para outra carteira"
+  intent_examples: ["move a PETR4 para a carteira Aposentadoria", "transfere esse FII para a outra carteira"]
+bastter.ativos.obter_anotacao_classe:
+  label: "Ver a anotação de uma classe de ativos"
+  intent_examples: ["mostra minha anotação geral sobre ações", "o que anotei sobre a classe de FIIs"]
+bastter.ativos.obter_anotacoes:
+  label: "Ver a anotação de um ativo"
+  intent_examples: ["o que anotei sobre PETR4", "mostra minhas notas da VALE3"]
+bastter.ativos.obter_ativos_menor_percentual:
+  label: "Ver onde aportar: os ativos mais abaixo do objetivo"
+  intent_examples: ["onde devo aportar este mês", "quais ativos estão abaixo do objetivo", "me sugere onde aportar"]
+bastter.ativos.obter_categorias:
+  label: "Listar as categorias para classificar ativos"
+  intent_examples: ["quais categorias posso usar para classificar um ativo", "lista as categorias de ativo"]
+bastter.ativos.obter_consolidado_proventos_dados_graficos:
+  label: "Ver os gráficos de proventos por ano e por mês"
+  intent_examples: ["mostra o gráfico de proventos por ano", "como evoluíram meus dividendos mês a mês"]
+bastter.ativos.obter_dados_graficos:
+  label: "Ver os gráficos de uma classe de ativos por setor e proventos"
+  intent_examples: ["mostra os gráficos das minhas ações por setor", "gráfico dos FIIs por segmento"]
+bastter.ativos.obter_detalhes_ativo:
+  label: "Ver os detalhes de um ativo da carteira"
+  intent_examples: ["mostra os detalhes da PETR4", "detalhes desse ativo"]
+bastter.ativos.obter_exibir_financeiro_rank:
+  label: "Ver o ranking de tempo com o financeiro oculto"
+  intent_examples: ["qual minha posição no rank do financeiro oculto", "mostra o ranking de quem fica sem ver o financeiro"]
+bastter.ativos.obter_imoveis_dados_graficos:
+  label: "Ver os gráficos de aluguéis dos imóveis (Minha Imobiliária)"
+  intent_examples: ["mostra o gráfico dos meus aluguéis por ano", "como está minha imobiliária"]
+bastter.ativos.obter_itens:
+  label: "Listar os ativos de uma classe, como ações ou FIIs, com filtros"
+  intent_examples: ["lista minhas ações", "mostra meus FIIs de logística", "quais ETFs eu tenho"]
+bastter.ativos.obter_itens_renda_fixa:
+  label: "Listar os investimentos de renda fixa"
+  intent_examples: ["lista minha renda fixa", "quais títulos de renda fixa eu tenho", "mostra meus CDBs e Tesouro"]
+bastter.ativos.obter_minha_holding_maiores:
+  label: "Ver os maiores ativos da Minha Holding por um indicador"
+  intent_examples: ["quais minhas ações com maior valor de mercado", "mostra as empresas mais endividadas da minha holding", "quais ativos tiveram os maiores retornos"]
+bastter.ativos.obter_movimentacao:
+  label: "Listar as compras e vendas de um ativo"
+  intent_examples: ["mostra as compras de PETR4", "histórico de movimentações da VALE3", "quando comprei ITUB4"]
+bastter.ativos.obter_o_que_fazer:
+  label: "Ver a configuração do Onde Aportar"
+  intent_examples: ["qual o valor de aporte configurado", "como está configurado o Onde Aportar"]
+bastter.ativos.obter_posicao_historico:
+  label: "Ver a evolução histórica do patrimônio em um período"
+  intent_examples: ["como evoluiu meu patrimônio nos últimos 5 anos", "mostra o gráfico de evolução da carteira"]
+bastter.ativos.outro_provento_deletar:
+  label: "Excluir um rendimento de um ativo da classe Outros"
+  intent_examples: ["apaga esse rendimento do ativo outro", "exclui o rendimento lançado errado"]
+bastter.ativos.outro_provento_listar:
+  label: "Listar os rendimentos de um ativo da classe Outros"
+  intent_examples: ["mostra os rendimentos desse ativo outro", "quanto esse investimento já rendeu"]
+bastter.ativos.outro_provento_salvar:
+  label: "Lançar ou editar um rendimento de um ativo da classe Outros"
+  intent_examples: ["lança um rendimento de 300 nesse ativo", "registra o rendimento que recebi do investimento"]
+bastter.ativos.pedir_bdr:
+  label: "Pedir a inclusão de um BDR no sistema"
+  intent_examples: ["pede para incluírem o BDR NVDC34", "esse BDR não existe no BS, solicita a inclusão"]
+bastter.ativos.pedir_etf:
+  label: "Pedir a inclusão de um ETF no sistema"
+  intent_examples: ["pede para cadastrarem o ETF VWRA", "esse ETF não está no BS, solicita a inclusão"]
+bastter.ativos.pesquisar:
+  label: "Buscar um ativo pelo código dentro de uma classe"
+  intent_examples: ["procura PETR4 nas ações", "busca o FII HGLG11", "acha o código do ETF IVVB11"]
+bastter.ativos.provento_manual_deletar:
+  label: "Excluir um provento lançado à mão"
+  intent_examples: ["apaga o dividendo que lancei à mão", "exclui esse provento manual"]
+bastter.ativos.provento_manual_listar:
+  label: "Listar os proventos lançados à mão de um ativo"
+  intent_examples: ["quais proventos lancei à mão para TAEE11", "mostra os proventos manuais desse ativo"]
+bastter.ativos.provento_manual_salvar:
+  label: "Lançar ou editar à mão um provento de um ativo"
+  intent_examples: ["lança um dividendo de 150 reais da TAEE11", "registra à mão o JCP que caiu hoje", "corrige a data ex desse provento"]
+bastter.ativos.remessa_online_authorize:
+  label: "Conectar a conta da Remessa Online ao sistema"
+  intent_examples: ["integra minha conta da Remessa Online", "conecta a Remessa Online no BS"]
+bastter.ativos.remessa_online_get_authorization:
+  label: "Ver se a conta da Remessa Online está conectada"
+  intent_examples: ["minha Remessa Online está integrada?", "checa a conexão com a Remessa Online"]
+bastter.ativos.renda_fixa_cupom_deletar:
+  label: "Excluir um cupom ou juros de um título de renda fixa"
+  intent_examples: ["apaga o cupom do Tesouro IPCA de maio", "exclui esse juros lançado errado"]
+bastter.ativos.renda_fixa_cupom_listar:
+  label: "Listar os cupons e juros de um título de renda fixa"
+  intent_examples: ["quais cupons meu Tesouro IPCA já pagou", "mostra os juros recebidos dessa debênture"]
+bastter.ativos.renda_fixa_cupom_salvar:
+  label: "Lançar ou editar um cupom ou juros de renda fixa"
+  intent_examples: ["lança o cupom de 420 do Tesouro IPCA", "registra os juros semestrais da debênture"]
+bastter.ativos.renda_fixa_vencimentos_listar:
+  label: "Ver os vencimentos dos títulos de renda fixa"
+  intent_examples: ["quando vencem meus títulos de renda fixa", "qual o próximo vencimento da renda fixa"]
+bastter.ativos.restaurar_item:
+  label: "Restaurar um ativo excluído da carteira"
+  intent_examples: ["volta a PETR4 que excluí", "restaura esse ativo apagado"]
+bastter.ativos.roubei_atualizar:
+  label: "Esconder o aviso Roubei do Bastter por um ano"
+  intent_examples: ["não quero roubar, esconde o Roubei", "some com o ícone do Roubei"]
+bastter.ativos.roubei_obter_ativo:
+  label: "Ver o ativo do Roubei: maior objetivo e sem aporte há tempo"
+  intent_examples: ["qual ativo o Roubei sugere", "qual meu ativo com maior objetivo que não aporto há tempo"]
+bastter.ativos.roubei_vezes_salvar:
+  label: "Definir quantas vezes por ano o Roubei do Bastter aparece"
+  intent_examples: ["quero o Roubei 2 vezes por ano", "configura o Roubei para uma vez ao ano"]
+bastter.ativos.salvar:
+  label: "Incluir ou editar um ativo na carteira"
+  intent_examples: ["adiciona PETR4 na carteira", "cadastra um imóvel novo", "inclui o ETF IVVB11 nos meus ativos"]
+bastter.ativos.salvar_anotacao_classe:
+  label: "Salvar a anotação de uma classe de ativos"
+  intent_examples: ["anota nas ações que vou focar em elétricas", "salva uma nota geral para os FIIs"]
+bastter.ativos.salvar_anotacoes:
+  label: "Salvar a anotação de um ativo"
+  intent_examples: ["anota na PETR4 que comprei pelo dividendo", "salva uma nota na VALE3"]
+bastter.ativos.salvar_movimentacao:
+  label: "Lançar ou editar uma compra ou venda de um ativo"
+  intent_examples: ["lança uma compra de 100 PETR4", "registra a venda de VALE3 de ontem", "corrige a quantidade da minha compra de ITUB4"]
+bastter.ativos.salvar_movimentacao_ordena:
+  label: "Escolher a ordem da lista de compras e vendas"
+  intent_examples: ["ordena as movimentações da mais recente para a mais antiga", "muda a ordem das compras do ativo"]
+bastter.ativos.salvar_movimentacoes_nota:
+  label: "Lançar várias compras e vendas de uma nota de corretagem"
+  intent_examples: ["lança todas as operações da nota de corretagem de hoje", "registra a nota com 5 compras de uma vez"]
+bastter.ativos.salvar_objetivo_ativos:
+  label: "Salvar o objetivo percentual de cada ativo de uma classe"
+  intent_examples: ["coloca 10% de objetivo na PETR4", "zera o objetivo da OIBR3", "atualiza os objetivos dos meus FIIs"]
+bastter.ativos.salvar_objetivo_indice_renda_fixa:
+  label: "Salvar o objetivo por índice da renda fixa"
+  intent_examples: ["quero 60% da renda fixa em IPCA", "define o objetivo de CDI na renda fixa"]
+bastter.ativos.salvar_opcao:
+  label: "Salvar uma opção de configuração do sistema"
+  intent_examples: ["liga essa opção nas configurações", "muda essa configuração do BS"]
+bastter.ativos.salvar_opcoes:
+  label: "Salvar as configurações gerais do sistema"
+  intent_examples: ["salva minhas configurações", "esconde os ativos em quarentena e salva", "muda a moeda padrão do BS"]
+bastter.ativos.salvar_opcoes_menu_lateral_aberto:
+  label: "Lembrar se o menu lateral fica aberto ou fechado"
+  intent_examples: ["deixa o menu lateral sempre fechado", "mantém o menu lateral aberto"]
+bastter.ativos.salvar_oq_fazer:
+  label: "Salvar a configuração do Onde Aportar, como valor e dia"
+  intent_examples: ["meu aporte mensal é de 5 mil", "configura o Onde Aportar para 3 ativos", "muda o dia do aporte para dia 10"]
+bastter.ativos.salvar_ordenacao:
+  label: "Salvar a ordenação de uma lista ou aba"
+  intent_examples: ["ordena os proventos por data", "salva essa ordenação da lista"]
+bastter.ativos.salvar_provento:
+  label: "Corrigir a data de pagamento ou o imposto de um provento"
+  intent_examples: ["muda a data de pagamento desse dividendo", "corrige o imposto retido desse provento"]
+bastter.ativos.save_comunicado_lido:
+  label: "Marcar um comunicado de FII como lido"
+  intent_examples: ["marca o comunicado do HGLG11 como lido", "já li esse relatório do FII"]
+bastter.ativos.save_movement:
+  label: "Lançar ou editar uma compra ou venda de um ativo do exterior"
+  intent_examples: ["lança a compra de 10 AAPL", "registra a venda de VOO de ontem", "corrige a corretagem da compra de MSFT"]
+bastter.ativos.solicitar_analise:
+  label: "Pedir uma análise da carteira no fórum"
+  intent_examples: ["pede uma análise da minha carteira de ações", "quero que analisem meus FIIs"]
+bastter.ativos.sorteio_ativos_list:
+  label: "Listar os ativos que entram no sorteio de aporte"
+  intent_examples: ["quais ativos entram no sorteio", "mostra os ativos para sortear o aporte"]
+bastter.ativos.sorteio_ativos_sortear:
+  label: "Sortear um ativo para o próximo aporte"
+  intent_examples: ["sorteia um ativo para eu aportar", "roda a roleta de aporte"]
+bastter.ativos.sorteio_ativos_update_popup:
+  label: "Adiar ou desligar o aviso do sorteio de ativos"
+  intent_examples: ["me lembra do sorteio depois", "não quero mais o aviso de sorteio"]
+bastter.ativos.super_pesquisa_ativos:
+  label: "Buscar ativos por nome ou código em todas as classes"
+  intent_examples: ["procura Itaú nos meus ativos", "busca o ativo AAPL", "onde está o FII de logística que tenho"]
+bastter.ativos.token_sair:
+  label: "Sair da sessão do sistema"
+  intent_examples: ["sai do BS", "faz logout"]
+bastter.ativos.token_validar_sessao:
+  label: "Verificar se a sessão ainda é válida"
+  intent_examples: ["minha sessão ainda está ativa?", "checa se estou logado"]
+bastter.ativos.ultima_aba_salvar:
+  label: "Lembrar a última aba aberta"
+  intent_examples: ["abre sempre na última aba que usei", "guarda a aba onde parei"]
+bastter.configuracoes.bs2_aberturas_limite:
+  label: "Ver o limite atual do aviso de aberturas no dia"
+  intent_examples: ["qual o limite de aberturas configurado", "o aviso de aberturas está ligado?"]
+bastter.configuracoes.modo_salvar:
+  label: "Mudar o modo de visualização do sistema"
+  intent_examples: ["muda o BS para o modo Sardinha", "ativa o modo #PAS", "troca o modo de visualização"]
+bastter.consolidado.carteira_listar_consolidado:
+  label: "Ver o consolidado de várias carteiras juntas"
+  intent_examples: ["soma minha carteira com a da minha esposa", "mostra o consolidado das duas carteiras"]
+bastter.consolidado.onde_aportar_consolidado_obter:
+  label: "Ver onde aportar somando várias carteiras"
+  intent_examples: ["onde aportar olhando as duas carteiras juntas", "onde aportar no consolidado da família"]
+bastter.faq.faq_listar:
+  label: "Buscar e listar as perguntas do FAQ"
+  intent_examples: ["procura no FAQ como lançar subscrição", "lista as perguntas frequentes", "tem FAQ sobre freio automático?"]
+bastter.faq.faq_listar_top:
+  label: "Listar as perguntas mais vistas do FAQ"
+  intent_examples: ["quais as dúvidas mais comuns do BS", "mostra o top do FAQ"]
+bastter.faq.faq_obter:
+  label: "Ver o título e o texto de uma pergunta do FAQ"
+  intent_examples: ["abre essa pergunta do FAQ", "mostra o texto desse FAQ"]
+bastter.ferramentas.auth_app_desabilitar:
+  label: "Desativar a autorização de acesso pelo app do Bastter"
+  intent_examples: ["desliga a autorização pelo app", "não quero mais aprovar o acesso pelo celular"]
+bastter.ferramentas.auth_app_enviar_email_reset:
+  label: "Enviar e-mail com link para desativar a autorização pelo app"
+  intent_examples: ["perdi o celular, me manda o e-mail para tirar a autorização pelo app", "envia o link para desligar a autorização do app"]
+bastter.ferramentas.auth_app_habilitar:
+  label: "Ativar a autorização de acesso pelo app do Bastter"
+  intent_examples: ["ativa a autorização pelo app", "quero aprovar os acessos pelo celular"]
+bastter.ferramentas.auth_app_solicitar:
+  label: "Enviar ao celular o pedido de autorização pelo app"
+  intent_examples: ["manda a notificação de autorização para o meu celular", "solicita a autorização no app"]
+bastter.ferramentas.importar_movimentacao:
+  label: "Importar compras e vendas de planilha, B3 ou Charles Schwab"
+  intent_examples: ["importa minha planilha de operações", "importa as movimentações da Charles Schwab", "carrega minhas compras de uma planilha da B3"]
+bastter.ferramentas.integracao_b3_init:
+  label: "Ver o status e a configuração da integração com a B3"
+  intent_examples: ["como está minha integração com a B3", "a importação da B3 já terminou?"]
+bastter.ferramentas.integracao_b3_salvar_custos:
+  label: "Salvar os custos de corretagem usados na importação da B3"
+  intent_examples: ["minha corretagem é zero para as importações da B3", "configura o ISS e a corretagem da integração B3"]
+bastter.ferramentas.integracao_b3_salvar_dados:
+  label: "Autorizar a integração com a B3 pelo login da B3"
+  intent_examples: ["conecta minha conta da B3", "autoriza o BS na área do investidor da B3"]
+bastter.ferramentas.integracao_b3_salvar_importacao:
+  label: "Pedir a importação das operações da B3 a partir de uma data"
+  intent_examples: ["importa minhas operações da B3 desde 2019", "puxa as movimentações da B3 para esta carteira"]
+bastter.ferramentas.token_desabilitar:
+  label: "Desativar o acesso por token, informando o código"
+  intent_examples: ["desliga o token, o código é 123456", "tira a proteção por token"]
+bastter.ferramentas.token_enviar_email:
+  label: "Enviar e-mail com link para desativar o token"
+  intent_examples: ["perdi o token, me manda o e-mail para desativar", "envia o link para desligar o token"]
+bastter.ferramentas.token_habilitar:
+  label: "Ativar o acesso ao sistema por token"
+  intent_examples: ["ativa o token no meu BS", "quero proteger o acesso com token"]
+bastter.financeiro.calc_juros_delete:
+  label: "Excluir uma simulação de juros compostos"
+  intent_examples: ["apaga a simulação de juros Aposentadoria", "exclui essa simulação de juros compostos"]
+bastter.financeiro.calc_juros_get:
+  label: "Abrir uma simulação salva de juros compostos"
+  intent_examples: ["abre minha simulação de juros Aposentadoria", "carrega aquela simulação de juros compostos"]
+bastter.financeiro.calc_juros_list:
+  label: "Listar as simulações salvas de juros compostos"
+  intent_examples: ["quais simulações de juros eu salvei", "lista minhas simulações de juros compostos"]
+bastter.financeiro.calc_juros_save:
+  label: "Salvar uma simulação de juros compostos"
+  intent_examples: ["salva essa simulação de juros com o nome Casa", "guarda a simulação de 2 mil por mês a 1%"]
+bastter.financeiro.calculadora_juros_save_topico:
+  label: "Compartilhar uma simulação de juros compostos no fórum"
+  intent_examples: ["posta minha simulação de juros no mural", "compartilha essa simulação no tópico do fórum"]
+bastter.financeiro.exterminador_divida_delete:
+  label: "Excluir uma simulação do Exterminador de Dívidas"
+  intent_examples: ["apaga a simulação do financiamento no exterminador", "exclui essa simulação de dívida"]
+bastter.financeiro.exterminador_divida_get:
+  label: "Abrir uma simulação salva do Exterminador de Dívidas"
+  intent_examples: ["abre a simulação da dívida do carro", "carrega minha simulação do exterminador"]
+bastter.financeiro.exterminador_divida_list:
+  label: "Listar as simulações do Exterminador de Dívidas"
+  intent_examples: ["quais simulações de dívida eu salvei", "lista minhas simulações do exterminador"]
+bastter.financeiro.exterminador_divida_save:
+  label: "Salvar uma simulação do Exterminador de Dívidas"
+  intent_examples: ["salva a simulação de quitar o financiamento", "guarda essa simulação de dívida com o nome Carro"]
+bastter.financeiro.financa_deletar:
+  label: "Excluir um lançamento de receita ou despesa"
+  intent_examples: ["apaga a despesa do mercado de ontem", "exclui o aluguel recorrente e todas as repetições", "remove esse lançamento das finanças"]
+bastter.financeiro.financa_excluir_categoria:
+  label: "Excluir uma categoria de finanças"
+  intent_examples: ["apaga a categoria Lazer", "remove essa categoria de despesas"]
+bastter.financeiro.financa_listar_sugestoes:
+  label: "Sugerir CPF, CNPJ ou nome de beneficiário de despesa dedutível"
+  intent_examples: ["qual o CNPJ do médico que já usei", "completa o nome do beneficiário da despesa dedutível"]
+bastter.financeiro.financa_obter_consolidado_categoria:
+  label: "Ver receitas e despesas por categoria no ano"
+  intent_examples: ["quanto gastei por categoria este ano", "qual categoria pesa mais nas minhas despesas"]
+bastter.financeiro.financa_obter_consolidado_data:
+  label: "Ver o total de receitas e despesas por mês e por ano"
+  intent_examples: ["quanto ganhei e gastei em cada mês", "resumo de receitas e despesas do ano"]
+bastter.financeiro.financa_obter_dados_graficos:
+  label: "Ver o gráfico de receitas, despesas e saldo"
+  intent_examples: ["mostra o gráfico das minhas finanças", "como está meu saldo mês a mês"]
+bastter.financeiro.financa_obter_despesa_dedutivel:
+  label: "Ver os dados de despesa dedutível de um lançamento"
+  intent_examples: ["mostra os dados do recibo dessa consulta médica", "qual CNPJ está nessa despesa dedutível"]
+bastter.financeiro.financa_obter_evolucao_categoria:
+  label: "Ver a evolução de uma categoria de receita ou despesa"
+  intent_examples: ["como evoluiu meu gasto com alimentação", "mostra a evolução da categoria Saúde"]
+bastter.financeiro.financa_obter_itens:
+  label: "Listar as receitas e despesas de um mês"
+  intent_examples: ["mostra minhas despesas de novembro", "lista os lançamentos deste mês", "quais contas tenho a pagar este mês"]
+bastter.financeiro.financa_salvar:
+  label: "Lançar ou editar uma receita ou despesa (gasto) nas finanças"
+  intent_examples: ["lança um gasto de 300 reais no mercado", "registra meu salário de 10 mil", "cadastra a conta de luz todo mês"]
+bastter.financeiro.financa_save_pago:
+  label: "Marcar uma despesa como paga ou não paga"
+  intent_examples: ["marca a conta de luz como paga", "desmarca o pagamento do condomínio"]
+bastter.financeiro.financa_save_recebido:
+  label: "Marcar uma receita como recebida ou não recebida"
+  intent_examples: ["marca o salário como recebido", "o aluguel ainda não caiu, desmarca"]
+bastter.financeiro.get_aportes_historico:
+  label: "Ver o histórico e as médias de aportes"
+  intent_examples: ["quanto aportei por ano", "qual minha média de aportes mensal", "mostra o histórico de aportes"]
+bastter.financeiro.listar_movimentacao:
+  label: "Listar os aportes: compras e vendas de todos os ativos"
+  intent_examples: ["lista meus aportes deste mês", "mostra todas as compras que fiz em outubro", "quais vendas eu fiz este ano"]
+bastter.financeiro.obter_dividas_dados_graficos:
+  label: "Ver os gráficos das dívidas: posição e quanto já amortizei"
+  intent_examples: ["mostra o gráfico das minhas dívidas", "quanto já amortizei do financiamento"]
+bastter.financeiro.salvar_opcoes_financeiro_aportes:
+  label: "Salvar as opções da tela de aportes"
+  intent_examples: ["considera os imóveis nos aportes", "esconde o gráfico anual de aportes"]
+bastter.home.bs2_home_carregar:
+  label: "Ver como a página inicial Meu Bastter System está montada"
+  intent_examples: ["quais painéis aparecem na minha home", "mostra a configuração da página inicial"]
+bastter.home.bs2_home_indice_super_pas:
+  label: "Ver o índice da carteira: nota de 0 a 10 com selo #PAS"
+  intent_examples: ["qual a nota da minha carteira", "calcula meu índice Super #PAS", "qual meu selo no índice do BS"]
+bastter.home.bs2_home_resumo:
+  label: "Ver o resumo da home: patrimônio, variação e proventos"
+  intent_examples: ["mostra o resumo do meu patrimônio", "quanto meu patrimônio variou hoje", "resumo geral do BS"]
+bastter.home.bs2_home_salvar:
+  label: "Salvar a arrumação dos painéis da página inicial"
+  intent_examples: ["salva a nova ordem dos painéis da home", "esconde o card de índice na página inicial"]
+bastter.home.bs2_lucro_socio:
+  label: "Ver o lucro e o caixa de sócio proporcionais às suas ações"
+  intent_examples: ["quanto as empresas lucraram para mim no trimestre", "qual meu lucro de sócio no ano", "minha parte no caixa das empresas"]
+bastter.home.meu_bs_proventos_classes:
+  label: "Ver os proventos por classe e por ativo em cada período"
+  intent_examples: ["quanto recebi de proventos por classe este mês", "proventos do ano separados por ações e FIIs"]
+bastter.home.meu_bs_variacao_ativos:
+  label: "Ver a variação dos ativos em cada período"
+  intent_examples: ["quais ativos mais subiram hoje", "quanto meus ativos variaram no mês", "maiores quedas da semana na carteira"]
+bastter.imposto_de_renda.config_obter_especifica:
+  label: "Ver uma configuração do perfil, como o aceite do aviso do IR"
+  intent_examples: ["já aceitei o aviso do imposto de renda?", "checa se o aviso do IR foi lido"]
+bastter.imposto_de_renda.config_salvar:
+  label: "Salvar uma configuração do perfil, como o aceite do aviso do IR"
+  intent_examples: ["li e concordo com o aviso do IR", "salva essa preferência do perfil"]
+bastter.imposto_de_renda.doacao_listar_ir:
+  label: "Listar as doações do ano para a declaração do IR"
+  intent_examples: ["quais doações vou declarar no IR de 2025", "lista as doações para o imposto de renda"]
+bastter.imposto_de_renda.excluir_ir_rendimento_manual:
+  label: "Excluir um rendimento lançado à mão no IR"
+  intent_examples: ["apaga esse rendimento manual do IR", "exclui o rendimento que lancei errado na declaração"]
+bastter.imposto_de_renda.excluir_prejuizo_ano_anterior:
+  label: "Excluir um prejuízo de anos anteriores do IR"
+  intent_examples: ["apaga o prejuízo de 2022 que lancei", "exclui esse prejuízo a compensar"]
+bastter.imposto_de_renda.financa_listar_despesa_dedutivel:
+  label: "Listar as despesas dedutíveis do ano para o IR"
+  intent_examples: ["quais despesas médicas vou deduzir no IR", "lista os pagamentos efetuados para a declaração", "total de despesas dedutíveis de 2025"]
+bastter.imposto_de_renda.ir_aluguel_rendimento_excluir:
+  label: "Excluir o rendimento de aluguel de um ano no IR"
+  intent_examples: ["apaga o rendimento de aluguel de 2023 do IR", "exclui esse valor de aluguel anual"]
+bastter.imposto_de_renda.ir_aluguel_rendimento_listar:
+  label: "Listar os rendimentos de aluguel por ano no IR"
+  intent_examples: ["quanto declarei de aluguel por ano", "mostra os rendimentos de aluguel do IR"]
+bastter.imposto_de_renda.ir_aluguel_rendimento_salvar:
+  label: "Lançar ou editar o rendimento de aluguel de um ano no IR"
+  intent_examples: ["lança 30 mil de aluguel recebido em 2024 no IR", "corrige o aluguel anual declarado"]
+bastter.imposto_de_renda.ir_delete_bens_direitos_exterior:
+  label: "Apagar valores manuais de um bem no exterior e recalcular"
+  intent_examples: ["volta para o cálculo automático desse ativo no exterior", "apaga os valores que digitei da stock no IR"]
+bastter.imposto_de_renda.ir_marcar_linha:
+  label: "Marcar linhas do IR como já copiadas para a declaração"
+  intent_examples: ["marca essa linha como já declarada", "já copiei esse bem para o programa da Receita"]
+bastter.imposto_de_renda.ir_save_bens_direitos_exterior:
+  label: "Salvar lucro, dividendos e imposto pago de um bem no exterior"
+  intent_examples: ["informa o imposto pago nos EUA dessa stock", "salva o lucro da aplicação no exterior para o IR"]
+bastter.imposto_de_renda.irdarf_excluir:
+  label: "Excluir um DARF lançado"
+  intent_examples: ["apaga esse DARF", "exclui o DARF de março"]
+bastter.imposto_de_renda.irdarf_listar:
+  label: "Listar os DARFs lançados"
+  intent_examples: ["quais DARFs eu tenho lançados", "mostra meus DARFs de imposto"]
+bastter.imposto_de_renda.irdarf_obter:
+  label: "Ver o DARF de um mês com código de receita e valor"
+  intent_examples: ["gera o DARF da venda de ações de outubro", "qual o código e o valor do DARF deste mês"]
+bastter.imposto_de_renda.irdarf_salvar:
+  label: "Lançar ou editar um DARF com código, período e valor"
+  intent_examples: ["registra o DARF de 6015 de agosto no valor de 230", "lança o DARF que paguei", "corrige o valor desse DARF"]
+bastter.imposto_de_renda.listar_ganho_capital2024:
+  label: "Ver o ganho de capital de ativos no exterior no ano"
+  intent_examples: ["quanto tive de ganho de capital no exterior em 2025", "imposto sobre vendas de stocks no ano"]
+bastter.imposto_de_renda.listar_prejuizo_ano_anterior:
+  label: "Listar os prejuízos de anos anteriores a compensar"
+  intent_examples: ["quanto prejuízo tenho para compensar", "mostra os prejuízos de anos anteriores"]
+bastter.imposto_de_renda.obter_cbe:
+  label: "Ver os dados para a declaração CBE do Banco Central"
+  intent_examples: ["preciso declarar CBE?", "mostra os valores para a CBE", "quanto tenho no exterior para o Banco Central"]
+bastter.imposto_de_renda.obter_ir_imovel_aluguel:
+  label: "Ver os aluguéis do ano como rendimentos tributáveis no IR"
+  intent_examples: ["quanto de aluguel declaro em 2025", "mostra os aluguéis para o carnê-leão"]
+bastter.imposto_de_renda.obter_ir_rendimento_manual:
+  label: "Ver um rendimento lançado à mão no IR"
+  intent_examples: ["abre esse rendimento manual da declaração", "mostra os dados do rendimento que lancei"]
+bastter.imposto_de_renda.obter_ir_rendimento_pj:
+  label: "Ver os rendimentos recebidos de pessoa jurídica no ano"
+  intent_examples: ["quais rendimentos de PJ declaro em 2025", "mostra os rendimentos de pessoa jurídica para o IR"]
+bastter.imposto_de_renda.obter_ir_venda:
+  label: "Ver o resultado mensal das vendas em bolsa para o IR"
+  intent_examples: ["tive lucro nas vendas de ações em março?", "mostra o ganho de capital mês a mês dos FIIs", "quanto devo de IR nas vendas do ano"]
+bastter.imposto_de_renda.obter_posicao_anual_ativos:
+  label: "Ver os bens e direitos do ano para a declaração do IR"
+  intent_examples: ["mostra os bens e direitos de 2025", "como declaro minhas ações no IR", "posição em 31/12 para a declaração"]
+bastter.imposto_de_renda.obter_posicao_anual_proventos:
+  label: "Ver os proventos do ano para o IR: isentos e tributáveis"
+  intent_examples: ["quanto recebi de dividendos isentos em 2025", "mostra os JCP para declarar", "rendimentos de proventos para o IR"]
+bastter.imposto_de_renda.obter_posicao_anual_proventos_stock:
+  label: "Ver os dividendos de stocks e REITs do ano para o IR"
+  intent_examples: ["quanto recebi de dividendos de stocks em 2025", "dividendos do exterior para declarar"]
+bastter.imposto_de_renda.posicao_listar_ativo:
+  label: "Buscar um ativo da carteira para o simulador de IR"
+  intent_examples: ["procura PETR4 no simulador de IR", "seleciona a ação para simular o imposto"]
+bastter.imposto_de_renda.salvar_ir_imovel_aluguel_previdencia_dep:
+  label: "Salvar previdência e dependentes no cálculo do imposto do aluguel"
+  intent_examples: ["tenho 2 dependentes para o carnê-leão", "informa a previdência paga no mês do aluguel"]
+bastter.imposto_de_renda.salvar_ir_rendimento_manual:
+  label: "Lançar ou editar à mão um rendimento no IR"
+  intent_examples: ["lança um rendimento isento de 5 mil no IR", "adiciona o rendimento da fonte pagadora X", "registra à mão um rendimento tributável"]
+bastter.imposto_de_renda.salvar_opcoes_ir_copiar_marcar:
+  label: "Ligar ou desligar marcar a linha ao copiar no IR"
+  intent_examples: ["marca a linha sozinho quando eu copiar", "desliga a marcação automática ao copiar no IR"]
+bastter.imposto_de_renda.salvar_prejuizo_ano_anterior:
+  label: "Lançar ou editar um prejuízo de ano anterior a compensar"
+  intent_examples: ["lança 5 mil de prejuízo em ações de 2023", "registra o prejuízo do ano passado para compensar"]
+bastter.imposto_de_renda.simulador_ir_calcular:
+  label: "Simular o imposto de renda de uma venda de ativos"
+  intent_examples: ["quanto de IR pago se vender 100 PETR4", "simula o imposto da venda dos meus FIIs"]
+bastter.pas.agradecer_excluir:
+  label: "Excluir um item do diário de agradecimento"
+  intent_examples: ["apaga esse agradecimento", "exclui o registro de gratidão de ontem"]
+bastter.pas.agradecer_listar:
+  label: "Listar meus registros do diário de agradecimento"
+  intent_examples: ["mostra meus agradecimentos", "o que agradeci nos últimos dias"]
+bastter.pas.agradecer_obter:
+  label: "Abrir um registro do diário de agradecimento"
+  intent_examples: ["abre o agradecimento de ontem", "mostra esse registro de gratidão"]
+bastter.pas.agradecer_outros_listar:
+  label: "Ver os agradecimentos de outros usuários"
+  intent_examples: ["o que os outros agradeceram hoje", "mostra os agradecimentos da comunidade"]
+bastter.pas.agradecer_salvar:
+  label: "Escrever ou editar um agradecimento no diário"
+  intent_examples: ["escreve no diário de agradecimento", "agradeço hoje pela saúde da família", "registra meu agradecimento do dia"]
+bastter.pas.agradecer_salvar_notificacao:
+  label: "Definir de quantos em quantos dias lembrar de agradecer"
+  intent_examples: ["me lembra de agradecer a cada 3 dias", "desliga o lembrete de agradecimento"]
+bastter.pas.diario_atividade_consolidado_listar:
+  label: "Ver o total de cada atividade no diário #PAS"
+  intent_examples: ["quantas vezes meditei no total", "resumo das minhas atividades do diário"]
+bastter.pas.diario_atividade_excluir:
+  label: "Excluir uma atividade do diário #PAS"
+  intent_examples: ["apaga a atividade de ontem do diário", "exclui esse registro de leitura"]
+bastter.pas.diario_atividade_listar:
+  label: "Listar as atividades do diário #PAS"
+  intent_examples: ["mostra meu histórico do diário", "lista minhas atividades de leitura"]
+bastter.pas.diario_atividade_obter:
+  label: "Abrir uma atividade do diário #PAS"
+  intent_examples: ["abre essa atividade do diário", "mostra os detalhes desse registro"]
+bastter.pas.diario_atividade_rank_listar:
+  label: "Ver o ranking de usuários em um tipo de atividade"
+  intent_examples: ["quem mais leu livros no ranking", "qual minha posição no rank de meditação"]
+bastter.pas.diario_atividade_salvar:
+  label: "Registrar ou editar uma atividade no diário #PAS"
+  intent_examples: ["registra que li 30 páginas hoje", "anota no diário que meditei", "lança uma atividade de ontem"]
+bastter.pas.diario_obter:
+  label: "Ver o peso inicial e o peso atual do diário #PAS"
+  intent_examples: ["quanto eu pesava no começo", "qual meu peso atual no diário"]
+bastter.pas.diario_peso_rank_listar:
+  label: "Ver o ranking de perda de peso dos usuários"
+  intent_examples: ["quem mais perdeu peso no ranking", "qual minha posição no rank de peso"]
+bastter.pas.diario_salvar:
+  label: "Salvar o peso inicial e o peso atual no diário #PAS"
+  intent_examples: ["meu peso atual é 80 kg", "atualiza meu peso inicial para 92"]
+bastter.pas.diario_sardinhagem_salvar:
+  label: "Escrever ou editar um registro no Diário da Sardinhagem"
+  intent_examples: ["anota uma sardinhagem de hoje", "escreve no diário da sardinhagem"]
+bastter.pas.diario_sardinhagem_salvar_notificacao:
+  label: "Definir de quantos em quantos dias lembrar do Diário da Sardinhagem"
+  intent_examples: ["me lembra da sardinhagem toda semana", "desliga o lembrete do diário da sardinhagem"]
+bastter.pas.diario_tipo_atividade_listar:
+  label: "Listar os tipos de atividade do diário #PAS"
+  intent_examples: ["que atividades posso registrar no diário", "lista os tipos de atividade"]
+bastter.pas.diariosardinhagem_excluir:
+  label: "Excluir um registro do Diário da Sardinhagem"
+  intent_examples: ["apaga essa sardinhagem", "exclui o registro da sardinhagem de ontem"]
+bastter.pas.diariosardinhagem_listar:
+  label: "Listar meus registros do Diário da Sardinhagem"
+  intent_examples: ["mostra minhas sardinhagens", "lista o diário da sardinhagem"]
+bastter.pas.diariosardinhagem_obter:
+  label: "Abrir um registro do Diário da Sardinhagem"
+  intent_examples: ["abre essa sardinhagem", "mostra o texto dessa sardinhagem"]
+bastter.pas.diariosardinhagem_outros_listar:
+  label: "Ver as sardinhagens de outros usuários"
+  intent_examples: ["o que os outros sardinharam", "mostra as sardinhagens da comunidade"]
+bastter.pas.doacao_excluir:
+  label: "Excluir uma doação"
+  intent_examples: ["apaga a doação de março", "exclui essa doação lançada errado"]
+bastter.pas.doacao_instituicao_excluir:
+  label: "Excluir uma instituição ou pessoa das doações"
+  intent_examples: ["remove o hospital da lista de doações", "apaga essa instituição"]
+bastter.pas.doacao_instituicao_listar:
+  label: "Listar as instituições e pessoas que recebem doações"
+  intent_examples: ["para quem eu já doei", "lista as instituições cadastradas"]
+bastter.pas.doacao_instituicao_obter:
+  label: "Ver o nome e o CPF ou CNPJ de uma instituição de doação"
+  intent_examples: ["qual o CNPJ da instituição que ajudo", "mostra os dados dessa instituição"]
+bastter.pas.doacao_instituicao_salvar:
+  label: "Cadastrar ou editar uma instituição ou pessoa de doação"
+  intent_examples: ["cadastra o abrigo de animais com CNPJ tal", "adiciona uma instituição para doar"]
+bastter.pas.doacao_listar:
+  label: "Listar as doações feitas"
+  intent_examples: ["mostra minhas doações", "quanto doei este ano"]
+bastter.pas.doacao_listar_consolidado:
+  label: "Ver o total doado por instituição"
+  intent_examples: ["quanto já doei para cada instituição", "total de doações por entidade"]
+bastter.pas.doacao_obter:
+  label: "Abrir uma doação"
+  intent_examples: ["abre a doação de dezembro", "mostra os dados dessa doação"]
+bastter.pas.doacao_salvar:
+  label: "Registrar ou editar uma doação"
+  intent_examples: ["registra uma doação de 100 reais para o hospital", "lança a doação que fiz hoje", "corrige o valor dessa doação"]
+bastter.pas.domain_list:
+  label: "Listar os gêneros de música do Cãotural"
+  intent_examples: ["quais gêneros de música tem no Cãotural", "filtra músicas por gênero"]
+bastter.pas.get_filme_serie_categorias:
+  label: "Listar as categorias de filmes e séries"
+  intent_examples: ["quais categorias de filme existem", "filtra séries por categoria"]
+bastter.pas.get_filme_serie_onde_assistir:
+  label: "Listar os serviços onde assistir filmes e séries"
+  intent_examples: ["quais streamings posso filtrar", "filmes que estão na Netflix"]
+bastter.pas.get_livros_categorias:
+  label: "Listar as categorias e os idiomas de livros"
+  intent_examples: ["quais categorias de livro existem", "filtra livros em inglês"]
+bastter.pas.get_works_info_web:
+  label: "Ver o andamento da campanha de doação para crianças"
+  intent_examples: ["quantas crianças a campanha já ajudou", "como está a campanha de doação Anjos"]
+bastter.pas.list_filme_serie:
+  label: "Listar filmes e séries: os meus e as sugestões"
+  intent_examples: ["quais filmes eu já assisti", "me sugere uma série", "lista as séries que marquei"]
+bastter.pas.list_livro:
+  label: "Listar livros: os meus e as sugestões"
+  intent_examples: ["quais livros estão na minha lista", "me sugere um livro", "livros que já li"]
+bastter.pas.metas_anotacoes_consolidado:
+  label: "Ver o consolidado de metas e anotações por ano"
+  intent_examples: ["como foram minhas metas em 2025", "resumo das metas e anotações do ano"]
+bastter.pas.metas_arquivar:
+  label: "Arquivar ou desarquivar uma meta"
+  intent_examples: ["arquiva a meta de correr", "volta a meta de leitura para as ativas"]
+bastter.pas.metas_excluir:
+  label: "Excluir uma meta"
+  intent_examples: ["apaga a meta de academia", "exclui essa meta"]
+bastter.pas.metas_listar:
+  label: "Listar minhas metas"
+  intent_examples: ["quais são minhas metas", "mostra minhas metas ativas"]
+bastter.pas.metas_obter:
+  label: "Abrir uma meta para ver ou editar"
+  intent_examples: ["abre a meta de leitura", "mostra os detalhes dessa meta"]
+bastter.pas.metas_salvar:
+  label: "Criar ou editar uma meta"
+  intent_examples: ["cria uma meta de ler 20 livros no ano", "nova meta: treinar 3 vezes por semana", "muda a descrição da meta de corrida"]
+bastter.pas.metas_salvar_concluido:
+  label: "Marcar ou desmarcar uma meta como cumprida no período"
+  intent_examples: ["marca a meta de hoje como feita", "cumpri a meta de leitura desta semana", "desmarca a meta de ontem"]
+bastter.pas.musica_list:
+  label: "Listar músicas: as minhas e as sugestões"
+  intent_examples: ["quais músicas eu indiquei", "me sugere uma música", "lista as músicas do Cãotural"]
+bastter.patrimonio.bs2_concentracao_retorno_carregar:
+  label: "Ver quais ativos concentram o retorno da carteira"
+  intent_examples: ["quais ações deram a maior parte do meu retorno", "concentração de retorno dos meus FIIs"]
+bastter.patrimonio.bs2_diversificacao_indice:
+  label: "Ver o índice de diversificação do patrimônio"
+  intent_examples: ["meu patrimônio está bem diversificado?", "qual minha nota de diversificação"]
+bastter.patrimonio.bs2_insights_cachorrinho:
+  label: "Ver os ativos que mudaram de #PAS no último trimestre"
+  intent_examples: ["algum ativo meu mudou de #PAS?", "quais ações mudaram de cachorrinho no trimestre"]
+bastter.patrimonio.bs2_insights_classes_salvar:
+  label: "Escolher as classes de ativos usadas nos insights"
+  intent_examples: ["mostra insights só de ações e FIIs", "inclui stocks nos insights"]
+bastter.patrimonio.bs2_insights_eventos:
+  label: "Ver os eventos mais recentes dos ativos nos insights"
+  intent_examples: ["quais os últimos eventos da minha carteira", "teve evento recente nos meus ativos?"]
+bastter.patrimonio.bs2_insights_percentuais:
+  label: "Ver os maiores percentuais por classe e por ativo"
+  intent_examples: ["quais ativos pesam mais na carteira", "qual classe tem o maior percentual do patrimônio"]
+bastter.patrimonio.bs2_insights_postagens:
+  label: "Ver as últimas postagens sobre os ativos da carteira"
+  intent_examples: ["o que postaram sobre minhas ações", "últimas postagens dos meus ativos"]
+bastter.patrimonio.bs2_insights_sem_aporte:
+  label: "Ver os ativos que não recebem aporte há mais tempo"
+  intent_examples: ["em qual ativo não aporto há mais tempo", "ativos esquecidos sem compra"]
+bastter.patrimonio.bs2_insights_ultimas_compras:
+  label: "Ver as últimas compras feitas na carteira"
+  intent_examples: ["quais foram minhas últimas compras", "o que comprei por último"]
+bastter.patrimonio.bs2_insights_variacao:
+  label: "Ver os ativos que mais subiram e mais caíram"
+  intent_examples: ["quais ativos mais subiram", "maiores quedas da minha carteira", "ativos abaixo do preço médio"]
+bastter.patrimonio.bs2_onde_retirar_carregar:
+  label: "Ver o plano de onde retirar dinheiro da carteira"
+  intent_examples: ["de onde devo tirar dinheiro para viver", "qual ativo vender primeiro para sacar", "de onde retirar renda este mês"]
+bastter.patrimonio.bs2_onde_retirar_renda:
+  label: "Ver a renda que o patrimônio gera frente aos custos mensais"
+  intent_examples: ["meu patrimônio já paga meus custos?", "quanto falta para viver de renda", "quanto rende meu patrimônio por mês"]
+bastter.patrimonio.bs2_onde_retirar_salvar:
+  label: "Salvar a configuração de onde retirar e os custos mensais"
+  intent_examples: ["meus custos mensais são 12 mil", "salva a ordem de onde retirar dinheiro"]
+bastter.patrimonio.bs2_qualidade_carteira_carregar:
+  label: "Ver a qualidade das empresas da carteira"
+  intent_examples: ["qual a qualidade da minha carteira", "como estão as empresas que tenho", "nota de qualidade das minhas ações"]
+bastter.patrimonio.bs2_qualidade_carteira_concentracao:
+  label: "Ver a concentração da carteira por faixa de percentual"
+  intent_examples: ["minha carteira está muito concentrada?", "quanto os maiores ativos concentram"]
+bastter.patrimonio.bs2_visao_geral_carteira:
+  label: "Ver renda, autonomia, diversificação e concentração na visão geral"
+  intent_examples: ["mostra a visão geral do meu patrimônio", "qual minha autonomia financeira", "quanto meu patrimônio rende de proventos"]
+bastter.patrimonio.bs2_visao_geral_insights:
+  label: "Ver os destaques: altas, quedas e mudanças de #PAS"
+  intent_examples: ["destaques da minha carteira", "o que subiu e caiu e mudou de #PAS"]
+bastter.patrimonio.bs2_visao_geral_layout_salvar:
+  label: "Salvar a ordem e os painéis fechados da visão geral"
+  intent_examples: ["fecha o painel de esporte da visão geral", "reorganiza os painéis da visão geral"]
+bastter.patrimonio.bs2_visao_geral_onde_aportar:
+  label: "Ver onde aportar no painel da visão geral"
+  intent_examples: ["onde aportar segundo a visão geral", "sugestão de aporte do patrimônio"]
+bastter.patrimonio.bs2_visao_geral_resumo:
+  label: "Ver o resumo do patrimônio: total, aportes e distribuição"
+  intent_examples: ["quanto tenho de patrimônio", "quanto aportei este mês", "como está distribuído meu patrimônio"]
+bastter.patrimonio.cleitometro_nao_compartilha_atualizar:
+  label: "Mostrar ou esconder meu nível do Cleitômetro para outros"
+  intent_examples: ["esconde meu Cleitômetro dos outros assinantes", "deixa meu nível do Cleitômetro visível"]
+bastter.patrimonio.cleitometro_obter:
+  label: "Ver meu nível no Cleitômetro"
+  intent_examples: ["qual meu nível no Cleitômetro", "mostra meu Cleitômetro"]
+bastter.patrimonio.cleitometro_rank:
+  label: "Ver o ranking do Cleitômetro"
+  intent_examples: ["quem está no topo do Cleitômetro", "qual minha posição no ranking do Cleitômetro"]
+bastter.patrimonio.filtrar_pas:
+  label: "Filtrar ativos por classificação #PAS, setor e país"
+  intent_examples: ["quais ações são Super #PAS", "filtra FIIs #PAS que eu não tenho", "ações do setor elétrico com #PAS verde"]
+bastter.patrimonio.incluir:
+  label: "Incluir na carteira um ativo achado no filtro #PAS"
+  intent_examples: ["adiciona essa ação do filtro na minha carteira", "inclui TAEE11 que achei no filtro #PAS"]
+bastter.patrimonio.list_acoes:
+  label: "Listar os códigos de ação de uma empresa"
+  intent_examples: ["quais tickers a Petrobras tem", "PETR3 ou PETR4, quais códigos existem"]
+bastter.patrimonio.listar_diversificacao_percentual_geral:
+  label: "Ver a diversificação do patrimônio por classe de ativo"
+  intent_examples: ["quanto tenho em cada classe de ativo", "percentual do patrimônio por classe"]
+bastter.patrimonio.listar_global_detalhes:
+  label: "Ver os ativos de um país no patrimônio global"
+  intent_examples: ["quais ativos tenho nos Estados Unidos", "detalha meu patrimônio na Europa"]
+bastter.patrimonio.listar_global_pais:
+  label: "Ver a distribuição do patrimônio por país"
+  intent_examples: ["quanto tenho em cada país", "mapa do meu patrimônio no mundo", "quanto do patrimônio está fora do Brasil"]
+bastter.patrimonio.listar_pas:
+  label: "Listar os ativos da carteira com sua classificação #PAS"
+  intent_examples: ["qual o #PAS de cada ação minha", "mostra o #PAS dos meus FIIs"]
+bastter.patrimonio.listar_pas_percentual:
+  label: "Ver o percentual da carteira em cada nível #PAS"
+  intent_examples: ["quanto da carteira está em #PAS verde", "percentual por cor de #PAS"]
+bastter.patrimonio.obter_classes:
+  label: "Ver o consolidado do patrimônio por classe de ativo"
+  intent_examples: ["mostra o consolidado do patrimônio", "quanto tenho em ações, FIIs e renda fixa", "yield de cada classe"]
+bastter.patrimonio.obter_classes_pas:
+  label: "Ver a classificação #PAS de cada classe da carteira"
+  intent_examples: ["como está o #PAS das minhas ações e FIIs", "#PAS por classe no consolidado"]
+bastter.patrimonio.patrimonio_futuro_listar:
+  label: "Prever o patrimônio futuro em um número de anos"
+  intent_examples: ["quanto vou ter daqui a 10 anos", "projeta meu patrimônio com o Ibovespa a 150 mil", "prever meu futuro patrimônio"]
+bastter.patrimonio.salvar_objetivo_classes:
+  label: "Salvar o objetivo percentual de cada classe no patrimônio"
+  intent_examples: ["quero 30% em ações e 20% em FIIs", "muda o objetivo da renda fixa para 25%"]
+bastter.patrimonio.salvar_posicao_historico_anual:
+  label: "Editar o histórico anual do patrimônio por classe"
+  intent_examples: ["corrige meu patrimônio em ações de 2019", "lança os valores históricos do patrimônio por ano"]
+bastter.patrimonio.tempo_sem_vender_nao_compartilha_atualizar:
+  label: "Ligar ou desligar o contador de tempo sem vender"
+  intent_examples: ["desliga o contador de tempo sem vender", "liga o contador sem vender nesta carteira"]
+bastter.patrimonio.tempo_sem_vender_obter:
+  label: "Ver há quanto tempo estou sem vender ativos"
+  intent_examples: ["há quanto tempo não vendo nada", "quantos dias estou sem vender"]
+bastter.patrimonio.tempo_sem_vender_rank:
+  label: "Ver o ranking de tempo sem vender"
+  intent_examples: ["quem está há mais tempo sem vender", "minha posição no ranking de tempo sem vender"]
+bastter.saude.ano_ano_obter:
+  label: "Ver o comparativo ano a ano de esportes e de aportes"
+  intent_examples: ["comparar meus esportes deste ano com o ano passado", "meus aportes ano a ano"]
+bastter.saude.ano_ano_obter_esporte:
+  label: "Ver o comparativo ano a ano de esportes de um usuário"
+  intent_examples: ["como foi meu esporte ano a ano", "compara meus treinos de 2025 e 2026"]
+bastter.saude.diario_humor_excluir:
+  label: "Excluir um dia do diário de humor"
+  intent_examples: ["apaga o humor de ontem", "exclui esse dia do diário de humor"]
+bastter.saude.diario_humor_listar:
+  label: "Listar os dias do diário de humor"
+  intent_examples: ["como foi meu humor nos últimos dias", "mostra meu diário de humor"]
+bastter.saude.diario_humor_obter:
+  label: "Abrir um dia do diário de humor"
+  intent_examples: ["abre o humor de segunda-feira", "mostra o registro de humor desse dia"]
+bastter.saude.diario_humor_relatorio_listar:
+  label: "Ver o relatório do diário de humor por período"
+  intent_examples: ["relatório do meu humor no mês", "como variou meu humor este ano"]
+bastter.saude.diario_humor_salvar:
+  label: "Registrar ou editar o humor de um dia"
+  intent_examples: ["registra meu humor de hoje como bem", "hoje de manhã estava excelente e à noite mais ou menos", "anota que hoje meditei e ouvi música"]
+bastter.saude.diario_saudavel_excluir:
+  label: "Excluir um dia do diário saudável"
+  intent_examples: ["apaga o dia de ontem do diário saudável", "exclui esse registro saudável"]
+bastter.saude.diario_saudavel_listar:
+  label: "Listar os dias do diário saudável: alimentação, esporte e sono"
+  intent_examples: ["como foi minha alimentação e sono esta semana", "mostra o diário saudável"]
+bastter.saude.diario_saudavel_obter:
+  label: "Abrir um dia do diário saudável"
+  intent_examples: ["abre o diário saudável de ontem", "mostra esse dia do diário saudável"]
+bastter.saude.diario_saudavel_salvar:
+  label: "Registrar como foram a alimentação, o esporte e o sono do dia"
+  intent_examples: ["hoje comi bem, treinei e dormi mal", "registra o diário saudável de hoje"]
+bastter.saude.gym_delete_exercicio:
+  label: "Excluir um exercício criado no Bastter Gym"
+  intent_examples: ["apaga o exercício que criei", "exclui esse exercício da lista"]
+bastter.saude.gym_delete_favorito_exercicio:
+  label: "Tirar um exercício dos favoritos"
+  intent_examples: ["desfavorita o agachamento", "tira esse exercício dos favoritos"]
+bastter.saude.gym_delete_serie:
+  label: "Excluir um programa de treino do Bastter Gym"
+  intent_examples: ["apaga o programa Treino A", "exclui esse programa de treino"]
+bastter.saude.gym_delete_treino:
+  label: "Excluir um treino registrado no diário do Gym"
+  intent_examples: ["apaga o treino de ontem", "exclui esse treino do diário"]
+bastter.saude.gym_get_exercicio:
+  label: "Ver um exercício e os músculos que ele trabalha"
+  intent_examples: ["quais músculos o supino trabalha", "mostra os detalhes desse exercício"]
+bastter.saude.gym_get_last_treino:
+  label: "Ver o peso e o percentual de gordura do último treino"
+  intent_examples: ["qual era meu peso no último treino", "meu percentual de gordura mais recente"]
+bastter.saude.gym_get_serie:
+  label: "Ver os exercícios de um programa de treino"
+  intent_examples: ["quais exercícios tem no Treino A", "mostra o programa de pernas"]
+bastter.saude.gym_get_treino:
+  label: "Abrir um treino registrado para editar"
+  intent_examples: ["abre o treino de terça", "edita o treino de ontem"]
+bastter.saude.gym_get_treino_exercicios:
+  label: "Ver os exercícios feitos em um treino"
+  intent_examples: ["o que fiz no treino de ontem", "mostra as cargas desse treino"]
+bastter.saude.gym_list_exercicio:
+  label: "Listar os exercícios do Bastter Gym"
+  intent_examples: ["quais exercícios posso usar", "lista os exercícios da academia"]
+bastter.saude.gym_list_historico_exercicio:
+  label: "Ver a evolução de carga por exercício"
+  intent_examples: ["como evoluiu minha carga no supino", "gráfico de peso por exercício"]
+bastter.saude.gym_list_historico_serie:
+  label: "Ver a evolução de cada programa de treino"
+  intent_examples: ["como evoluiu meu Treino A", "histórico dos meus programas de treino"]
+bastter.saude.gym_list_musculo:
+  label: "Listar os músculos para classificar exercícios"
+  intent_examples: ["quais músculos estão cadastrados", "lista os grupos musculares"]
+bastter.saude.gym_list_serie:
+  label: "Listar meus programas de treino"
+  intent_examples: ["quais programas de treino eu tenho", "lista minhas séries da academia"]
+bastter.saude.gym_list_treino:
+  label: "Listar os treinos registrados no diário do Gym"
+  intent_examples: ["quantos treinos fiz este mês", "mostra meu diário de treinos"]
+bastter.saude.gym_rank:
+  label: "Ver o ranking do Bastter Gym, geral ou por exercício"
+  intent_examples: ["quem lidera o ranking do Gym", "ranking do supino", "ranking feminino da academia"]
+bastter.saude.gym_rank_grafico:
+  label: "Ver minha posição no ranking de um exercício"
+  intent_examples: ["qual minha posição no ranking do agachamento", "estou no ranking do supino?"]
+bastter.saude.gym_save_exercicio:
+  label: "Criar ou editar um exercício no Bastter Gym"
+  intent_examples: ["cria o exercício remada unilateral", "adiciona um exercício novo para costas"]
+bastter.saude.gym_save_favorito_exercicio:
+  label: "Marcar um exercício como favorito"
+  intent_examples: ["favorita o agachamento", "salva esse exercício nos favoritos"]
+bastter.saude.gym_save_nome_serie:
+  label: "Renomear um programa de treino"
+  intent_examples: ["muda o nome do Treino A para Peito", "renomeia esse programa"]
+bastter.saude.gym_save_serie:
+  label: "Criar ou editar um programa de treino"
+  intent_examples: ["cria um programa de treino de pernas", "monta um treino com supino e remada", "adiciona um exercício no Treino B"]
+bastter.saude.gym_save_treino:
+  label: "Registrar ou editar um treino de musculação feito no Gym"
+  intent_examples: ["registra o treino de hoje", "fiz o Treino A hoje em 50 minutos", "lança o treino de musculação de ontem"]
+bastter.saude.gym_search_exercicio:
+  label: "Buscar exercícios por nome ou músculo"
+  intent_examples: ["procura exercícios para bíceps", "busca o exercício leg press"]
+bastter.saude.parou_beber_delete:
+  label: "Desmarcar que parei de beber"
+  intent_examples: ["voltei a beber, desmarca", "tira a marcação de que parei de beber"]
+bastter.saude.parou_beber_get_stats:
+  label: "Ver se marquei que parei de beber e quantos pararam"
+  intent_examples: ["quantas pessoas pararam de beber", "eu marquei que parei de beber?"]
+bastter.saude.parou_beber_list:
+  label: "Ver a lista de quem parou de beber"
+  intent_examples: ["quem mais parou de beber", "mostra a lista do parei de beber"]
+bastter.saude.parou_beber_save:
+  label: "Marcar que parei de beber"
+  intent_examples: ["parei de beber, registra", "marca que parei de beber"]
+bastter.saude.psfg_list:
+  label: "Ver minhas notas nos parâmetros de saúde física geral"
+  intent_examples: ["quais notas dei na minha saúde física", "mostra meus parâmetros de saúde física geral"]
+bastter.saude.psfg_save:
+  label: "Dar nota a um parâmetro de saúde física geral"
+  intent_examples: ["dou nota 4 para minha flexibilidade", "atualiza a nota de força na saúde física"]
+bastter.saude.race_alimentacao_consolidado_list:
+  label: "Ver o relatório da alimentação por mês ou ano no Race"
+  intent_examples: ["como foi minha alimentação no ano", "relatório mensal da alimentação"]
+bastter.saude.race_alimentacao_delete:
+  label: "Excluir um dia da alimentação no Race"
+  intent_examples: ["apaga a alimentação de ontem", "exclui esse dia da alimentação"]
+bastter.saude.race_alimentacao_get:
+  label: "Abrir um dia da alimentação no Race"
+  intent_examples: ["abre a alimentação de ontem", "mostra o que registrei de alimentação nesse dia"]
+bastter.saude.race_alimentacao_get_esporte_total_dia:
+  label: "Ver o tempo de esporte de um dia, que vale ponto na alimentação"
+  intent_examples: ["quanto tempo de esporte fiz nesse dia", "já ganhei o ponto de esporte na alimentação de hoje?"]
+bastter.saude.race_alimentacao_init:
+  label: "Ver minha posição no ranking e o lembrete da alimentação"
+  intent_examples: ["qual minha posição no ranking de alimentação", "o lembrete de alimentação está ligado?"]
+bastter.saude.race_alimentacao_list:
+  label: "Listar os dias de alimentação registrados no Race"
+  intent_examples: ["mostra minha alimentação dos últimos dias", "lista meus registros de alimentação"]
+bastter.saude.race_alimentacao_ranking_list:
+  label: "Ver o ranking de alimentação do Race"
+  intent_examples: ["quem lidera o ranking de alimentação", "ranking de alimentação da semana"]
+bastter.saude.race_alimentacao_save:
+  label: "Registrar ou editar a alimentação de um dia no Race"
+  intent_examples: ["registra minha alimentação de hoje", "hoje comi bem no almoço e beliscou à tarde", "lança café, almoço e jantar de ontem"]
+bastter.saude.race_atividade_excluir:
+  label: "Excluir uma atividade de esporte do Race"
+  intent_examples: ["apaga a corrida de ontem", "exclui essa atividade do Race"]
+bastter.saude.race_atividade_obter:
+  label: "Abrir uma atividade de esporte para editar"
+  intent_examples: ["abre a corrida de domingo", "edita o treino de bike de ontem"]
+bastter.saude.race_atividade_salvar:
+  label: "Registrar ou editar uma atividade de esporte, como corrida, no Race"
+  intent_examples: ["registra que corri 10 km hoje", "lança 1 hora de bike", "corrige o tempo da natação de ontem"]
+bastter.saude.race_atividade_validar:
+  label: "Checar se uma atividade de esporte pode ser registrada"
+  intent_examples: ["posso lançar essa corrida ou já existe?", "valida essa atividade antes de salvar"]
+bastter.saude.race_calendario_obter:
+  label: "Ver o calendário de dias com esporte no ano"
+  intent_examples: ["em quais dias fiz esporte este ano", "mostra meu calendário do Race"]
+bastter.saude.race_diversificacao_geral:
+  label: "Ver a diversificação de esportes da comunidade"
+  intent_examples: ["quais esportes a comunidade mais pratica", "diversificação de esportes geral"]
+bastter.saude.race_divisao_list:
+  label: "Listar os participantes de uma divisão do Race"
+  intent_examples: ["quem está na minha divisão", "lista a primeira divisão do Race"]
+bastter.saude.race_divisao_list_historico:
+  label: "Ver meu histórico de divisões no Race"
+  intent_examples: ["em quais divisões já estive", "gráfico das minhas divisões no Race"]
+bastter.saude.race_divisao_list_subiram:
+  label: "Ver quem subiu de divisão no Race"
+  intent_examples: ["quem subiu de divisão", "lista quem foi promovido no Race"]
+bastter.saude.race_fila_excluir:
+  label: "Excluir uma atividade do Strava da fila de importação"
+  intent_examples: ["tira essa atividade do Strava da fila", "não importa essa corrida do Strava"]
+bastter.saude.race_inspiracao_excluir:
+  label: "Remover um participante das minhas inspirações"
+  intent_examples: ["para de seguir esse participante no Race", "tira esse usuário das inspirações"]
+bastter.saude.race_inspiracao_listar:
+  label: "Listar os participantes que escolhi como inspiração"
+  intent_examples: ["quem eu sigo no Race", "mostra minhas inspirações"]
+bastter.saude.race_inspiracao_rank_quem_adicionou:
+  label: "Listar quem escolheu participantes para se inspirar"
+  intent_examples: ["quem escolheu inspirações no Race", "lista quem segue outros participantes"]
+bastter.saude.race_inspiracao_rank_top_adicionados:
+  label: "Ver os participantes mais escolhidos como inspiração"
+  intent_examples: ["quem é mais seguido no Race", "top 20 inspirações"]
+bastter.saude.race_inspiracao_salvar:
+  label: "Adicionar um participante às minhas inspirações"
+  intent_examples: ["segue o usuário fulano no Race", "adiciona esse participante às inspirações"]
+bastter.saude.race_layout_obter:
+  label: "Ver a arrumação dos painéis do Race"
+  intent_examples: ["como estão organizados meus painéis do Race", "mostra o layout do Race"]
+bastter.saude.race_layout_salvar:
+  label: "Salvar ou restaurar a arrumação dos painéis do Race"
+  intent_examples: ["volta os painéis do Race para o padrão", "salva a nova ordem dos painéis"]
+bastter.saude.race_lembrete_auto_sugestao_salvar:
+  label: "Ligar ou desligar a sugestão automática de esporte no lembrete"
+  intent_examples: ["deixa o BS sugerir o esporte do lembrete", "desliga a sugestão automática de esporte"]
+bastter.saude.race_lembrete_obter:
+  label: "Ver o lembrete de esporte de hoje e de amanhã"
+  intent_examples: ["qual esporte está no lembrete de hoje", "o que tenho que treinar amanhã"]
+bastter.saude.race_lembrete_salvar:
+  label: "Escolher o esporte do lembrete diário"
+  intent_examples: ["me lembra de correr amanhã", "desliga o lembrete de esporte"]
+bastter.saude.race_listar_diario:
+  label: "Listar o diário de atividades de esporte"
+  intent_examples: ["quais esportes fiz esta semana", "mostra meu histórico de atividades"]
+bastter.saude.race_listar_dividendos:
+  label: "Ver os dividendos ganhos no Race por data"
+  intent_examples: ["quantos dividendos ganhei no Race", "histórico de dividendos do esporte"]
+bastter.saude.race_listar_esporte:
+  label: "Listar os esportes do Race"
+  intent_examples: ["quais esportes posso registrar", "lista os esportes do Race"]
+bastter.saude.race_listar_mais_praticados:
+  label: "Ver meus esportes mais praticados com tempo e distância"
+  intent_examples: ["qual esporte mais pratico", "quanto tempo corri no total"]
+bastter.saude.race_listar_rank_dividendos:
+  label: "Ver o ranking de dividendos do Race"
+  intent_examples: ["quem tem mais dividendos no Race", "minha posição no ranking de dividendos"]
+bastter.saude.race_meta_excluir:
+  label: "Excluir minhas metas de esporte"
+  intent_examples: ["apaga minhas metas do Race", "exclui as metas de esporte"]
+bastter.saude.race_meta_obter:
+  label: "Ver minhas metas de pontos e tempo de esporte"
+  intent_examples: ["qual minha meta semanal de esporte", "quais são minhas metas do Race"]
+bastter.saude.race_meta_salvar:
+  label: "Salvar metas semanais, mensais e anuais de esporte"
+  intent_examples: ["minha meta é 5 horas de esporte por semana", "define meta anual de pontos no Race"]
+bastter.saude.race_obter_atividades_diversificacao:
+  label: "Ver a diversificação dos meus esportes"
+  intent_examples: ["quais esportes eu mais pratico em proporção", "gráfico de diversificação dos meus esportes"]
+bastter.saude.race_obter_atividades_diversificacao_evolucao:
+  label: "Ver a evolução da diversificação dos meus esportes"
+  intent_examples: ["como mudou a proporção dos meus esportes", "evolução dos esportes ao longo do tempo"]
+bastter.saude.race_obter_consolidado:
+  label: "Ver o resumo do Race: pontos da semana, médias e ranking"
+  intent_examples: ["quantos pontos fiz esta semana", "como estou no ranking de atividades", "resumo do meu Race"]
+bastter.saude.race_obter_consolidado_ano_ano:
+  label: "Ver o gráfico mês a mês comparando os anos no Race"
+  intent_examples: ["compara meus meses de esporte com o ano passado", "gráfico mês a mês por ano do Race"]
+bastter.saude.race_obter_consolidado_ano_ano2:
+  label: "Ver o total de pontos, tempo ou distância por ano no Race"
+  intent_examples: ["quantos pontos fiz em cada ano", "distância total corrida por ano"]
+bastter.saude.race_obter_consolidado_esporte:
+  label: "Ver pontos, tempo e distância por esporte"
+  intent_examples: ["quanto tempo de cada esporte fiz esta semana", "pontos por esporte no ano"]
+bastter.saude.race_obter_consolidado_periodo:
+  label: "Ver o gráfico de pontos e tempo por semana ou por mês"
+  intent_examples: ["gráfico semanal dos meus pontos", "quanto esporte fiz por mês"]
+bastter.saude.race_obter_medias:
+  label: "Ver as médias de tempo por esporte na semana, no mês e no ano"
+  intent_examples: ["qual minha média de corrida por semana", "médias de tempo de esporte"]
+bastter.saude.race_obter_semanal_consolidado:
+  label: "Ver o detalhe de uma semana de esportes"
+  intent_examples: ["como foi minha semana de esporte", "detalha a semana 40 do Race"]
+bastter.saude.race_pega_um_add_proximos10:
+  label: "Incluir no Pega Um os próximos participantes do ranking"
+  intent_examples: ["adiciona os próximos 10 do ranking no Pega Um", "inclui 20 participantes à frente no Pega Um"]
+bastter.saude.race_pega_um_excluir:
+  label: "Remover um participante da meta Pega Um"
+  intent_examples: ["tira o fulano do meu Pega Um", "remove esse participante da meta"]
+bastter.saude.race_pega_um_listar:
+  label: "Listar os participantes da minha meta Pega Um"
+  intent_examples: ["quem está no meu Pega Um", "quantos pontos faltam para passar meus alvos"]
+bastter.saude.race_pega_um_login_suggestion:
+  label: "Buscar participantes do Race pelo login"
+  intent_examples: ["procura o usuário joao no Race", "acha o participante pelo login"]
+bastter.saude.race_pega_um_rank_quem_adicionou:
+  label: "Listar quem escolheu participantes no Pega Um"
+  intent_examples: ["quem usa o Pega Um", "lista quem escolheu alvos no Pega Um"]
+bastter.saude.race_pega_um_rank_top_adicionados:
+  label: "Ver os participantes mais escolhidos no Pega Um"
+  intent_examples: ["quem é o mais escolhido no Pega Um", "top escolhidos do Pega Um"]
+bastter.saude.race_pega_um_salvar:
+  label: "Adicionar um participante à meta Pega Um"
+  intent_examples: ["coloca o fulano no meu Pega Um", "quero passar esse participante, adiciona"]
+bastter.saude.race_pega_um_salvar_fixo:
+  label: "Fixar ou soltar um participante no Pega Um"
+  intent_examples: ["fixa esse participante no Pega Um", "solta o fulano do Pega Um"]
+bastter.saude.race_pega_um_save_esporte_id:
+  label: "Escolher o esporte da meta Pega Um"
+  intent_examples: ["muda o Pega Um para corrida", "usa só ciclismo no Pega Um"]
+bastter.saude.race_pega_um_save_prox_automatico:
+  label: "Definir o Pega Um automático por meta de posição no ranking"
+  intent_examples: ["quero chegar ao top 50, monta o Pega Um sozinho", "liga o Pega Um automático para a posição 100"]
+bastter.saude.race_pendencia_excluir:
+  label: "Excluir uma atividade pendente do Race"
+  intent_examples: ["apaga essa pendência do Race", "exclui a atividade pendente"]
+bastter.saude.race_pendencia_listar:
+  label: "Listar as atividades pendentes e a fila do Strava"
+  intent_examples: ["tenho atividades pendentes no Race?", "mostra a fila de importação do Strava"]
+bastter.saude.race_pendencia_salvar:
+  label: "Corrigir e salvar uma atividade pendente do Race"
+  intent_examples: ["corrige a pendência com 45 minutos de corrida", "salva essa atividade pendente"]
+bastter.saude.race_periodizacao_excluir:
+  label: "Excluir a periodização de treino"
+  intent_examples: ["apaga minha periodização", "remove os ciclos de treino"]
+bastter.saude.race_periodizacao_obter:
+  label: "Ver a periodização de treino: data inicial e ciclos"
+  intent_examples: ["quando começou minha periodização", "quantos ciclos tem meu treino"]
+bastter.saude.race_periodizacao_salvar:
+  label: "Salvar a periodização de treino com data inicial e ciclos"
+  intent_examples: ["começa uma periodização em 01/12 com ciclos de 4 semanas", "configura a periodização do treino"]
+bastter.saude.race_peso_excluir:
+  label: "Excluir um registro de peso"
+  intent_examples: ["apaga o peso de ontem", "exclui esse registro de peso"]
+bastter.saude.race_peso_listar:
+  label: "Listar os registros de peso e medidas"
+  intent_examples: ["mostra meu histórico de peso", "como evoluiu meu percentual de gordura"]
+bastter.saude.race_peso_salvar:
+  label: "Registrar peso, gordura e medidas personalizadas"
+  intent_examples: ["anota meu peso de hoje 82 kg", "registra 18% de gordura", "lança minha medida de cintura"]
+bastter.saude.race_rank:
+  label: "Ver o ranking de atividades do Race por esporte e período"
+  intent_examples: ["como estou no ranking do Race", "ranking anual de corrida", "quem está perto de mim no ranking"]
+bastter.saude.race_rank_detalhes:
+  label: "Ver os últimos exercícios e o acumulado de um participante"
+  intent_examples: ["o que esse participante treinou por último", "detalhes do fulano no ranking"]
+bastter.saude.race_rank_historico:
+  label: "Ver minha posição no ranking do Race semana a semana"
+  intent_examples: ["como evoluiu minha posição no ranking este ano", "histórico da minha posição no Race"]
+bastter.saude.race_sequencia_meta_salvar:
+  label: "Salvar a meta semanal de dias com esporte"
+  intent_examples: ["minha meta é treinar 4 dias por semana", "define a meta semanal de dias de esporte"]
+bastter.saude.race_strava_deauthorization:
+  label: "Desconectar a conta do Strava"
+  intent_examples: ["desconecta o Strava", "tira a integração com o Strava"]
+bastter.saude.race_strava_import_activities:
+  label: "Importar atividades escolhidas do Strava"
+  intent_examples: ["importa minhas corridas do Strava", "puxa essas atividades do Strava para o Race"]
+bastter.saude.race_strava_update_workout_esporte_id:
+  label: "Definir o esporte dos treinos importados do Strava"
+  intent_examples: ["os treinos do Strava são musculação", "muda o esporte padrão dos workouts do Strava"]
+bastter.saude.race_tem_atividade_dia:
+  label: "Verificar se há esporte registrado hoje"
+  intent_examples: ["já registrei esporte hoje?", "tem atividade lançada hoje"]
+bastter.saude.race_top5_semanas_listar:
+  label: "Ver as 5 melhores semanas em pontos e tempo"
+  intent_examples: ["quais foram minhas melhores semanas de esporte", "top 5 semanas do Race"]

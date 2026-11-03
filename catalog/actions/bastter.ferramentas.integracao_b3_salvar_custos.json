@@ -1,0 +1,69 @@
+{
+  "id": "bastter.ferramentas.integracao_b3_salvar_custos",
+  "product": "bastter",
+  "area": "Ferramentas",
+  "entity": "integracao_b3_custos",
+  "operation_class": "update",
+  "label": "Salvar os custos de corretagem usados na importação da B3",
+  "description": "WS_Carteira.IntegracaoB3SalvarCustos. Called from: Ferramentas - Integração B3.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IntegracaoB3SalvarCustos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ferramentas/integracao-b3"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "changes_account",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'IntegracaoB3' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.integracao-b3-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/integracao-b3"
+    }
+  ],
+  "intent_examples": [
+    "minha corretagem é zero para as importações da B3",
+    "configura o ISS e a corretagem da integração B3"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "id": "bastter.financeiro.financa_obter_evolucao_categoria",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa_evolucao_categoria",
+  "operation_class": "read",
+  "label": "Ver a evolução de uma categoria de receita ou despesa",
+  "description": "WS_Carteira.FinancaObterEvolucaoCategoria. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "categoriaID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "descricao": {
+          "type": "string",
+          "examples": [
+            ""
+          ]
+        },
+        "filtroStatus": {
+          "type": "string",
+          "examples": [
+            "0"
+          ]
+        },
+        "tipo": {
+          "type": "integer",
+          "examples": [
+            2
+          ]
+        }
+      },
+      "required": [
+        "ano",
+        "categoriaID",
+        "descricao",
+        "filtroStatus",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaObterEvolucaoCategoria",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "categoriaID": "body",
+        "descricao": "body",
+        "filtroStatus": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": 2, \"ano\": 0, \"categoriaID\": 0, \"descricao\": \"\", \"filtroStatus\": \"0\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/financeiro/financas/graficos and it answered 200.",
+    "captured_keys": [
+      "ano",
+      "categoriaID",
+      "descricao",
+      "filtroStatus",
+      "tipo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "como evoluiu meu gasto com alimentação",
+    "mostra a evolução da categoria Saúde"
+  ]
+}

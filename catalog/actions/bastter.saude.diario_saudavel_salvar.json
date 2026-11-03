@@ -1,0 +1,113 @@
+{
+  "id": "bastter.saude.diario_saudavel_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "diario_saudavel",
+  "operation_class": "update",
+  "label": "Registrar como foram a alimentação, o esporte e o sono do dia",
+  "description": "WS_Carteira.DiarioSaudavelSalvar. Called from: Saúde - Diário Saudável.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "dia": {
+          "type": [
+            "integer",
+            "object",
+            "string"
+          ],
+          "examples": [
+            {
+              "diaID": 0,
+              "data": "2026-11-03",
+              "tipoAlimentacao": 2,
+              "tipoEsporte": 4,
+              "tipoSono": 5,
+              "anotacao": "ZZTESTE saudavel 729655"
+            },
+            {
+              "diaID": 0,
+              "data": "2026-11-03",
+              "tipoAlimentacao": 2,
+              "tipoEsporte": 4,
+              "tipoSono": 5,
+              "anotacao": "ZZTESTE saudavel 729770"
+            },
+            {
+              "diaID": 10938,
+              "data": "2026-11-03",
+              "tipoAlimentacao": 5,
+              "tipoEsporte": 2,
+              "tipoSono": 4,
+              "anotacao": "ZZTESTE saudavel 729770 v2"
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "dia"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioSaudavelSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "dia": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({dia:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/diario-saudavel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.diario_saudavel_listar",
+    "assert": "o dia aparece no diário com alimentação, esporte e sono enviados",
+    "from_scenario": "scenarios/saude_diarios.yaml#saudavel_criado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:37+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793737708",
+    "notes": "o dia aparece no diário com alimentação, esporte e sono enviados"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.diariosaudavel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/diario-saudavel"
+    }
+  ],
+  "intent_examples": [
+    "hoje comi bem, treinei e dormi mal",
+    "registra o diário saudável de hoje"
+  ]
+}

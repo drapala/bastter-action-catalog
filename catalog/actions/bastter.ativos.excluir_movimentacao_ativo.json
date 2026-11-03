@@ -1,0 +1,125 @@
+{
+  "id": "bastter.ativos.excluir_movimentacao_ativo",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movimentacao_ativo",
+  "operation_class": "delete",
+  "label": "Excluir definitivamente um ativo já excluído",
+  "description": "WS_Carteira.ExcluirMovimentacaoAtivo. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            722628,
+            722629,
+            1755458
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "fii",
+            "fii",
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ExcluirMovimentacaoAtivo",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:n,ativoID:i})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.obter_posicao_anual_ativos",
+    "assert": "o item sumiu dos Bens e Direitos",
+    "from_scenario": "scenarios/fii_excluir_definitivo.yaml#bens_sem_ativo"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Works on an item that excluir_item already hid. The app says it will no longer show on any screen."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:24:51+00:00",
+    "evidence": "evidence/runs.jsonl#run=fii-excluir-definitivo-1793737478",
+    "notes": "a compra e a venda do item foram apagadas junto"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "apaga definitivamente esse ativo excluído",
+    "some com esse ativo de todas as telas"
+  ]
+}

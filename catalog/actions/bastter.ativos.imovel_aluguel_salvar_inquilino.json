@@ -1,0 +1,121 @@
+{
+  "id": "bastter.ativos.imovel_aluguel_salvar_inquilino",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_aluguel_inquilino",
+  "operation_class": "update",
+  "label": "Salvar o nome e o CNPJ do inquilino de um imóvel",
+  "description": "WS_Carteira.ImovelAluguelSalvarInquilino. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            41241,
+            41241,
+            41242
+          ]
+        },
+        "cnpj": {
+          "type": "string",
+          "examples": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "nome": {
+          "type": "string",
+          "examples": [
+            "ZZTESTE inquilino dev",
+            "",
+            "ZZTESTE inquilino 730098"
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "PJ",
+            "PF",
+            "PJ"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "cnpj",
+        "nome",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelAluguelSalvarInquilino",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "cnpj": "body",
+        "nome": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(t)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_itens",
+    "assert": "o imóvel passou a ter inquilino pessoa jurídica com o nome enviado",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#inquilino_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:39+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "o inquilino voltou ao valor lido antes (PF, sem nome, sem CNPJ)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "o inquilino da sala é a empresa X, CNPJ tal",
+    "cadastra o inquilino do apartamento"
+  ]
+}

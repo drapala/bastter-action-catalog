@@ -1,0 +1,98 @@
+{
+  "id": "bastter.pas.doacao_instituicao_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "doacao_instituicao",
+  "operation_class": "update",
+  "label": "Cadastrar ou editar uma instituição ou pessoa de doação",
+  "description": "WS_Carteira.DoacaoInstituicaoSalvar. Called from: #PAS - Doações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "instituicao": {
+          "examples": [
+            {
+              "InstituicaoID": 0,
+              "Nome": "ZZTESTE instituicao 730507",
+              "CPF": "11222333000181"
+            },
+            {
+              "InstituicaoID": 751,
+              "Nome": "ZZTESTE instituicao 730507 b",
+              "CPF": "11222333000181"
+            },
+            {
+              "InstituicaoID": 0,
+              "Nome": "ZZTESTE instituicao 731238",
+              "CPF": "11222333000181"
+            }
+          ]
+        }
+      },
+      "required": [
+        "instituicao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DoacaoInstituicaoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "instituicao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({instituicao:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/doacoes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.doacao_instituicao_listar",
+    "assert": "a instituição nova aparece no seletor de instituições",
+    "from_scenario": "scenarios/doacoes_ciclo.yaml#inst_listada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:21:03+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793737259",
+    "notes": "o mesmo ID passou a ter o nome novo"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.doacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/doacoes"
+    }
+  ],
+  "intent_examples": [
+    "cadastra o abrigo de animais com CNPJ tal",
+    "adiciona uma instituição para doar"
+  ]
+}

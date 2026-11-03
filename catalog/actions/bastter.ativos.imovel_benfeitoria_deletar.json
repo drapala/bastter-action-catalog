@@ -1,0 +1,112 @@
+{
+  "id": "bastter.ativos.imovel_benfeitoria_deletar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_benfeitoria",
+  "operation_class": "delete",
+  "label": "Excluir uma benfeitoria de um imóvel",
+  "description": "WS_Carteira.ImovelBenfeitoriaDeletar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            41241,
+            41242,
+            41243
+          ]
+        },
+        "benfeitoriaID": {
+          "type": "integer",
+          "description": "ID of the benfeitoria.",
+          "examples": [
+            8962,
+            8963,
+            8964
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "benfeitoriaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "benfeitoriaID",
+        "entity": "benfeitoria",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelBenfeitoriaDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "benfeitoriaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({benfeitoriaID:n,ativoID:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_movimentacao_obter",
+    "assert": "the read shows the change (see scenarios/archive/imovel_ciclo.yaml, step benfeitoria_sumiu)",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#benfeitoria_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:22+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    }
+  ],
+  "intent_examples": [
+    "apaga a reforma que lancei no apartamento",
+    "exclui essa benfeitoria"
+  ]
+}

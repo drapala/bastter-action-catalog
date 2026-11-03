@@ -1,0 +1,84 @@
+{
+  "id": "bastter.patrimonio.bs2_insights_ultimas_compras",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "insights_ultimas_compras",
+  "operation_class": "action",
+  "label": "Ver as últimas compras feitas na carteira",
+  "description": "WS_Carteira.BS2InsightsUltimasCompras. Called from: Patrimônio - Insights.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {},
+        "top": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        }
+      },
+      "required": [
+        "classes",
+        "top"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2InsightsUltimasCompras",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body",
+        "top": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({top:bsInsights.topCompras,classes:bsInsights.classesSelecionadas()})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/insights"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.patrimonio.insights-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.insights-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/insights"
+    }
+  ],
+  "intent_examples": [
+    "quais foram minhas últimas compras",
+    "o que comprei por último"
+  ]
+}

@@ -1,0 +1,135 @@
+name: item-ajustes
+description: Inclui ITUB4 na aba Ações e testa os ajustes de um item só (anotações, categoria, freio, excluir e restaurar), lendo o valor antes, lendo de volta cada mudança, restaurando o valor antigo e apagando o item no fim.
+vars:
+  ticker: ITUB4
+  itens_filtro: {tipo: acao, ordenacao: 1, classificacao: "0", categoria: 0, setor: "0", segmento: 0, country: 0, gestorID: 0, classificacao2: 0, exchange: null, mandatoID: 0}
+  comprar: {ClassificacaoID: 2, Descricao: Comprar, DescricaoIngles: null}
+  estudo: {ClassificacaoID: 7, Descricao: Estudo, DescricaoIngles: null}
+  quarentena: {ClassificacaoID: 6, Descricao: Quarentena, DescricaoIngles: null}
+steps:
+  - name: pesquisar
+    action: bastter.ativos.pesquisar
+    inputs: {tipo: acao, ativo: "${ticker}"}
+    assert: {list_contains: {path: "", where: {Codigo: "${ticker}"}}}
+    save: {referencia: "0.AtivoID"}
+  - name: itens_antes
+    guard: true
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${ticker}"}}}
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {tipo: acao, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${ticker}", valor: "", moedaAtivoID: 0, tipoImovelID: 12, destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 0, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: ativo_sem_movimentacao
+    guard: true
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {empty: [Itens]}
+    proves: o item que o salvar devolveu não tem movimentação, então nenhuma operação do usuário fica em risco
+
+  - name: ativo_na_aba
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}", ReferenciaID: "${referencia}", Classificacao: "${comprar}", DataFreio: null}}}
+    proves: o ativo aparece na aba Ações como Comprar e sem freio
+
+  - name: anotacoes_antes
+    guard: true
+    action: bastter.ativos.obter_anotacoes
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {AtivoID: "${item}", Texto: ""}}
+  - name: salvar_anotacoes
+    action: bastter.ativos.salvar_anotacoes
+    inputs: {tipo: acao, ativoID: "${item}", anotacoes: "${prefix} nota ${ts}", carteiraID: 0}
+    assert: {equals: {Return: Item salvo com sucesso.}}
+  - name: anotacoes_gravadas
+    postcondition_of: bastter.ativos.salvar_anotacoes
+    action: bastter.ativos.obter_anotacoes
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {AtivoID: "${item}", Texto: "${prefix} nota ${ts}"}}
+    proves: a anotação do item tem o texto enviado
+  - name: anotacoes_restaurar
+    action: bastter.ativos.salvar_anotacoes
+    inputs: {tipo: acao, ativoID: "${item}", anotacoes: "", carteiraID: 0}
+    assert: {equals: {Return: Item salvo com sucesso.}}
+  - name: anotacoes_restauradas
+    postcondition_of: bastter.ativos.salvar_anotacoes
+    action: bastter.ativos.obter_anotacoes
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {AtivoID: "${item}", Texto: ""}}
+    proves: a anotação voltou a vazia, como antes
+
+  - name: alterar_categoria
+    action: bastter.ativos.alterar_categoria
+    inputs: {tipo: acao, ativoID: "${item}", classificacaoID: 7, superCleiton: false}
+    assert: {equals: {Return: true}}
+  - name: categoria_gravada
+    postcondition_of: bastter.ativos.alterar_categoria
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Classificacao: "${estudo}", Objetivo: 0.0}}}
+    proves: o item passou de Comprar para Estudo (e o objetivo dele foi a 0)
+  - name: categoria_restaurar
+    action: bastter.ativos.alterar_categoria
+    inputs: {tipo: acao, ativoID: "${item}", classificacaoID: 2, superCleiton: false}
+    assert: {equals: {Return: true}}
+  - name: categoria_restaurada
+    postcondition_of: bastter.ativos.alterar_categoria
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Classificacao: "${comprar}"}}}
+    proves: o item voltou a Comprar, como antes
+
+  - name: ativar_freio
+    action: bastter.ativos.ativar_freio
+    inputs: {tipo: acao, ativoID: "${item}"}
+    assert: {equals: {Return: true}}
+  - name: freio_gravado
+    postcondition_of: bastter.ativos.ativar_freio
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert:
+      list_contains: {path: Items, where: {AtivoID: "${item}", Classificacao: "${quarentena}"}}
+      list_excludes: {path: Items, where: {AtivoID: "${item}", DataFreio: null}}
+    proves: o freio pôs o item em Quarentena e gravou a data do freio
+  - name: freio_desfazer
+    action: bastter.ativos.alterar_categoria
+    inputs: {tipo: acao, ativoID: "${item}", classificacaoID: 2, superCleiton: false}
+    assert: {equals: {Return: true}}
+  - name: freio_desfeito
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Classificacao: "${comprar}", DataFreio: null}}}
+
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {Return: Item excluído com sucesso.}}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+  - name: restaurar_ativo
+    action: bastter.ativos.restaurar_item
+    inputs: {tipo: acao, ativoID: "${item}"}
+    assert: {equals: {Return: Ativo restaurado com sucesso.}}
+  - name: ativo_restaurado
+    postcondition_of: bastter.ativos.restaurar_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}"}}}
+    proves: o item excluído voltou para a aba com o mesmo AtivoID (a exclusão é lógica)
+  - name: excluir_de_novo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {Return: Item excluído com sucesso.}}
+  - name: ativo_sumiu_de_novo
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${ticker}"}}}
+    proves: nenhum ITUB4 ficou na aba Ações

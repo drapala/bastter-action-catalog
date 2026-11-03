@@ -1,0 +1,15 @@
+name: config-objetivo-classes-recusa
+description: Mostra que SalvarObjetivoClasses só grava quando a soma dos objetivos é 100. Com Ações em 10 e o resto em 0 a resposta é Diferente100 e nada muda. Os objetivos atuais são todos 0 (soma 0), então uma mudança gravada não teria volta por este método. Por isso este cenário não grava nada e não prova a escrita (não tem postcondition_of).
+steps:
+  - name: objetivos_antes
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert: {list_contains: {path: Items, where: {Tipo: acao, Objetivo: 0.0}}}
+  - name: tentar_soma_diferente_de_100
+    action: bastter.patrimonio.salvar_objetivo_classes
+    inputs: {acao: 10, fii: 0, moeda: 0, rendafixa: 0, imovel: 0, outro: 0, etf: 0, stock: 0, bdr: 0, reit: 0, bond: 0, europa: 0, tipoExibicao: 2, ajustarProporcional: false}
+    assert: {equals: {Diferente100: true}}
+  - name: objetivos_iguais
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert: {list_contains: {path: Items, where: {Tipo: acao, Objetivo: 0.0}}}

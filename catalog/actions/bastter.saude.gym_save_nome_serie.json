@@ -1,0 +1,95 @@
+{
+  "id": "bastter.saude.gym_save_nome_serie",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "gym_nome_serie",
+  "operation_class": "update",
+  "label": "Renomear um programa de treino",
+  "description": "WS_Carteira.GymSaveNomeSerie. Called from: Saúde - Bastter Gym.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serie": {
+          "examples": [
+            {
+              "serieID": 3943,
+              "nome": "ZZTESTE programa 729601 v2"
+            },
+            {
+              "serieID": 3944,
+              "nome": "ZZTESTE programa 729731 v2"
+            },
+            {
+              "serieID": 3945,
+              "nome": "ZZTESTE programa 731743 v2"
+            }
+          ]
+        }
+      },
+      "required": [
+        "serie"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GymSaveNomeSerie",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "serie": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({serie:{serieID:n,nome:t}})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/gym"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.gym_list_serie",
+    "assert": "o programa mantém o SerieID e passa a ter o nome novo",
+    "from_scenario": "scenarios/saude_gym.yaml#programa_renomeado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:55+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "notes": "o programa mantém o SerieID e passa a ter o nome novo"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.gym-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/gym"
+    }
+  ],
+  "intent_examples": [
+    "muda o nome do Treino A para Peito",
+    "renomeia esse programa"
+  ]
+}

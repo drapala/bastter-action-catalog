@@ -1,0 +1,107 @@
+{
+  "how_to_check": "Run each recompute command from the repo root.",
+  "claims": [
+    {
+      "id": "actions_total",
+      "value": 425,
+      "meaning": "Business actions in the catalog, one JSON file each.",
+      "recompute": "jq length catalog/index.json"
+    },
+    {
+      "id": "status_verified",
+      "value": 265,
+      "meaning": "Actions with status `verified`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"verified\")] | length' catalog/index.json"
+    },
+    {
+      "id": "status_observed",
+      "value": 19,
+      "meaning": "Actions with status `observed`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"observed\")] | length' catalog/index.json"
+    },
+    {
+      "id": "status_gated",
+      "value": 0,
+      "meaning": "Actions with status `gated`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"gated\")] | length' catalog/index.json"
+    },
+    {
+      "id": "status_failed",
+      "value": 0,
+      "meaning": "Actions with status `failed`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"failed\")] | length' catalog/index.json"
+    },
+    {
+      "id": "status_seen",
+      "value": 95,
+      "meaning": "Actions with status `seen`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"seen\")] | length' catalog/index.json"
+    },
+    {
+      "id": "status_excluded",
+      "value": 46,
+      "meaning": "Actions with status `excluded`. See AGENT.md for what each status means.",
+      "recompute": "jq '[.[] | select(.verification == \"excluded\")] | length' catalog/index.json"
+    },
+    {
+      "id": "verified_writes",
+      "value": 90,
+      "meaning": "Verified actions that change data. Each one passed a read-back in a scenario.",
+      "recompute": "jq -s '[.[] | select(.verification.status == \"verified\" and .operation_class != \"read\")] | length' catalog/actions/*.json"
+    },
+    {
+      "id": "writes_with_passing_read_back",
+      "value": 90,
+      "meaning": "Write actions with at least one passing read-back line in the evidence log.",
+      "recompute": "jq -s '[.[] | select(.check == \"read_back\" and .passed) | .checks] | unique | length' evidence/runs.jsonl"
+    },
+    {
+      "id": "requires_confirmation",
+      "value": 86,
+      "meaning": "Actions that need the user's OK before they run: deletes, writes that cannot be undone or that change a whole tab or setting, and writes that reach people (those never run).",
+      "recompute": "jq '[.[] | select(.requires_confirmation)] | length' catalog/index.json"
+    },
+    {
+      "id": "live_calls",
+      "value": 3664,
+      "meaning": "Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log.",
+      "recompute": "jq -s '[.[] | select(.status != null)] | length' evidence/runs.jsonl"
+    },
+    {
+      "id": "screens_walked",
+      "value": 105,
+      "meaning": "BS2 screens the crawler fetched with the session (the browser capture opened the same screens).",
+      "recompute": "jq .screens_walked catalog/coverage.json"
+    },
+    {
+      "id": "captured_calls",
+      "value": 606,
+      "meaning": "Web service calls the app made while the browser opened the screens.",
+      "recompute": "jq .captured_calls catalog/coverage.json"
+    },
+    {
+      "id": "scenarios",
+      "value": 40,
+      "meaning": "Scenario files (in scenarios/ and scenarios/archive/) with at least one write proved by a read-back.",
+      "recompute": "grep -l '^ *postcondition_of:' scenarios/*.yaml scenarios/archive/*.yaml | wc -l"
+    },
+    {
+      "id": "corrections",
+      "value": 36,
+      "meaning": "Mistakes logged while building the catalog.",
+      "recompute": "wc -l < docs/corrections.jsonl"
+    },
+    {
+      "id": "corrections_with_check",
+      "value": 33,
+      "meaning": "Logged mistakes that name the automated check that now catches them.",
+      "recompute": "jq -s '[.[] | select(.now_checked_by != null)] | length' docs/corrections.jsonl"
+    },
+    {
+      "id": "lint_errors",
+      "value": 0,
+      "meaning": "Errors from the catalog lint. Must be 0.",
+      "recompute": "jq '[.[] | select(.severity == \"error\")] | length' catalog/lint.json"
+    }
+  ]
+}

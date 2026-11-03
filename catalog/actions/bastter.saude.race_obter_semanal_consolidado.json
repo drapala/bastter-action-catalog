@@ -1,0 +1,106 @@
+{
+  "id": "bastter.saude.race_obter_semanal_consolidado",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_semanal",
+  "operation_class": "read",
+  "label": "Ver o detalhe de uma semana de esportes",
+  "description": "WS_Carteira.RaceObterSemanalConsolidado. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "esporteID": {
+          "type": "string",
+          "examples": [
+            "0"
+          ]
+        },
+        "semanaID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        }
+      },
+      "required": [
+        "ano",
+        "esporteID",
+        "semanaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceObterSemanalConsolidado",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "esporteID": "body",
+        "semanaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"semanaID\": 0, \"ano\": 0, \"esporteID\": \"0\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/saude/race and it answered 200.",
+    "captured_keys": [
+      "ano",
+      "esporteID",
+      "semanaID"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "como foi minha semana de esporte",
+    "detalha a semana 40 do Race"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "id": "bastter.imposto_de_renda.config_salvar",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "config",
+  "operation_class": "update",
+  "label": "Salvar uma configuração do perfil, como o aceite do aviso do IR",
+  "description": "WS_Perfil.ConfigSalvar. Called from: Imposto de Renda - Bens e Direitos, Imposto de Renda - CBE, Imposto de Renda - Doações, Imposto de Renda - Exterior, Imposto de Renda - Ganho de Capital, Imposto de Renda - Pagamentos Efetuados.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "parameter": {},
+        "value": {}
+      },
+      "required": [
+        "parameter",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Perfil.asmx/ConfigSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "parameter": "body",
+        "value": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({parameter:\"DisclaimerBSIR\",value:!0})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/bens-e-direitos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.config_list",
+    "assert": "the item in the list shows the new values"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.impostorenda.common-min.js, /mercado/js/site.bs2.saude.race-min.js, /mercado/js/site.bs2.saude.race.alimentacao-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.common-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race.alimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/bens-e-direitos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/cbe"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/doacoes"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/exterior"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "intent_examples": [
+    "li e concordo com o aviso do IR",
+    "salva essa preferência do perfil"
+  ]
+}

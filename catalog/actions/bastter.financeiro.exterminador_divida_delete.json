@@ -1,0 +1,95 @@
+{
+  "id": "bastter.financeiro.exterminador_divida_delete",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "exterminador_divida",
+  "operation_class": "delete",
+  "label": "Excluir uma simulação do Exterminador de Dívidas",
+  "description": "WsWorks.ExterminadorDividaDelete. Called from: Financeiro - Dívidas - Exterminador.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "simulacaoID": {
+          "type": "integer",
+          "description": "ID of the simulacao.",
+          "examples": [
+            139,
+            140,
+            141
+          ]
+        }
+      },
+      "required": [
+        "simulacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "simulacaoID",
+        "entity": "simulacao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsWorks.asmx/ExterminadorDividaDelete",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "simulacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({simulacaoID:bsExterminadorDivida.simulacaoID})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/dividas/exterminador"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.exterminador_divida_list",
+    "assert": "the read shows the change (see scenarios/exterminador_ciclo.yaml, step sumiu)",
+    "from_scenario": "scenarios/exterminador_ciclo.yaml#sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:24:23+00:00",
+    "evidence": "evidence/runs.jsonl#run=exterminador-ciclo-1793737456",
+    "notes": "o get do ID apagado devolve null"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.divida.exterminador-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/dividas/exterminador"
+    }
+  ],
+  "intent_examples": [
+    "apaga a simulação do financiamento no exterminador",
+    "exclui essa simulação de dívida"
+  ]
+}

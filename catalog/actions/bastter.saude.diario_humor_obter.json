@@ -1,0 +1,91 @@
+{
+  "id": "bastter.saude.diario_humor_obter",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "diario_humor",
+  "operation_class": "read",
+  "label": "Abrir um dia do diário de humor",
+  "description": "WS_Carteira.DiarioHumorObter. Called from: Saúde - Diário Humor.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "diaID": {
+          "type": "integer",
+          "description": "ID of the dia.",
+          "examples": [
+            13437,
+            13438,
+            13438
+          ]
+        }
+      },
+      "required": [
+        "diaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "diaID",
+        "entity": "dia",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioHumorObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "diaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({diaID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/diario-humor"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:18+00:00",
+    "evidence": "evidence/runs.jsonl#run=dev-saude-diarios-1793729655",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.diariohumor-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/diario-humor"
+    }
+  ],
+  "intent_examples": [
+    "abre o humor de segunda-feira",
+    "mostra o registro de humor desse dia"
+  ]
+}

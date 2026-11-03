@@ -1,0 +1,111 @@
+{
+  "id": "bastter.imposto_de_renda.ir_delete_bens_direitos_exterior",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_bens_direitos_exterior",
+  "operation_class": "delete",
+  "label": "Apagar valores manuais de um bem no exterior e recalcular",
+  "description": "WS_Carteira.IRDeleteBensDireitosExterior. Called from: Imposto de Renda - Bens e Direitos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": "integer",
+          "examples": [
+            2025,
+            2025,
+            2025
+          ]
+        },
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            746017,
+            746022,
+            746032
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "stock",
+            "stock",
+            "stock"
+          ]
+        }
+      },
+      "required": [
+        "ano",
+        "ativoID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRDeleteBensDireitosExterior",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "ativoID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(r)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/bens-e-direitos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.obter_posicao_anual_ativos",
+    "assert": "o valor do usuário sumiu e o sistema voltou a calcular",
+    "from_scenario": "scenarios/ir_ciclo.yaml#exterior_voltou_ao_automatico"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:11+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "o valor do usuário sumiu e o sistema voltou a calcular"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.bensdireitos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/bens-e-direitos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "volta para o cálculo automático desse ativo no exterior",
+    "apaga os valores que digitei da stock no IR"
+  ]
+}

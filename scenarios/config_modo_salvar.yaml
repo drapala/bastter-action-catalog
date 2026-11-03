@@ -1,0 +1,24 @@
+name: config-modo-salvar
+description: Troca o modo do BS de 2 (Normal) para 4 (Saúde e PAS), lê de volta, volta para o modo antigo e confirma que as opções da carteira e as abas escondidas ficaram iguais às de antes.
+steps:
+  - name: modo_antes
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.Modo: 2}}
+    save: {antes: CarteiraOpcoes.Modo, opcoes_antes: CarteiraOpcoes, abas_ativos: AbasAtivosExcluidas, abas_patrimonio: AbasPatrimonioExcluidas, abas_financeiro: AbasFinanceiroExcluidas}
+  - name: mudar_modo
+    action: bastter.configuracoes.modo_salvar
+    inputs: {modo: "4"}
+  - name: modo_mudou
+    postcondition_of: bastter.configuracoes.modo_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.Modo: 4}}
+    proves: o modo do BS passou a ser 4
+  - name: restaurar_modo
+    undoes: mudar_modo
+    action: bastter.configuracoes.modo_salvar
+    inputs: {modo: "${antes}"}
+  - name: modo_restaurado
+    postcondition_of: bastter.configuracoes.modo_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.Modo: "${antes}", CarteiraOpcoes: "${opcoes_antes}", AbasAtivosExcluidas: "${abas_ativos}", AbasPatrimonioExcluidas: "${abas_patrimonio}", AbasFinanceiroExcluidas: "${abas_financeiro}"}}
+    proves: o modo voltou ao antigo e nenhuma outra opção nem aba escondida mudou

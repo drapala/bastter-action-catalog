@@ -1,0 +1,98 @@
+{
+  "id": "bastter.financeiro.calc_juros_save",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "calc_juros",
+  "operation_class": "update",
+  "label": "Salvar uma simulação de juros compostos",
+  "description": "WsWorks.CalcJurosSave. Called from: Financeiro - Juros Compostos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "simulacao": {
+          "examples": [
+            {
+              "simulacaoID": 0,
+              "titulo": "ZZTESTE juros 730356",
+              "parametros": "10-1-1-12-12-12-0"
+            },
+            {
+              "simulacaoID": 99,
+              "titulo": "ZZTESTE juros 730356 b",
+              "parametros": "20-2-1-12-12-12-0"
+            },
+            {
+              "simulacaoID": 0,
+              "titulo": "ZZTESTE juros 731614",
+              "parametros": "10-1-1-12-12-12-0"
+            }
+          ]
+        }
+      },
+      "required": [
+        "simulacao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsWorks.asmx/CalcJurosSave",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "simulacao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({simulacao:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/juros-compostos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.calc_juros_list",
+    "assert": "a simulação aparece em Minhas simulações com título e parâmetros enviados",
+    "from_scenario": "scenarios/juros_ciclo.yaml#na_lista"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:43+00:00",
+    "evidence": "evidence/runs.jsonl#run=juros-ciclo-1793737600",
+    "notes": "o mesmo ID passou a ter o título e os parâmetros novos"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.calculadorajuros-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/juros-compostos"
+    }
+  ],
+  "intent_examples": [
+    "salva essa simulação de juros com o nome Casa",
+    "guarda a simulação de 2 mil por mês a 1%"
+  ]
+}

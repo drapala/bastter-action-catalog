@@ -1,0 +1,81 @@
+name: pas-metas-ciclo
+description: Cria uma meta ZZTESTE (uma vez, sem notificar), edita, marca e desmarca como concluída, arquiva e desarquiva, exclui e confirma que sumiu da lista e do consolidado.
+steps:
+  - name: metas_antes
+    action: bastter.pas.metas_listar
+    assert: {list_excludes: {path: Items, where: {Descricao: "${prefix} meta ${ts}"}}}
+  - name: criar_meta
+    action: bastter.pas.metas_salvar
+    inputs: {meta: {metaID: 0, descricao: "${prefix} meta ${ts}", periodo: "5", dias: 0, dataInicio: null, notificar: false}}
+    assert: {equals: {Return: true}}
+  - name: meta_criada
+    postcondition_of: bastter.pas.metas_salvar
+    action: bastter.pas.metas_listar
+    assert: {list_contains: {path: Items, where: {Descricao: "${prefix} meta ${ts}", Periodo: 5, Notificar: false, DataArquivamento: null}}}
+    save: {meta: {path: Items, where: {Descricao: "${prefix} meta ${ts}"}, field: MetaID}}
+    proves: a meta aparece na lista com a descrição, o período "uma vez" e sem notificação
+  - name: obter_meta
+    action: bastter.pas.metas_obter
+    inputs: {metaID: "${meta}"}
+    assert: {equals: {MetaID: "${meta}", Descricao: "${prefix} meta ${ts}", Periodo: 5}}
+  - name: editar_meta
+    action: bastter.pas.metas_salvar
+    inputs: {meta: {metaID: "${meta}", descricao: "${prefix} meta editada ${ts}", periodo: "5", dias: 0, dataInicio: null, notificar: false}}
+    assert: {equals: {Return: true}}
+  - name: meta_editada
+    postcondition_of: bastter.pas.metas_salvar
+    action: bastter.pas.metas_obter
+    inputs: {metaID: "${meta}"}
+    assert: {equals: {MetaID: "${meta}", Descricao: "${prefix} meta editada ${ts}"}}
+    proves: a mesma meta passou a ter a descrição nova, sem criar outra
+  - name: concluir_meta
+    action: bastter.pas.metas_salvar_concluido
+    inputs: {concluido: {metaID: "${meta}", referencia: "${meta}", anotacao: null}}
+    assert: {equals: {Return: true}, list_contains: {path: Concluidos, where: {MetaID: "${meta}"}}}
+    save: {concluidos: Concluidos}
+  - name: meta_concluida
+    postcondition_of: bastter.pas.metas_salvar_concluido
+    action: bastter.pas.metas_listar
+    assert: {list_contains: {path: Items, where: {MetaID: "${meta}", Concluidos: "${concluidos}"}}}
+    proves: a lista de metas mostra a meta com a marcação de concluída
+  - name: desmarcar_meta
+    action: bastter.pas.metas_salvar_concluido
+    inputs: {concluido: {metaID: "${meta}", referencia: "${meta}", anotacao: null}}
+    assert: {equals: {Return: true, Concluidos: []}}
+  - name: meta_desmarcada
+    postcondition_of: bastter.pas.metas_salvar_concluido
+    action: bastter.pas.metas_listar
+    assert: {list_contains: {path: Items, where: {MetaID: "${meta}", Concluidos: []}}}
+    proves: a segunda chamada com a mesma referência desmarca a meta
+  - name: arquivar_meta
+    action: bastter.pas.metas_arquivar
+    inputs: {metaID: "${meta}", arquivar: true}
+    assert: {equals: {Return: true}}
+  - name: meta_arquivada
+    postcondition_of: bastter.pas.metas_arquivar
+    action: bastter.pas.metas_listar
+    assert:
+      list_contains: {path: Items, where: {MetaID: "${meta}"}}
+      list_excludes: {path: Items, where: {MetaID: "${meta}", DataArquivamento: null}}
+    proves: a meta continua na lista com data de arquivamento
+  - name: desarquivar_meta
+    action: bastter.pas.metas_arquivar
+    inputs: {metaID: "${meta}", arquivar: false}
+    assert: {equals: {Return: true}}
+  - name: meta_desarquivada
+    postcondition_of: bastter.pas.metas_arquivar
+    action: bastter.pas.metas_listar
+    assert: {list_contains: {path: Items, where: {MetaID: "${meta}", DataArquivamento: null}}}
+    proves: arquivar false limpa a data de arquivamento
+  - name: excluir_meta
+    action: bastter.pas.metas_excluir
+    inputs: {metaID: "${meta}"}
+    assert: {equals: {Return: true}}
+  - name: meta_sumiu
+    postcondition_of: bastter.pas.metas_excluir
+    action: bastter.pas.metas_listar
+    assert: {list_excludes: {path: Items, where: {MetaID: "${meta}"}}}
+    proves: a meta saiu da lista de metas
+  - name: meta_sumiu_do_consolidado
+    action: bastter.pas.metas_anotacoes_consolidado
+    assert: {list_excludes: {path: Metas, where: {MetaID: "${meta}"}}}

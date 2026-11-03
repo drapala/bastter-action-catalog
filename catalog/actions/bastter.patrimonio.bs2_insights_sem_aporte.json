@@ -1,0 +1,84 @@
+{
+  "id": "bastter.patrimonio.bs2_insights_sem_aporte",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "insights_sem_aporte",
+  "operation_class": "action",
+  "label": "Ver os ativos que não recebem aporte há mais tempo",
+  "description": "WS_Carteira.BS2InsightsSemAporte. Called from: Patrimônio - Insights.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {},
+        "top": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        }
+      },
+      "required": [
+        "classes",
+        "top"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2InsightsSemAporte",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body",
+        "top": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({top:bsInsights.top,classes:bsInsights.classesSelecionadas()})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/insights"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.patrimonio.insights-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.insights-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/insights"
+    }
+  ],
+  "intent_examples": [
+    "em qual ativo não aporto há mais tempo",
+    "ativos esquecidos sem compra"
+  ]
+}

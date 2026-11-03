@@ -1,0 +1,179 @@
+{
+  "id": "bastter.ativos.save_movement",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movement",
+  "operation_class": "update",
+  "label": "Lançar ou editar uma compra ou venda de um ativo do exterior",
+  "description": "WS_Carteira.SaveMovement. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            746012,
+            55738,
+            746014
+          ]
+        },
+        "corretagem": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "11/03/2026",
+            "11/03/2026",
+            "11/03/2026"
+          ],
+          "description": "Date format: mm/dd/yyyy."
+        },
+        "movimentacaoID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "quantidade": {
+          "type": "integer",
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "stock",
+            "etf",
+            "stock"
+          ]
+        },
+        "totalOperacao": {
+          "type": "integer",
+          "examples": [
+            10,
+            10,
+            10
+          ]
+        },
+        "totalOperacaoEstrangeiro": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "corretagem",
+        "data",
+        "movimentacaoID",
+        "quantidade",
+        "tipo",
+        "totalOperacao",
+        "totalOperacaoEstrangeiro"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SaveMovement",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "corretagem": "body",
+        "data": "body",
+        "movimentacaoID": "body",
+        "quantidade": "body",
+        "tipo": "body",
+        "totalOperacao": "body",
+        "totalOperacaoEstrangeiro": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(l)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.get_movement",
+    "assert": "a compra tem a quantidade e os dois totais enviados",
+    "from_scenario": "scenarios/bond_ciclo.yaml#compra_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:24+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793737755",
+    "notes": "a mesma movimentação passou a ter quantidade 2, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança a compra de 10 AAPL",
+    "registra a venda de VOO de ontem",
+    "corrige a corretagem da compra de MSFT"
+  ]
+}

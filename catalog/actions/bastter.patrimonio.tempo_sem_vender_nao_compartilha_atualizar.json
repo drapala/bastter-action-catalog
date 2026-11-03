@@ -1,0 +1,69 @@
+{
+  "id": "bastter.patrimonio.tempo_sem_vender_nao_compartilha_atualizar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "tempo_sem_vender_nao_compartilha",
+  "operation_class": "update",
+  "label": "Ligar ou desligar o contador de tempo sem vender",
+  "description": "WS_Carteira.TempoSemVenderNaoCompartilhaAtualizar. Called from: Cleitonices.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/TempoSemVenderNaoCompartilhaAtualizar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(t)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/cleitonices"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "notifies_people",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'Compartilha' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.temposemvender-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/cleitonices"
+    }
+  ],
+  "intent_examples": [
+    "desliga o contador de tempo sem vender",
+    "liga o contador sem vender nesta carteira"
+  ]
+}

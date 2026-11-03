@@ -1,0 +1,102 @@
+{
+  "id": "bastter.imposto_de_renda.ir_aluguel_rendimento_salvar",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_aluguel_rendimento",
+  "operation_class": "update",
+  "label": "Lançar ou editar o rendimento de aluguel de um ano no IR",
+  "description": "WS_Carteira.IRAluguelRendimentoSalvar. Called from: Imposto de Renda - Ganho de Capital, Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "rendimento": {
+          "examples": [
+            {
+              "itemID": 0,
+              "ano": "2019",
+              "valor": 5
+            },
+            {
+              "itemID": 1198,
+              "ano": "2019",
+              "valor": 7
+            },
+            {
+              "itemID": 0,
+              "ano": "2019",
+              "valor": 5
+            }
+          ]
+        }
+      },
+      "required": [
+        "rendimento"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRAluguelRendimentoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "rendimento": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({rendimento:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.ir_aluguel_rendimento_listar",
+    "assert": "the read shows the change (see scenarios/ir_ciclo.yaml, step aluguel_listado)",
+    "from_scenario": "scenarios/ir_ciclo.yaml#aluguel_listado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:58+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.aluguel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "lança 30 mil de aluguel recebido em 2024 no IR",
+    "corrige o aluguel anual declarado"
+  ]
+}

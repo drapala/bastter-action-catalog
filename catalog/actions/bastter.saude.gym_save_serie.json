@@ -1,0 +1,129 @@
+{
+  "id": "bastter.saude.gym_save_serie",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "gym_serie",
+  "operation_class": "update",
+  "label": "Criar ou editar um programa de treino",
+  "description": "WS_Carteira.GymSaveSerie. Called from: Saúde - Bastter Gym.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "serie": {
+          "examples": [
+            {
+              "serieID": -1,
+              "nome": "ZZTESTE programa 729601",
+              "diasSemana": "1,3,",
+              "exercicios": [
+                {
+                  "ExercicioID": 1355,
+                  "Peso": 2,
+                  "Repeticoes": 3,
+                  "Series": 1,
+                  "PesoUnidade": "kg",
+                  "Observacao": "ZZTESTE"
+                }
+              ]
+            },
+            {
+              "serieID": -1,
+              "nome": "ZZTESTE programa 729731",
+              "diasSemana": "1,3,",
+              "exercicios": [
+                {
+                  "ExercicioID": 1356,
+                  "Peso": 2,
+                  "Repeticoes": 3,
+                  "Series": 1,
+                  "PesoUnidade": "kg",
+                  "Observacao": "ZZTESTE"
+                }
+              ]
+            },
+            {
+              "serieID": 3944,
+              "nome": "ZZTESTE programa 729731",
+              "diasSemana": "2,4,",
+              "exercicios": [
+                {
+                  "ExercicioID": 1356,
+                  "Peso": 3,
+                  "Repeticoes": 2,
+                  "Series": 2,
+                  "PesoUnidade": "kg",
+                  "Observacao": "ZZTESTE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "serie"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GymSaveSerie",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "serie": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({serie:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/gym"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.gym_list_serie",
+    "assert": "o programa aparece na lista com os dias enviados",
+    "from_scenario": "scenarios/saude_gym.yaml#programa_criado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:51+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "notes": "o programa aparece na lista com os dias enviados"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.gym-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/gym"
+    }
+  ],
+  "intent_examples": [
+    "cria um programa de treino de pernas",
+    "monta um treino com supino e remada",
+    "adiciona um exercício no Treino B"
+  ]
+}

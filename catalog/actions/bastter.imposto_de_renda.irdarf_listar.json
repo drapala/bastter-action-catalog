@@ -1,0 +1,90 @@
+{
+  "id": "bastter.imposto_de_renda.irdarf_listar",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "irdarf",
+  "operation_class": "read",
+  "label": "Listar os DARFs lançados",
+  "description": "WS_Carteira.IRDARFListar. Called from: Imposto de Renda - Ganho de Capital, Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "required": [
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRDARFListar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "page": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({page:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:01+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.darf-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "quais DARFs eu tenho lançados",
+    "mostra meus DARFs de imposto"
+  ]
+}

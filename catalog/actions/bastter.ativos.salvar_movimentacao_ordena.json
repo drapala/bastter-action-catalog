@@ -1,0 +1,95 @@
+{
+  "id": "bastter.ativos.salvar_movimentacao_ordena",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movimentacao",
+  "operation_class": "update",
+  "label": "Escolher a ordem da lista de compras e vendas",
+  "description": "WS_Carteira.SalvarMovimentacaoOrdena. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ordenaMov": {}
+      },
+      "required": [
+        "ordenaMov"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarMovimentacaoOrdena",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ordenaMov": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({ordenaMov:r})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.listar_movimentacao",
+    "assert": "the item in the list shows the new values"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.movimentacao-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    }
+  ],
+  "intent_examples": [
+    "ordena as movimentações da mais recente para a mais antiga",
+    "muda a ordem das compras do ativo"
+  ]
+}

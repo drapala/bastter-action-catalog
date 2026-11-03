@@ -1,0 +1,98 @@
+{
+  "id": "bastter.ativos.delete_notificacao",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "notificacao",
+  "operation_class": "delete",
+  "label": "Excluir notificacao",
+  "description": "WsUsuario.DeleteNotificacao. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "notificacaoID": {
+          "type": "integer",
+          "description": "ID of the notificacao."
+        }
+      },
+      "required": [
+        "notificacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "notificacaoID",
+        "entity": "notificacao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsUsuario.asmx/DeleteNotificacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "notificacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({notificacaoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "notifies_people",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "site-wide shell script (cookies, notifications, email), not a BS2 feature"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.notificacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ]
+}

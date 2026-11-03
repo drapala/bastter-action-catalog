@@ -1,0 +1,70 @@
+{
+  "id": "bastter.saude.race_rank",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race",
+  "operation_class": "read",
+  "label": "Ver o ranking de atividades do Race por esporte e período",
+  "description": "WS_Esporte.RaceRank. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Esporte.asmx/RaceRank",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(r)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "como estou no ranking do Race",
+    "ranking anual de corrida",
+    "quem está perto de mim no ranking"
+  ]
+}

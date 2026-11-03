@@ -1,0 +1,143 @@
+{
+  "id": "bastter.ativos.excluir_item",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "item",
+  "operation_class": "delete",
+  "label": "Excluir um ativo da carteira",
+  "description": "WS_Carteira.ExcluirItem. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            1755458,
+            1755460,
+            722627
+          ]
+        },
+        "carteiraID": {
+          "type": "integer",
+          "description": "ID of the carteira.",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "acao",
+            "acao",
+            "fii"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "carteiraID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "carteiraID",
+        "entity": "carteira",
+        "find_with": "bastter.ativos.bs2_init",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ExcluirItem",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "carteiraID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:t,ativoID:i,carteiraID:0})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_itens",
+    "assert": "the read shows the change (see scenarios/acao_ciclo_completo.yaml, step ativo_sumiu)",
+    "from_scenario": "scenarios/acao_ciclo_completo.yaml#ativo_sumiu"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": "bastter.ativos.restaurar_item",
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Hides the item from the tab. restaurar_item brings back the same id. excluir_movimentacao_ativo deletes it for good."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:29+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793737755",
+    "notes": "o ativo saiu da aba Stocks"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "remove a OIBR3 da carteira",
+    "exclui esse ativo",
+    "tira o FII XPLG11 da minha carteira"
+  ]
+}

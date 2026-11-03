@@ -1,0 +1,84 @@
+{
+  "id": "bastter.imposto_de_renda.obter_posicao_anual_proventos_stock",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "posicao_anual_proventos_stock",
+  "operation_class": "read",
+  "label": "Ver os dividendos de stocks e REITs do ano para o IR",
+  "description": "WS_Carteira.ObterPosicaoAnualProventosStock. Called from: Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            2026
+          ]
+        }
+      },
+      "required": [
+        "ano"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ObterPosicaoAnualProventosStock",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({ano:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:07+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.rendimentos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "quanto recebi de dividendos de stocks em 2025",
+    "dividendos do exterior para declarar"
+  ]
+}

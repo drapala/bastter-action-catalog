@@ -1,0 +1,98 @@
+{
+  "id": "bastter.patrimonio.listar_global_detalhes",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "global",
+  "operation_class": "read",
+  "label": "Ver os ativos de um país no patrimônio global",
+  "description": "WS_Carteira.ListarGlobalDetalhes. Called from: Patrimônio - Global.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "moedaID": {
+          "type": "integer",
+          "description": "ID of the moeda."
+        },
+        "paisID": {
+          "type": "integer",
+          "description": "ID of the pais."
+        }
+      },
+      "required": [
+        "moedaID",
+        "paisID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "moedaID",
+        "entity": "moeda",
+        "find_with": null,
+        "create_with": null
+      },
+      {
+        "input": "paisID",
+        "entity": "pais",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ListarGlobalDetalhes",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "moedaID": "body",
+        "paisID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({paisID:t,moedaID:bsPatrimonioGlobal.moedaID})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/global"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.patrimonio.global-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.global-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/global"
+    }
+  ],
+  "intent_examples": [
+    "quais ativos tenho nos Estados Unidos",
+    "detalha meu patrimônio na Europa"
+  ]
+}

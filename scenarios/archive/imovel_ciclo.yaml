@@ -1,0 +1,225 @@
+name: imovel-ciclo
+description: Inclui um imóvel ZZTESTE, grava aquisição, benfeitoria, despesa, aluguel, inquilino e aluguel automático, lê de volta cada passo, desfaz tudo, apaga o imóvel e confirma que a aba Imóveis e o IR ficaram como antes.
+vars:
+  itens_filtro: {tipo: imovel, ordenacao: 1, classificacao: "0", categoria: 0, setor: "0", segmento: 0, country: 0, gestorID: 0, classificacao2: 0, exchange: null, mandatoID: 0}
+  ir_imovel_2026: {tipo: imovel, destinoID: null, ano: 2026, ordenacao: "1"}
+steps:
+  - name: itens_antes
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${prefix} imovel ${ts}"}}}
+  - name: incluir_imovel
+    action: bastter.ativos.salvar
+    inputs: {tipo: imovel, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${prefix} imovel ${ts}", valor: "10,00", moedaAtivoID: "0", tipoImovelID: "12", destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 0, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: false}
+  - name: imovel_na_aba
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {Descricao: "${prefix} imovel ${ts}", TipoImovelID: 12, Valor: 10.0, InquilinoTipo: PF}}}
+    save: {item: {path: Items, where: {Descricao: "${prefix} imovel ${ts}"}, field: AtivoID}}
+    proves: o imóvel aparece na aba Imóveis com a descrição, o tipo Casa e o valor enviados (Salvar devolve AtivoID 0 para imóvel, o id vem desta leitura)
+
+  - name: aquisicao_antes
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {equals: {Movimentacao.AquisicaoData: null, Movimentacao.AquisicaoValor: null, Benfeitorias.0: null, Despesas.0: null}}
+  - name: salvar_aquisicao
+    action: bastter.ativos.imovel_movimentacao_salvar
+    inputs: {movimentacao: {ativoID: "${item}", AquisicaoData: "2026-11-03", AquisicaoValor: 10, AquisicaoValorExterior: 0, AlienacaoData: "", AlienacaoValor: 0, AlienacaoCorretagem: 0, AlienacaoValorAplicacao: 0}}
+    assert: {equals: {Return: Dados salvos., Vendido: false}}
+  - name: aquisicao_gravada
+    postcondition_of: bastter.ativos.imovel_movimentacao_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {equals: {Movimentacao.AquisicaoData: "2026-11-03T00:00:00", Movimentacao.AquisicaoValor: 10.0, Movimentacao.AlienacaoData: null}}
+    proves: a aquisição tem a data e o valor enviados e o imóvel não ficou vendido
+  - name: aquisicao_no_ir
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${ir_imovel_2026}"
+    assert: {list_contains: {path: "", where: {AtivoID: "${item}", TotalBrasilAtual: 10.0, Excluido: false}}}
+
+  - name: salvar_benfeitoria
+    action: bastter.ativos.imovel_benfeitoria_salvar
+    inputs: {benfeitoriaID: 0, ativoID: "${item}", data: "2026-11-03", valor: 5, valorExterior: 0, descricao: "${prefix} benfeitoria ${ts}"}
+    assert: {equals: {Return: Benfeitoria salva.}}
+    save: {benf: {path: Items, where: {Descricao: "${prefix} benfeitoria ${ts}"}, field: BenfeitoriaID}}
+  - name: benfeitoria_gravada
+    postcondition_of: bastter.ativos.imovel_benfeitoria_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {list_contains: {path: Benfeitorias, where: {BenfeitoriaID: "${benf}", Descricao: "${prefix} benfeitoria ${ts}", Valor: 5.0, Data: "2026-11-03T00:00:00"}}}
+    proves: a benfeitoria aparece no imóvel com a descrição, a data e o valor enviados
+  - name: editar_benfeitoria
+    action: bastter.ativos.imovel_benfeitoria_salvar
+    inputs: {benfeitoriaID: "${benf}", ativoID: "${item}", data: "2026-11-03", valor: 6, valorExterior: 0, descricao: "${prefix} benfeitoria ${ts}"}
+    assert: {equals: {Return: Benfeitoria salva.}}
+  - name: benfeitoria_editada
+    postcondition_of: bastter.ativos.imovel_benfeitoria_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert:
+      list_contains: {path: Benfeitorias, where: {BenfeitoriaID: "${benf}", Valor: 6.0}}
+      list_excludes: {path: Benfeitorias, where: {Valor: 5.0}}
+    proves: a mesma benfeitoria passou a valer 6, sem criar outra
+  - name: excluir_benfeitoria
+    action: bastter.ativos.imovel_benfeitoria_deletar
+    inputs: {benfeitoriaID: "${benf}", ativoID: "${item}"}
+    assert: {equals: {Return: OK}}
+  - name: benfeitoria_sumiu
+    postcondition_of: bastter.ativos.imovel_benfeitoria_deletar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {list_excludes: {path: Benfeitorias, where: {BenfeitoriaID: "${benf}"}}}
+
+  - name: salvar_despesa
+    action: bastter.ativos.imovel_despesa_salvar
+    inputs: {despesaID: 0, ativoID: "${item}", data: "2026-11-03", valor: 3, valorExterior: 0, descricao: "${prefix} despesa ${ts}", dedutivelIR: false}
+    assert: {equals: {Return: Despesa salva.}}
+    save: {desp: {path: Items, where: {Descricao: "${prefix} despesa ${ts}"}, field: DespesaID}}
+  - name: despesa_gravada
+    postcondition_of: bastter.ativos.imovel_despesa_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {list_contains: {path: Despesas, where: {DespesaID: "${desp}", Descricao: "${prefix} despesa ${ts}", Valor: 3.0, DedutivelIR: false}}}
+    proves: a despesa aparece no imóvel com a descrição e o valor enviados
+  - name: editar_despesa
+    action: bastter.ativos.imovel_despesa_salvar
+    inputs: {despesaID: "${desp}", ativoID: "${item}", data: "2026-11-03", valor: 4, valorExterior: 0, descricao: "${prefix} despesa ${ts}", dedutivelIR: true}
+    assert: {equals: {Return: Despesa salva.}}
+  - name: despesa_editada
+    postcondition_of: bastter.ativos.imovel_despesa_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert:
+      list_contains: {path: Despesas, where: {DespesaID: "${desp}", Valor: 4.0, DedutivelIR: true}}
+      list_excludes: {path: Despesas, where: {Valor: 3.0}}
+    proves: a mesma despesa passou a valer 4 e ficou dedutível, sem criar outra
+  - name: excluir_despesa
+    action: bastter.ativos.imovel_despesa_deletar
+    inputs: {despesaID: "${desp}", ativoID: "${item}"}
+    assert: {equals: {Return: OK}}
+  - name: despesa_sumiu
+    postcondition_of: bastter.ativos.imovel_despesa_deletar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {list_excludes: {path: Despesas, where: {DespesaID: "${desp}"}}}
+
+  - name: aluguel_antes
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {equals: {Itens.0: null, Automatico.Ativo: false}}
+  - name: salvar_aluguel
+    action: bastter.ativos.imovel_aluguel_salvar
+    inputs: {aluguelID: 0, ativoID: "${item}", data: "03/11/2026", valor: 2, moedaAtivoID: 0, valorReal: 2, contrPrev: 0, impostoRetido: 0}
+    assert: {equals: {Return: OK}}
+  - name: aluguel_gravado
+    postcondition_of: bastter.ativos.imovel_aluguel_salvar
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {AtivoID: "${item}", Valor: 2.0, ValorReal: 2.0, MoedaAtivoID: 0, Data: "/Date(1793674800000)/"}}}
+    save: {alug: {path: Itens, where: {Valor: 2.0}, field: AluguelID}}
+    proves: o aluguel aparece com o valor enviado e a data 03/11/2026 lida como 3 de novembro (dd/mm/yyyy)
+  - name: aluguel_no_ir
+    action: bastter.imposto_de_renda.obter_ir_imovel_aluguel
+    inputs: {ano: 2026}
+    assert: {list_contains: {path: "", where: {Aluguel: 2.0, AluguelBruto: 2.0}}}
+  - name: editar_aluguel
+    action: bastter.ativos.imovel_aluguel_salvar
+    inputs: {aluguelID: "${alug}", ativoID: "${item}", data: "03/11/2026", valor: 3, moedaAtivoID: 0, valorReal: 3, contrPrev: 0, impostoRetido: 0}
+    assert: {equals: {Return: OK}}
+  - name: aluguel_editado
+    postcondition_of: bastter.ativos.imovel_aluguel_salvar
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert:
+      list_contains: {path: Itens, where: {AluguelID: "${alug}", Valor: 3.0}}
+      list_excludes: {path: Itens, where: {Valor: 2.0}}
+    proves: o mesmo aluguel passou a valer 3, sem criar outro
+  - name: excluir_aluguel
+    action: bastter.ativos.imovel_aluguel_deletar
+    inputs: {aluguelID: "${alug}", ativoID: "${item}"}
+  - name: aluguel_sumiu
+    postcondition_of: bastter.ativos.imovel_aluguel_deletar
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {AluguelID: "${alug}"}}}
+
+  - name: inquilino_antes
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", InquilinoTipo: PF, Nome: null, CNPJ: null}}}
+  - name: inquilino_pj
+    action: bastter.ativos.imovel_aluguel_salvar_inquilino
+    inputs: {ativoID: "${item}", tipo: PJ, nome: "${prefix} inquilino ${ts}", cnpj: ""}
+    assert: {equals: {Return: true}}
+  - name: inquilino_gravado
+    postcondition_of: bastter.ativos.imovel_aluguel_salvar_inquilino
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", InquilinoTipo: PJ, Nome: "${prefix} inquilino ${ts}"}}}
+    proves: o imóvel passou a ter inquilino pessoa jurídica com o nome enviado
+  - name: inquilino_restaurar
+    action: bastter.ativos.imovel_aluguel_salvar_inquilino
+    inputs: {ativoID: "${item}", tipo: PF, nome: "", cnpj: ""}
+    assert: {equals: {Return: true}}
+  - name: inquilino_restaurado
+    postcondition_of: bastter.ativos.imovel_aluguel_salvar_inquilino
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", InquilinoTipo: PF, Nome: null, CNPJ: null}}}
+    proves: o inquilino voltou ao valor lido antes (PF, sem nome, sem CNPJ)
+
+  - name: automatico_ligar
+    action: bastter.ativos.imovel_aluguel_automatico_salvar
+    inputs: {ativoID: "${item}", automatico: {Ativo: true, Dia: "28", Mes: "", Periodo: "1", Valor: 2, MoedaAtivoID: "0", ContrPrev: 0, ImpostoRetido: 0}}
+    assert: {equals: {Return: OK}}
+  - name: automatico_gravado
+    postcondition_of: bastter.ativos.imovel_aluguel_automatico_salvar
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {equals: {Automatico.Ativo: true, Automatico.Dia: 28, Automatico.Periodo: 1, Automatico.Valor: 2.0, Itens.0: null}}
+    proves: o aluguel automático ficou ligado (mensal, dia 28, valor 2) e não lançou nenhum aluguel na hora
+  - name: automatico_desligar
+    action: bastter.ativos.imovel_aluguel_automatico_salvar
+    inputs: {ativoID: "${item}", automatico: {Ativo: false, Dia: null, Mes: null, Periodo: null, Valor: null, MoedaAtivoID: 0, ContrPrev: 0, ImpostoRetido: 0}}
+    assert: {equals: {Return: OK}}
+  - name: automatico_desligado
+    postcondition_of: bastter.ativos.imovel_aluguel_automatico_salvar
+    action: bastter.ativos.imovel_aluguel_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {equals: {Automatico.Ativo: false, Automatico.Dia: null, Automatico.Periodo: null, Automatico.Valor: null, Itens.0: null}}
+    proves: o aluguel automático voltou a desligado, como antes
+
+  - name: aquisicao_zerar
+    action: bastter.ativos.imovel_movimentacao_salvar
+    inputs: {movimentacao: {ativoID: "${item}", AquisicaoData: "", AquisicaoValor: 0, AquisicaoValorExterior: 0, AlienacaoData: "", AlienacaoValor: 0, AlienacaoCorretagem: 0, AlienacaoValorAplicacao: 0}}
+    assert: {equals: {Return: Dados salvos., Vendido: false}}
+  - name: aquisicao_zerada
+    postcondition_of: bastter.ativos.imovel_movimentacao_salvar
+    action: bastter.ativos.imovel_movimentacao_obter
+    inputs: {ativoID: "${item}"}
+    assert: {equals: {Movimentacao.AquisicaoData: null, Movimentacao.AquisicaoValor: 0.0, Benfeitorias.0: null, Despesas.0: null}}
+    proves: a aquisição foi apagada e o imóvel não tem mais benfeitoria nem despesa
+  - name: ir_sem_imovel
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${ir_imovel_2026}"
+    assert: {list_excludes: {path: "", where: {AtivoID: "${item}"}}}
+
+  - name: excluir_imovel
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: imovel, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {Return: Item excluído com sucesso.}}
+  - name: imovel_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o imóvel saiu da aba Imóveis
+  - name: ir_sem_imovel_excluido
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${ir_imovel_2026}"
+    assert: {list_excludes: {path: "", where: {AtivoID: "${item}"}}}
+  - name: ir_sem_aluguel
+    action: bastter.imposto_de_renda.obter_ir_imovel_aluguel
+    inputs: {ano: 2026}
+    assert: {list_excludes: {path: "", where: {AluguelBruto: 3.0}}}

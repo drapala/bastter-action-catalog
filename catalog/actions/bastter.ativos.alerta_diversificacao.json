@@ -1,0 +1,113 @@
+{
+  "id": "bastter.ativos.alerta_diversificacao",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "alerta_diversificacao",
+  "operation_class": "action",
+  "label": "Verificar se um ativo passa de 2% do patrimônio",
+  "description": "WS_Carteira.AlertaDiversificacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            1755458
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AlertaDiversificacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"acao\", \"ativoID\": 1755458}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-flows.jsonl",
+    "notes": "The app made this call on /bs2/ativos/acao and it answered 200.",
+    "captured_keys": [
+      "ativoID",
+      "tipo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-flows.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "a VALE3 já passou de 2% do meu patrimônio?",
+    "checa o alerta de diversificação do ITUB4"
+  ]
+}

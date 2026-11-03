@@ -1,0 +1,73 @@
+{
+  "id": "bastter.saude.psfg_save",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "psfg",
+  "operation_class": "update",
+  "label": "Dar nota a um parâmetro de saúde física geral",
+  "description": "WS_Esporte_Race.PSFGSave. Called from: Saúde - Parâmetros de Saúde Física Geral.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Esporte_Race.asmx/PSFGSave",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/psfg"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.psfg_list",
+    "assert": "the item in the list shows the new values"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "No method deletes a PSFG rating, and the account had none to restore. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.psfg-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.psfg-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/psfg"
+    }
+  ],
+  "intent_examples": [
+    "dou nota 4 para minha flexibilidade",
+    "atualiza a nota de força na saúde física"
+  ]
+}

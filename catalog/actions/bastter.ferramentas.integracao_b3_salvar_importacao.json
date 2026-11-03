@@ -1,0 +1,76 @@
+{
+  "id": "bastter.ferramentas.integracao_b3_salvar_importacao",
+  "product": "bastter",
+  "area": "Ferramentas",
+  "entity": "integracao_b3_importacao",
+  "operation_class": "update",
+  "label": "Pedir a importação das operações da B3 a partir de uma data",
+  "description": "WS_Carteira.IntegracaoB3SalvarImportacao. Called from: Ferramentas - Integração B3.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "DataInicio": {}
+      },
+      "required": [
+        "DataInicio"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IntegracaoB3SalvarImportacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "DataInicio": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({DataInicio:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ferramentas/integracao-b3"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "changes_account",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'IntegracaoB3' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.integracao-b3-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/integracao-b3"
+    }
+  ],
+  "intent_examples": [
+    "importa minhas operações da B3 desde 2019",
+    "puxa as movimentações da B3 para esta carteira"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "bastter.pas.metas_obter",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas",
+  "operation_class": "read",
+  "label": "Abrir uma meta para ver ou editar",
+  "description": "WS_Carteira.MetasObter. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "metaID": {
+          "type": "integer",
+          "description": "ID of the meta.",
+          "examples": [
+            2930,
+            2930,
+            2930
+          ]
+        }
+      },
+      "required": [
+        "metaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "metaID",
+        "entity": "meta",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "metaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({metaID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:42+00:00",
+    "evidence": "evidence/runs.jsonl#run=dev-pas-config",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    }
+  ],
+  "intent_examples": [
+    "abre a meta de leitura",
+    "mostra os detalhes dessa meta"
+  ]
+}

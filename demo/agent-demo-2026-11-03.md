@@ -1,0 +1,131 @@
+# Agent demo, 2026-11-03
+
+A fresh Claude agent got each request with only three tools: `find_actions`, `get_action` and `run_action` from `tools/mcp_server.py`. It had no other context. Its instructions:
+
+> You operate the Bastter System (BS2) account of a user through the bastter-catalog tools. Use only these tools. Before you run an action, read its catalog entry with get_action and follow it: look up IDs with the finder it names, send every required field, respect its verification status and notes, and do the read-back it gives before you report success. The user cannot answer during this session. If an action needs the user's confirmation, do not set confirmed=true; stop and write the question you would ask. This is a test session: start every free-text description you write with ZZTESTE. Answer in Portuguese, in at most six short sentences, and say what you checked.
+
+## 1. "Comprei 3 ações de ITSA4 hoje por R$ 30 no total. Lança no meu Bastter System."
+
+| # | Tool | Input | Reply |
+|---|---|---|---|
+| 1 | `find_actions` | `{"request": "lan\u00e7ar compra de a\u00e7\u00e3o ITSA4 na carteira"}` | {"result":[{"id":"bastter.ativos.salvar_movimentacao","label":"Lançar ou editar uma compra ou venda de um ativo","area":"Ativos","entity":"movimentacao","operation_class":"update","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.save_movement","label":"Lançar ou editar uma compra ou venda de um ativo do exterior","area":"Ativos","entity":"move ... |
+| 2 | `get_action` | `{"action_id": "bastter.ativos.salvar_movimentacao"}` | {"id":"bastter.ativos.salvar_movimentacao","product":"bastter","area":"Ativos","entity":"movimentacao","operation_class":"update","label":"Lançar ou editar uma compra ou venda de um ativo","description":"WS_Carteira.SalvarMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.","inputs":{"schema":{"type":"object","proper ... |
+| 3 | `find_actions` | `{"request": "buscar ativoID de uma a\u00e7\u00e3o pelo ticker / listar a\u00e7\u00f5es da carteira"}` | {"result":[{"id":"bastter.ativos.listar_setor","label":"Listar os setores de ações brasileiras","area":"Ativos","entity":"setor","operation_class":"read","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.obter_itens","label":"Listar os ativos de uma classe, como ações ou FIIs, com filtros","area":"Ativos","entity":"itens","operation_class":"rea ... |
+| 4 | `get_action` | `{"action_id": "bastter.ativos.obter_itens"}` | {"id":"bastter.ativos.obter_itens","product":"bastter","area":"Ativos","entity":"itens","operation_class":"read","label":"Listar os ativos de uma classe, como ações ou FIIs, com filtros","description":"WS_Carteira.ObterItens. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.","inputs":{"schema":{"type":"object","pr ... |
+| 5 | `run_action` | `{"action_id": "bastter.ativos.obter_itens", "inputs": {"tipo": "acao", "ordenacao": 1, "classificacao": "0", "categoria": 0, "setor": "0", "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": ...` | {"ran":true,"http_status":200,"response":{"Assinante":true,"Items":[],"Rating":0,"RatingCachorros":"","ColunasExcluidas":["Último Aporte"],"TipoObjetivo":2,"AtualizacaoObjetivo":"","ModoBasico":false},"catalog_status":"verified"} |
+| 6 | `find_actions` | `{"request": "adicionar uma nova a\u00e7\u00e3o na carteira pelo c\u00f3digo do ativo"}` | {"result":[{"id":"bastter.ativos.salvar","label":"Incluir ou editar um ativo na carteira","area":"Ativos","entity":"salvar","operation_class":"update","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.pesquisar","label":"Buscar um ativo pelo código dentro de uma classe","area":"Ativos","entity":"pesquisar","operation_class":"action","verificati ... |
+| 7 | `get_action` | `{"action_id": "bastter.ativos.pesquisar"}` | {"id":"bastter.ativos.pesquisar","product":"bastter","area":"Ativos","entity":"pesquisar","operation_class":"action","label":"Buscar um ativo pelo código dentro de uma classe","description":"WS_Carteira.Pesquisar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.","inputs":{"schema":{"type":"object","properties":{" ... |
+| 8 | `run_action` | `{"action_id": "bastter.ativos.pesquisar", "inputs": {"tipo": "acao", "ativo": "ITSA4"}, "confirmed": true}` | {"ran":true,"http_status":200,"response":[{"AtivoID":882,"Codigo":"ITSA4","Nome":"ITAUSA"}],"catalog_status":"observed"} |
+| 9 | `get_action` | `{"action_id": "bastter.ativos.salvar"}` | {"id":"bastter.ativos.salvar","product":"bastter","area":"Ativos","entity":"salvar","operation_class":"update","label":"Incluir ou editar um ativo na carteira","description":"WS_Carteira.Salvar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.","inputs":{"schema":{"type":"object","properties":{"ativoID":{"type":"i ... |
+| 10 | `run_action` | `{"action_id": "bastter.ativos.salvar", "inputs": {"tipo": "acao", "ativoID": 0, "classificacaoID": "", "quantidade": 0, "descricao": "ITSA4", "valor": "", "moedaAtivoID": 0, "tipoImovelID": 12, "desti ...` | {"ran":true,"http_status":200,"response":{"AtivoID":1755476,"PaisID":0,"MoedaAtivoID":0,"returnAlerta":"","returnIcone":"","returnAudio":""},"catalog_status":"verified"} |
+| 11 | `get_action` | `{"action_id": "bastter.ativos.obter_movimentacao"}` | {"id":"bastter.ativos.obter_movimentacao","product":"bastter","area":"Ativos","entity":"movimentacao","operation_class":"read","label":"Listar as compras e vendas de um ativo","description":"WS_Carteira.ObterMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.","inputs":{"schema":{"type":"object","properties":{"ano":{ ... |
+| 12 | `run_action` | `{"action_id": "bastter.ativos.salvar_movimentacao", "inputs": {"movimentacaoID": 0, "tipo": "acao", "tipomov": "compra", "ativoID": 1755476, "quantidade": 3, "data": "03/11/2026", "totalOperacaoBruto" ...` | {"ran":true,"http_status":200,"response":{"Return":true,"AlertaFreio":false,"Roubei":false,"AlertaDivida":false,"AlertaDARF":false},"catalog_status":"verified","next_step":"Before you report success, run bastter.financeiro.listar_movimentacao and confirm: the item in the list shows the new values"} |
+| 13 | `get_action` | `{"action_id": "bastter.financeiro.listar_movimentacao"}` | {"id":"bastter.financeiro.listar_movimentacao","product":"bastter","area":"Financeiro","entity":"movimentacao","operation_class":"read","label":"Listar os aportes: compras e vendas de todos os ativos","description":"WS_Carteira.ListarMovimentacao. Called from: Financeiro - Aportes.","inputs":{"schema":{"type":"object","properties":{"ativo":{"examples":[null]},"data":{"examples":[null]},"mes":{"typ ... |
+| 14 | `run_action` | `{"action_id": "bastter.financeiro.listar_movimentacao", "inputs": {"tipo": null, "ativo": null, "tipomov": null, "data": null, "mes": "0", "page": 1, "pageSize": 10}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"Anos":[{"Ano":2026,"SubTotal":30,"TipoClasse":"Ação","Total":30}],"Aportes":[{"Ano":2026,"Aportes":30,"Posicao":37.14,"Proventos":0.748650375}],"FiltroAno":[2026],"FiltroCodigo":["ITSA4"],"FiltroMes":[3],"FiltroTipoClasse":["Ação"],"Movimentacoes":[{"AtivoID":1755476,"Codigo":"ITSA4","Data":"/Date(1773198000000-0300)/","DestinoID":0,"IgnoraIR":false,"Igno ... |
+| 15 | `run_action` | `{"action_id": "bastter.ativos.salvar_movimentacao", "inputs": {"movimentacaoID": 5289584, "tipo": "acao", "tipomov": "compra", "ativoID": 1755476, "quantidade": 3, "data": "11/03/2026", "totalOperacao ...` | {"ran":true,"http_status":200,"response":{"Return":true,"AlertaFreio":false,"Roubei":false,"AlertaDivida":false,"AlertaDARF":false},"catalog_status":"verified","next_step":"Before you report success, run bastter.financeiro.listar_movimentacao and confirm: the item in the list shows the new values"} |
+| 16 | `run_action` | `{"action_id": "bastter.financeiro.listar_movimentacao", "inputs": {"tipo": null, "ativo": null, "tipomov": null, "data": null, "mes": "0", "page": 1, "pageSize": 10}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"Anos":[{"Ano":2026,"SubTotal":30,"TipoClasse":"Ação","Total":30}],"Aportes":[{"Ano":2026,"Aportes":30,"Posicao":37.14,"Proventos":0}],"FiltroAno":[2026],"FiltroCodigo":["ITSA4"],"FiltroMes":[11],"FiltroTipoClasse":["Ação"],"Movimentacoes":[{"AtivoID":1755476,"Codigo":"ITSA4","Data":"/Date(1793674800000-0300)/","DestinoID":0,"IgnoraIR":false,"IgnoraIsencao ... |
+
+**Agent's answer:**
+
+Lançado. ITSA4 não existia na carteira, então incluí o ativo (ativoID 1755476) e registrei a compra.
+
+Movimentação 5289584: compra, 3 ações, total bruto R$ 30,00, data 03/11/2026.
+
+Verifiquei pelo read-back que a entrada do catálogo pede (`bastter.financeiro.listar_movimentacao`): Codigo ITSA4, Tipo Compra, Quantidade 3, Operacao 30, FiltroMes 11.
+
+Um detalhe: o campo de data é mm/dd/yyyy, não dd/mm. O primeiro envio gravou 11/03/2026 como 11 de março; corrigi a mesma movimentação e confirmei no read-back o timestamp de 03/11/2026.
+
+A observação que escrevi ("ZZTESTE ...") voltou como `Observacao: null` nesse listador, então não confirmei a persistência desse campo.
+
+## 2. "Quantas ações de ITSA4 eu tenho e qual o preço médio?"
+
+| # | Tool | Input | Reply |
+|---|---|---|---|
+| 1 | `find_actions` | `{"request": "quantas a\u00e7\u00f5es de ITSA4 eu tenho e qual o pre\u00e7o m\u00e9dio da posi\u00e7\u00e3o na carteira"}` | {"result":[{"id":"bastter.ativos.obter_itens","label":"Listar os ativos de uma classe, como ações ou FIIs, com filtros","area":"Ativos","entity":"itens","operation_class":"read","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.listar_setor","label":"Listar os setores de ações brasileiras","area":"Ativos","entity":"setor","operation_class":"rea ... |
+| 2 | `find_actions` | `{"request": "ver minha carteira de a\u00e7\u00f5es com quantidade e pre\u00e7o m\u00e9dio de cada ativo"}` | {"result":[{"id":"bastter.ativos.listar_setor","label":"Listar os setores de ações brasileiras","area":"Ativos","entity":"setor","operation_class":"read","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.obter_itens","label":"Listar os ativos de uma classe, como ações ou FIIs, com filtros","area":"Ativos","entity":"itens","operation_class":"rea ... |
+| 3 | `get_action` | `{"action_id": "bastter.ativos.obter_detalhes_ativo"}` | {"id":"bastter.ativos.obter_detalhes_ativo","product":"bastter","area":"Ativos","entity":"ativo","operation_class":"read","label":"Ver os detalhes de um ativo da carteira","description":"WS_Carteira.ObterDetalhesAtivo. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.","inputs":{"schema":{"type":"object","propertie ... |
+| 4 | `get_action` | `{"action_id": "bastter.ativos.obter_itens"}` | {"id":"bastter.ativos.obter_itens","product":"bastter","area":"Ativos","entity":"itens","operation_class":"read","label":"Listar os ativos de uma classe, como ações ou FIIs, com filtros","description":"WS_Carteira.ObterItens. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.","inputs":{"schema":{"type":"object","pr ... |
+| 5 | `run_action` | `{"action_id": "bastter.ativos.obter_itens", "inputs": {"tipo": "acao", "ordenacao": 1, "classificacao": "0", "categoria": 0, "setor": "0", "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": ...` | {"ran":true,"http_status":200,"response":{"Assinante":true,"Items":[{"AtivoID":1755476,"Logo":null,"TipoClasse":"acao","Codigo":null,"Carteira":{"CarteiraID":2000002,"B3Token":null,"Nome":null,"UAID":null,"Opcoes":null,"Acao":0,"Fundo":0,"Moeda":0,"RendaFixa":0,"Imovel":0,"Outro":0,"ETF":0,"Stock":0,"REIT":0,"BDR":0,"Fixo":0,"Divida":0,"ReservaEmergencia":0,"Bond":0,"Europa":0,"AcaoRating":0,"FIIRa ... |
+
+**Agent's answer:**
+
+Consultei o catálogo e rodei a ação verificada `bastter.ativos.obter_itens` (tipo `acao`), que lista os ativos da sua carteira. Resposta HTTP 200.
+
+**ITSA4 (Itaúsa)**
+- Quantidade: **3 ações**
+- Preço médio: **R$ 10,00** (total investido R$ 30,00)
+- Cotação atual na resposta: R$ 12,38 → posição de R$ 37,14 (+23,8%)
+
+É a sua única ação na carteira (100% da classe). Não fiz nenhuma escrita, apenas leitura.
+
+## 3. "Apaga a compra de ITSA4 que foi lançada hoje."
+
+| # | Tool | Input | Reply |
+|---|---|---|---|
+| 1 | `find_actions` | `{"request": "apagar/excluir lan\u00e7amento de compra de a\u00e7\u00e3o na carteira", "limit": 8}` | {"result":[{"id":"bastter.ativos.delete_movement","label":"Excluir uma compra ou venda de um ativo do exterior","area":"Ativos","entity":"movement","operation_class":"delete","verification":"verified","availability":"unknown","requires_confirmation":true},{"id":"bastter.ativos.excluir_movimentacao","label":"Excluir uma compra ou venda de um ativo","area":"Ativos","entity":"movimentacao","operation ... |
+| 2 | `get_action` | `{"action_id": "bastter.ativos.excluir_movimentacao"}` | {"id":"bastter.ativos.excluir_movimentacao","product":"bastter","area":"Ativos","entity":"movimentacao","operation_class":"delete","label":"Excluir uma compra ou venda de um ativo","description":"WS_Carteira.ExcluirMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.","inputs":{"schema":{"type":"object","properties":{ ... |
+| 3 | `get_action` | `{"action_id": "bastter.ativos.obter_movimentacao"}` | {"id":"bastter.ativos.obter_movimentacao","product":"bastter","area":"Ativos","entity":"movimentacao","operation_class":"read","label":"Listar as compras e vendas de um ativo","description":"WS_Carteira.ObterMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.","inputs":{"schema":{"type":"object","properties":{"ano":{ ... |
+| 4 | `get_action` | `{"action_id": "bastter.ativos.bs2_list_ativos"}` | {"id":"bastter.ativos.bs2_list_ativos","product":"bastter","area":"Ativos","entity":"ativos","operation_class":"read","label":"Listar todos os ativos da carteira consolidada","description":"WS_Carteira.BS2ListAtivos. Called from: Ativos - Consolidado.","inputs":{"schema":{"type":"object","properties":{"classes":{"examples":[null]},"classificacoes":{"type":"array","examples":[["2","4","6","7"]]},"o ... |
+| 5 | `run_action` | `{"action_id": "bastter.ativos.bs2_list_ativos", "inputs": {"classes": null, "ordenacao": "1", "classificacoes": ["2", "4", "6", "7"], "pas": ["1", "2", "3", "4"], "posicao": 0}}` | {"ran":true,"http_status":200,"response":{"Items":[{"AtivoID":1755476,"Logo":null,"TipoClasse":"acao","Codigo":null,"Carteira":{"CarteiraID":2000002,"B3Token":null,"Nome":null,"UAID":null,"Opcoes":null,"Acao":0,"Fundo":0,"Moeda":0,"RendaFixa":0,"Imovel":0,"Outro":0,"ETF":0,"Stock":0,"REIT":0,"BDR":0,"Fixo":0,"Divida":0,"ReservaEmergencia":0,"Bond":0,"Europa":0,"AcaoRating":0,"FIIRating":0,"StockRat ... |
+| 6 | `run_action` | `{"action_id": "bastter.ativos.obter_movimentacao", "inputs": {"codigo": "ITSA4", "tipo": "acao", "ativoID": 1755476, "mes": 0, "ano": 0}}` | {"ran":true,"http_status":200,"response":{"Itens":[{"MovimentacaoID":5289584,"TipoClasse":null,"Ativo":{"AtivoID":1755476,"Logo":null,"TipoClasse":null,"Codigo":null,"Carteira":null,"ReferenciaID":0,"Pais":null,"Classificacao":null,"Setor":{"Key":0,"Value":null},"Nome":null,"Descricao":null,"Apresentacao":null,"Valor":0,"ValorDolar":0,"Quantidade":0,"Total":0,"TotalDolar":0,"Percentual":null,"Perc ... |
+
+**Agent's answer:**
+
+Achei o lançamento, mas paro aqui: o `delete` exige confirmação sua e é irreversível (sem undo no catálogo).
+
+O que verifiquei:
+1. `bs2_list_ativos` → ITSA4 = `ativoID 1755476`, tipo `acao`, último aporte em 2026-11-03.
+2. `obter_movimentacao` (ITSA4) → uma única movimentação: `movimentacaoID 5289584`, Compra, 3 ações, PM R$ 10,00, total R$ 30,00, data 2026-11-03 (hoje).
+
+**Pergunta que preciso que você responda:** confirma excluir a compra de ITSA4 de hoje — 3 ações a R$ 10,00 (total R$ 30,00), `movimentacaoID 5289584` — sabendo que é a única movimentação do ativo e que a exclusão não tem desfazer (a posição de ITSA4 fica zerada)?
+
+Com o seu "ok" eu rodo `bastter.ativos.excluir_movimentacao` com `{ativoID: 1755476, movimentacaoID: 5289584, tipo: "acao", tipomov: "compra"}` e confirmo pelo read-back (`obter_movimentacao`) que a linha saiu da lista.
+
+## 4. "Registra um gasto de 45 reais de mercado hoje nas minhas finanças."
+
+| # | Tool | Input | Reply |
+|---|---|---|---|
+| 1 | `find_actions` | `{"request": "registrar gasto despesa de mercado nas finan\u00e7as", "limit": 8}` | {"result":[{"id":"bastter.financeiro.financa_salvar","label":"Lançar ou editar uma receita ou despesa (gasto) nas finanças","area":"Financeiro","entity":"financa","operation_class":"update","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.imovel_despesa_salvar","label":"Lançar ou editar uma despesa de um imóvel","area":"Ativos","entity":"imove ... |
+| 2 | `get_action` | `{"action_id": "bastter.financeiro.financa_salvar"}` | {"id":"bastter.financeiro.financa_salvar","product":"bastter","area":"Financeiro","entity":"financa","operation_class":"update","label":"Lançar ou editar uma receita ou despesa (gasto) nas finanças","description":"WS_Carteira.FinancaSalvar. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.","input ... |
+| 3 | `find_actions` | `{"request": "listar categorias de finan\u00e7as", "limit": 8}` | {"result":[{"id":"bastter.financeiro.financa_obter_evolucao_categoria","label":"Ver a evolução de uma categoria de receita ou despesa","area":"Financeiro","entity":"financa_evolucao_categoria","operation_class":"read","verification":"observed","availability":"unknown","requires_confirmation":false},{"id":"bastter.ativos.obter_categorias","label":"Listar as categorias para classificar ativos","area ... |
+| 4 | `get_action` | `{"action_id": "bastter.financeiro.financa_obter_consolidado_categoria"}` | {"id":"bastter.financeiro.financa_obter_consolidado_categoria","product":"bastter","area":"Financeiro","entity":"financa_categoria","operation_class":"read","label":"Ver receitas e despesas por categoria no ano","description":"WS_Carteira.FinancaObterConsolidadoCategoria. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - ... |
+| 5 | `get_action` | `{"action_id": "bastter.financeiro.financa_obter_dados_graficos"}` | {"id":"bastter.financeiro.financa_obter_dados_graficos","product":"bastter","area":"Financeiro","entity":"financa","operation_class":"read","label":"Ver o gráfico de receitas, despesas e saldo","description":"WS_Carteira.FinancaObterDadosGraficos. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado." ... |
+| 6 | `run_action` | `{"action_id": "bastter.financeiro.financa_obter_consolidado_categoria", "inputs": {}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"dadosCategoria12Ano":{"Mensal":null,"Anual":null,"Receitas":{},"Despesas":{}},"dadosCategoriaAnoAtual":{"Mensal":null,"Anual":null,"Receitas":{},"Despesas":{}}},"catalog_status":"verified"} |
+| 7 | `find_actions` | `{"request": "listar lan\u00e7amentos de receitas e despesas do m\u00eas", "limit": 8}` | {"result":[{"id":"bastter.financeiro.financa_obter_itens","label":"Listar as receitas e despesas de um mês","area":"Financeiro","entity":"financa_itens","operation_class":"read","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.financeiro.financa_obter_consolidado_data","label":"Ver o total de receitas e despesas por mês e por ano","area":"Financeiro" ... |
+| 8 | `get_action` | `{"action_id": "bastter.financeiro.financa_obter_itens"}` | {"id":"bastter.financeiro.financa_obter_itens","product":"bastter","area":"Financeiro","entity":"financa_itens","operation_class":"read","label":"Listar as receitas e despesas de um mês","description":"WS_Carteira.FinancaObterItens. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.","inputs":{"sch ... |
+| 9 | `run_action` | `{"action_id": "bastter.financeiro.financa_obter_itens", "inputs": {"categoriaID": "0", "mes": "11/2026", "ordenacao": 1, "periodo": "0", "status": "0", "tipo": "0"}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"Lancamentos":[],"Categorias":[],"Meses":[]},"catalog_status":"verified"} |
+| 10 | `run_action` | `{"action_id": "bastter.financeiro.financa_salvar", "inputs": {"categoriaDescricao": "ZZTESTE mercado", "categoriaID": 0, "data": "03/11/2026", "descricao": "ZZTESTE gasto de mercado", "despesaDedutive ...` | {"ran":false,"reason":"the inputs do not match the catalog entry","errors":["despesaDedutivel: None is not of type 'object'"]} |
+| 11 | `run_action` | `{"action_id": "bastter.financeiro.financa_salvar", "inputs": {"categoriaDescricao": "ZZTESTE mercado", "categoriaID": 0, "data": "03/11/2026", "descricao": "ZZTESTE gasto de mercado", "despesaDedutive ...` | {"ran":true,"http_status":200,"response":{"Return":"Item salvo com sucesso."},"catalog_status":"verified","next_step":"Before you report success, run bastter.financeiro.financa_obter_dados_graficos and confirm: the item in the list shows the new values"} |
+| 12 | `run_action` | `{"action_id": "bastter.financeiro.financa_obter_dados_graficos", "inputs": {"filtroPago": "0", "filtroRecebido": "0"}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"Mensal":{"11/2026":[0,45]},"Anual":{"2026":[0,45]},"Categoria12m":{"Mensal":null,"Anual":null,"Receitas":{},"Despesas":{"ZZTESTE mercado":100}},"CategoriaAnoAtual":{"Mensal":null,"Anual":null,"Receitas":{},"Despesas":{"ZZTESTE mercado":100}}},"catalog_status":"verified"} |
+| 13 | `run_action` | `{"action_id": "bastter.financeiro.financa_obter_itens", "inputs": {"categoriaID": "0", "mes": "11/2026", "ordenacao": 1, "periodo": "0", "status": "0", "tipo": "0"}, "confirmed": true}` | {"ran":true,"http_status":200,"response":{"Lancamentos":[{"LancamentoID":280366,"Carteira":{"CarteiraID":2000002,"B3Token":null,"Nome":null,"UAID":null,"Opcoes":null,"Acao":0,"Fundo":0,"Moeda":0,"RendaFixa":0,"Imovel":0,"Outro":0,"ETF":0,"Stock":0,"REIT":0,"BDR":0,"Fixo":0,"Divida":0,"ReservaEmergencia":0,"Bond":0,"Europa":0,"AcaoRating":0,"FIIRating":0,"StockRating":0,"REITRating":0,"AcaoObjetivoT ... |
+
+**Agent's answer:**
+
+Lançado. Despesa de R$ 45,00 em 03/11/2026, lançamento 280366, categoria "ZZTESTE mercado" (ID 25634), descrição "ZZTESTE gasto de mercado".
+
+O que verifiquei: li a entrada do catálogo `financeiro.financa_salvar` (verified, sem confirmação exigida) e rodei a leitura de verificação que ela nomeia — o gráfico mostra 11/2026 com despesa 45 e receita 0.
+
+A lista do mês confirma os campos crus: `Tipo: 2` (despesa), `Valor: 45`, data 03/11/2026.
+
+Dois pontos para você saber: a conta não tinha nenhuma categoria de finanças, então criei a categoria junto com o lançamento.
+
+O lançamento ficou com `Pago: false`, ou seja, previsto e não quitado — diga se quer marcar como pago.
+
+Nota técnica: o schema do catálogo rejeita `null` em `despesaDedutivel` apesar de os exemplos usarem `null`; enviei objeto vazio e a API aceitou.
+
+## 5. "Me inscreve no Parou de Beber do Bastter."
+
+| # | Tool | Input | Reply |
+|---|---|---|---|
+| 1 | `find_actions` | `{"request": "inscrever no Parou de Beber", "limit": 8}` | {"result":[{"id":"bastter.saude.parou_beber_get_stats","label":"Ver se marquei que parei de beber e quantos pararam","area":"Saúde","entity":"parou_beber","operation_class":"read","verification":"verified","availability":"unknown","requires_confirmation":false},{"id":"bastter.saude.parou_beber_list","label":"Ver a lista de quem parou de beber","area":"Saúde","entity":"parou_beber","operation_class ... |
+| 2 | `get_action` | `{"action_id": "bastter.saude.parou_beber_save"}` | {"id":"bastter.saude.parou_beber_save","product":"bastter","area":"Saúde","entity":"parou_beber","operation_class":"update","label":"Marcar que parei de beber","description":"WS_Esporte.ParouBeberSave. Called from: Saúde - Bastter Race.","inputs":{"schema":{"type":"object","additionalProperties":true,"description":"The scripts build this payload elsewhere. See `routes[0].notes` for the JS expressi ... |
+| 3 | `run_action` | `{"action_id": "bastter.saude.parou_beber_get_stats", "inputs": {}}` | {"ran":true,"http_status":200,"response":{"Has":false,"Count":424},"catalog_status":"verified"} |
+
+**Agent's answer:**
+
+Não executei a inscrição. Parei no gate de confirmação.
+
+O que verifiquei: `bastter.saude.parou_beber_get_stats` (verified, read) retornou `{"Has": false, "Count": 424}`, ou seja você ainda não está marcado e a lista tem 424 pessoas. A ação de escrita é `bastter.saude.parou_beber_save`, com `requires_confirmation: true` e efeito externo `publishes` — ela te põe numa lista **pública** de usuários. O catálogo também a marca como `verification: seen` (nunca foi rodada) e o schema de input está indocumentado: o payload JS em `routes[0].notes` está vazio, então eu não sei quais campos obrigatórios enviar.
+
+Pergunta que eu te faria: confirma que eu rodo o `parou_beber_save` sabendo que teu nome entra na lista pública do Bastter Race, e me diz se há campos a enviar (ex: data de início) ou se é POST sem corpo? Reversível por `parou_beber_delete`, mas essa também é `seen`, não testada.
+

@@ -1,0 +1,100 @@
+name: saude-leituras
+description: >
+  Só leituras da família Saúde. Roda as leituras do Gym, dos diários, do PSFG, do Parou de Beber
+  e do painel privado do Race, e confirma o estado final da conta: nenhum exercício próprio,
+  nenhum programa, nenhum favorito, diários vazios, sem peso, sem metas e sem periodização.
+  Não escreve nada. Cada passo segue mesmo se outro falhar.
+vars:
+  usuario: 1000001
+  favoritos: {pesquisa: "", filtro: 0, categoria: 0, favorito: true}
+  peso_filtro: {page: 1, pageSize: 10, ordenacao: DataDESC, filtroMeses: 0}
+steps:
+  - name: gym_exercicios_sem_proprio
+    action: bastter.saude.gym_list_exercicio
+    stop_on_fail: false
+    assert: {list_excludes: {path: Items, where: {UsuarioID: "${usuario}"}}}
+    proves: a lista só tem exercícios do sistema, nenhum criado por este usuário
+  - name: gym_favoritos_vazio
+    action: bastter.saude.gym_search_exercicio
+    inputs: "${favoritos}"
+    stop_on_fail: false
+    assert: {equals: {"": []}}
+  - name: gym_programas_vazio
+    action: bastter.saude.gym_list_serie
+    stop_on_fail: false
+    assert: {equals: {"": []}}
+  - name: gym_treinos_vazio
+    action: bastter.saude.gym_list_treino
+    inputs: {page: 1}
+    stop_on_fail: false
+    assert: {equals: {"": []}}
+  - name: gym_ultimo_treino
+    action: bastter.saude.gym_get_last_treino
+    stop_on_fail: false
+    assert: {equals: {"": "null"}}
+  - name: gym_historico_exercicio
+    action: bastter.saude.gym_list_historico_exercicio
+    stop_on_fail: false
+  - name: gym_rank
+    action: bastter.saude.gym_rank
+    inputs: {page: 1, pageSize: 10, exercicioID: 0, feminino: false}
+    stop_on_fail: false
+    assert: {equals: {Rank.Pessoal.Posicao: 0}}
+    proves: o usuário continua fora do ranking público do Gym
+  - name: gym_rank_grafico
+    action: bastter.saude.gym_rank_grafico
+    inputs: {nomeExercicio: "Abdominal com Rolo (Rodinha)"}
+    stop_on_fail: false
+  - name: humor_vazio
+    action: bastter.saude.diario_humor_listar
+    stop_on_fail: false
+    assert: {equals: {Items: []}}
+  - name: humor_relatorio_vazio
+    action: bastter.saude.diario_humor_relatorio_listar
+    inputs: {periodo: ano}
+    stop_on_fail: false
+    assert: {equals: {Detalhado: []}}
+  - name: saudavel_vazio
+    action: bastter.saude.diario_saudavel_listar
+    stop_on_fail: false
+    assert: {equals: {Items: []}}
+  - name: psfg_vazio
+    action: bastter.saude.psfg_list
+    stop_on_fail: false
+    assert: {equals: {Items: []}}
+  - name: parou_beber_stats
+    action: bastter.saude.parou_beber_get_stats
+    stop_on_fail: false
+    assert: {equals: {Has: false}}
+    proves: o usuário continua fora da contagem pública do Parou de Beber
+  - name: race_pendencias
+    action: bastter.saude.race_pendencia_listar
+    stop_on_fail: false
+    assert: {equals: {Pedencias: [], Fila: []}}
+  - name: race_inspiracao
+    action: bastter.saude.race_inspiracao_listar
+    inputs: {usuarioID: 0}
+    stop_on_fail: false
+    assert: {equals: {Escolhidos: []}}
+  - name: race_peso_vazio
+    action: bastter.saude.race_peso_listar
+    inputs: "${peso_filtro}"
+    stop_on_fail: false
+    assert: {equals: {Items: []}}
+  - name: race_meta_vazia
+    action: bastter.saude.race_meta_obter
+    stop_on_fail: false
+    assert: {equals: {"": "null"}}
+  - name: race_periodizacao_vazia
+    action: bastter.saude.race_periodizacao_obter
+    stop_on_fail: false
+    assert: {equals: {"": "null"}}
+  - name: race_alimentacao_vazia
+    action: bastter.saude.race_alimentacao_list
+    inputs: {page: 1}
+    stop_on_fail: false
+    assert: {equals: {"": []}}
+  - name: gym_historico_programa
+    action: bastter.saude.gym_list_historico_serie
+    stop_on_fail: false
+    assert: {equals: {"": []}}

@@ -1,0 +1,79 @@
+{
+  "id": "bastter.saude.parou_beber_get_stats",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "parou_beber",
+  "operation_class": "read",
+  "label": "Ver se marquei que parei de beber e quantos pararam",
+  "description": "WS_Esporte.ParouBeberGetStats. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Esporte.asmx/ParouBeberGetStats",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:57:07+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": []
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.esporte.paroubeber-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "quantas pessoas pararam de beber",
+    "eu marquei que parei de beber?"
+  ]
+}

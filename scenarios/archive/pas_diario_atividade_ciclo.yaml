@@ -1,0 +1,51 @@
+name: pas-diario-atividade-ciclo
+description: Lança uma atividade ZZTESTE no Diário (Meditação, 1 minuto), edita para 2, lê de volta cada passo, exclui e confirma que sumiu. O tipo 9 tem 50 pessoas no rank público e a menor tem mais de 100 minutos, então 1 ou 2 minutos não entram no rank visível.
+vars:
+  tipo: 9
+  data: "11/03/2026"
+steps:
+  - name: atividades_antes
+    action: bastter.pas.diario_atividade_listar
+    inputs: {tipoAtividadeID: 0}
+    assert: {list_excludes: {path: "", where: {Anotacao: "${prefix} atividade ${ts}"}}}
+  - name: lancar_atividade
+    action: bastter.pas.diario_atividade_salvar
+    inputs: {atividade: {atividadeID: 0, tipoAtividade: {tipoAtividadeID: "${tipo}"}, data: "${data}", quantidade: 1, anotacao: "${prefix} atividade ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: atividade_gravada
+    postcondition_of: bastter.pas.diario_atividade_salvar
+    action: bastter.pas.diario_atividade_listar
+    inputs: {tipoAtividadeID: 0}
+    assert: {list_contains: {path: "", where: {Anotacao: "${prefix} atividade ${ts}", Quantidade: 1.0, Data: "2026-11-03T00:00:00"}}}
+    save: {atividade: {path: "", where: {Anotacao: "${prefix} atividade ${ts}"}, field: AtividadeID}}
+    proves: a atividade aparece no histórico com a data, a quantidade e a anotação enviadas
+  - name: obter_atividade
+    action: bastter.pas.diario_atividade_obter
+    inputs: {atividadeID: "${atividade}"}
+    assert: {equals: {AtividadeID: "${atividade}", Quantidade: 1.0, TipoAtividade.TipoAtividadeID: "${tipo}"}}
+  - name: editar_atividade
+    action: bastter.pas.diario_atividade_salvar
+    inputs: {atividade: {atividadeID: "${atividade}", tipoAtividade: {tipoAtividadeID: "${tipo}"}, data: "${data}", quantidade: 2, anotacao: "${prefix} atividade editada ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: atividade_editada
+    postcondition_of: bastter.pas.diario_atividade_salvar
+    action: bastter.pas.diario_atividade_listar
+    inputs: {tipoAtividadeID: 0}
+    assert:
+      list_contains: {path: "", where: {AtividadeID: "${atividade}", Quantidade: 2.0, Anotacao: "${prefix} atividade editada ${ts}"}}
+      list_excludes: {path: "", where: {Anotacao: "${prefix} atividade ${ts}"}}
+    proves: a mesma atividade passou a ter quantidade 2 e a anotação nova, sem criar outra
+  - name: excluir_atividade
+    action: bastter.pas.diario_atividade_excluir
+    inputs: {atividadeID: "${atividade}"}
+    assert: {equals: {Return: true}}
+  - name: atividade_sumiu
+    postcondition_of: bastter.pas.diario_atividade_excluir
+    action: bastter.pas.diario_atividade_listar
+    inputs: {tipoAtividadeID: 0}
+    assert: {list_excludes: {path: "", where: {AtividadeID: "${atividade}"}}}
+    proves: a atividade saiu do histórico do Diário
+  - name: obter_depois
+    action: bastter.pas.diario_atividade_obter
+    inputs: {atividadeID: "${atividade}"}
+    assert: {equals: {"": "null"}}

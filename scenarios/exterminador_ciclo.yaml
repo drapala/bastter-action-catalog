@@ -1,0 +1,52 @@
+name: exterminador-ciclo
+description: >
+  Salva uma simulação na calculadora Exterminador de Dívidas, lê de volta, edita no mesmo ID, apaga e confirma que
+  sumiu da lista e do get. A tela não tem método de tópico; compartilhar é só um link.
+vars:
+  params_v1: "1-2-1-10-3"
+  params_v2: "1-3-1-12-4"
+steps:
+  - name: salvar
+    action: bastter.financeiro.exterminador_divida_save
+    inputs: {simulacao: {simulacaoID: 0, titulo: "${prefix} divida ${ts}", parametros: "${params_v1}"}}
+    assert: {present: [simulacaoID]}
+    save: {sim: simulacaoID}
+  - name: na_lista
+    postcondition_of: bastter.financeiro.exterminador_divida_save
+    action: bastter.financeiro.exterminador_divida_list
+    inputs: {simulacaoID: 0}
+    assert: {list_contains: {path: "", where: {SimulacaoID: "${sim}", Titulo: "${prefix} divida ${ts}", Parametros: "${params_v1}"}}}
+    proves: a simulação aparece em Minhas simulações com título e parâmetros enviados
+    stop_on_fail: false
+  - name: editar
+    action: bastter.financeiro.exterminador_divida_save
+    inputs: {simulacao: {simulacaoID: "${sim}", titulo: "${prefix} divida ${ts} b", parametros: "${params_v2}"}}
+    assert: {equals: {simulacaoID: "${sim}"}}
+  - name: editada
+    postcondition_of: bastter.financeiro.exterminador_divida_save
+    action: bastter.financeiro.exterminador_divida_get
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {SimulacaoID: "${sim}", Titulo: "${prefix} divida ${ts} b", Parametros: "${params_v2}"}}
+    proves: o mesmo ID passou a ter o título e os parâmetros novos
+    stop_on_fail: false
+  - name: sem_copia_antiga
+    action: bastter.financeiro.exterminador_divida_list
+    inputs: {simulacaoID: 0}
+    assert: {list_excludes: {path: "", where: {Titulo: "${prefix} divida ${ts}"}}}
+    stop_on_fail: false
+  - name: excluir
+    action: bastter.financeiro.exterminador_divida_delete
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {Return: true}}
+  - name: sumiu
+    postcondition_of: bastter.financeiro.exterminador_divida_delete
+    action: bastter.financeiro.exterminador_divida_list
+    inputs: {simulacaoID: 0}
+    assert: {list_excludes: {path: "", where: {SimulacaoID: "${sim}"}}}
+    stop_on_fail: false
+  - name: get_vazio
+    postcondition_of: bastter.financeiro.exterminador_divida_delete
+    action: bastter.financeiro.exterminador_divida_get
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {"": "null"}}
+    proves: o get do ID apagado devolve null

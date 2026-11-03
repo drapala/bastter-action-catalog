@@ -1,0 +1,91 @@
+{
+  "id": "bastter.configuracoes.modo_salvar",
+  "product": "bastter",
+  "area": "Configurações",
+  "entity": "modo",
+  "operation_class": "update",
+  "label": "Mudar o modo de visualização do sistema",
+  "description": "WS_Carteira.ModoSalvar. Called from: Modos de Visualização.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "modo": {
+          "examples": [
+            "4",
+            2,
+            "4"
+          ]
+        }
+      },
+      "required": [
+        "modo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ModoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "modo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/modos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "o modo do BS passou a ser 4",
+    "from_scenario": "scenarios/config_modo_salvar.yaml#modo_mudou"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:25+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-modo-salvar-1793737220",
+    "notes": "o modo voltou ao antigo e nenhuma outra opção nem aba escondida mudou"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.modos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/modos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "muda o BS para o modo Sardinha",
+    "ativa o modo #PAS",
+    "troca o modo de visualização"
+  ]
+}

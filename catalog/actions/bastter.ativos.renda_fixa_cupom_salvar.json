@@ -1,0 +1,126 @@
+{
+  "id": "bastter.ativos.renda_fixa_cupom_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "renda_fixa_cupom",
+  "operation_class": "update",
+  "label": "Lançar ou editar um cupom ou juros de renda fixa",
+  "description": "WS_Carteira.RendaFixaCupomSalvar. Called from: Ativos - Renda Fixa.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            309408,
+            309409,
+            309409
+          ]
+        },
+        "cupomID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            1485
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "2026-11-01",
+            "2026-11-01",
+            "2026-11-02"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "valor": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            3
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "cupomID",
+        "data",
+        "valor"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RendaFixaCupomSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "cupomID": "body",
+        "data": "body",
+        "valor": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/renda-fixa"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.renda_fixa_cupom_listar",
+    "assert": "o cupom aparece na lista do título com a data e o valor enviados",
+    "from_scenario": "scenarios/rendafixa_ciclo.yaml#cupom_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:22+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "notes": "o mesmo cupom passou a ter valor 3 e data 02/11, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.rendafixa-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/renda-fixa"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/renda-fixa/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança o cupom de 420 do Tesouro IPCA",
+    "registra os juros semestrais da debênture"
+  ]
+}

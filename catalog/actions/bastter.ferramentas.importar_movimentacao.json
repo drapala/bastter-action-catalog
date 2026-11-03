@@ -1,0 +1,96 @@
+{
+  "id": "bastter.ferramentas.importar_movimentacao",
+  "product": "bastter",
+  "area": "Ferramentas",
+  "entity": "movimentacao",
+  "operation_class": "create",
+  "label": "Importar compras e vendas de planilha, B3 ou Charles Schwab",
+  "description": "WS_Carteira.ImportarMovimentacao. Called from: Ferramentas - Importar Charles Schwab, Ferramentas - Importar Planilha, Ferramentas - Importar Planilha B3.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "movimentacaos": {}
+      },
+      "required": [
+        "movimentacaos"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImportarMovimentacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "movimentacaos": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({movimentacaos:i})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ferramentas/importar-b3"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.listar_movimentacao",
+    "assert": "the new item is in the list with the fields that were sent"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "changes_account",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'Importar' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.importar-cei-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.importar-cs-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.importar-planilha-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/importar-b3"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/importar-charles-schwab"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/importar-planilha"
+    }
+  ],
+  "intent_examples": [
+    "importa minha planilha de operações",
+    "importa as movimentações da Charles Schwab",
+    "carrega minhas compras de uma planilha da B3"
+  ]
+}

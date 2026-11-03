@@ -1,0 +1,75 @@
+name: saude-diarios
+description: >
+  Diário Humor e Diário Saudável (registros privados do usuário, sem ranking).
+  Cria um dia ZZTESTE em cada diário, edita, lê de volta cada passo, apaga e confirma que sumiu.
+vars:
+  data: "2026-11-03"
+steps:
+  - name: criar_humor
+    action: bastter.saude.diario_humor_salvar
+    inputs: {dia: {diaID: 0, data: "${data}", tipoHumor: 2, tipoHumorNoite: 3, acoes: "3;7;", anotacao: "${prefix} humor ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: humor_criado
+    postcondition_of: bastter.saude.diario_humor_salvar
+    action: bastter.saude.diario_humor_listar
+    assert: {list_contains: {path: Items, where: {Anotacao: "${prefix} humor ${ts}", TipoHumor: 2, TipoHumorNoite: 3, Acoes: "3;7;"}}}
+    save: {humor: {path: Items, where: {Anotacao: "${prefix} humor ${ts}"}, field: DiaID}}
+    proves: o dia aparece no diário com o humor da manhã, da noite e as ações enviadas
+  - name: humor_detalhe
+    action: bastter.saude.diario_humor_obter
+    inputs: {diaID: "${humor}"}
+    assert: {equals: {DiaID: "${humor}", Data: "2026-11-03T00:00:00", Anotacao: "${prefix} humor ${ts}"}}
+    proves: o detalhe do dia traz a data e a anotação enviadas
+  - name: humor_relatorio
+    action: bastter.saude.diario_humor_relatorio_listar
+    inputs: {periodo: ano}
+    assert: {list_contains: {path: Detalhado, where: {HumorID: 2}}}
+    proves: o relatório do ano passa a contar o humor 2 (Bem)
+  - name: editar_humor
+    action: bastter.saude.diario_humor_salvar
+    inputs: {dia: {diaID: "${humor}", data: "${data}", tipoHumor: 1, tipoHumorNoite: 1, acoes: "5;", anotacao: "${prefix} humor ${ts} v2"}}
+    assert: {equals: {Return: true}}
+  - name: humor_editado
+    action: bastter.saude.diario_humor_obter
+    inputs: {diaID: "${humor}"}
+    assert: {equals: {DiaID: "${humor}", TipoHumor: 1, TipoHumorNoite: 1, Acoes: "5;", Anotacao: "${prefix} humor ${ts} v2"}}
+    proves: o mesmo DiaID passou a ter os valores novos
+  - name: excluir_humor
+    action: bastter.saude.diario_humor_excluir
+    inputs: {diaID: "${humor}"}
+    assert: {equals: {Return: true}}
+  - name: humor_sumiu
+    postcondition_of: bastter.saude.diario_humor_excluir
+    action: bastter.saude.diario_humor_listar
+    assert: {list_excludes: {path: Items, where: {DiaID: "${humor}"}}}
+  - name: criar_saudavel
+    action: bastter.saude.diario_saudavel_salvar
+    inputs: {dia: {diaID: 0, data: "${data}", tipoAlimentacao: 2, tipoEsporte: 4, tipoSono: 5, anotacao: "${prefix} saudavel ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: saudavel_criado
+    postcondition_of: bastter.saude.diario_saudavel_salvar
+    action: bastter.saude.diario_saudavel_listar
+    assert: {list_contains: {path: Items, where: {Anotacao: "${prefix} saudavel ${ts}", TipoAlimentacao: 2, TipoEsporte: 4, TipoSono: 5}}}
+    save: {saudavel: {path: Items, where: {Anotacao: "${prefix} saudavel ${ts}"}, field: DiaID}}
+    proves: o dia aparece no diário com alimentação, esporte e sono enviados
+  - name: saudavel_detalhe
+    action: bastter.saude.diario_saudavel_obter
+    inputs: {diaID: "${saudavel}"}
+    assert: {equals: {DiaID: "${saudavel}", Data: "2026-11-03T00:00:00", Anotacao: "${prefix} saudavel ${ts}"}}
+  - name: editar_saudavel
+    action: bastter.saude.diario_saudavel_salvar
+    inputs: {dia: {diaID: "${saudavel}", data: "${data}", tipoAlimentacao: 5, tipoEsporte: 2, tipoSono: 4, anotacao: "${prefix} saudavel ${ts} v2"}}
+    assert: {equals: {Return: true}}
+  - name: saudavel_editado
+    action: bastter.saude.diario_saudavel_obter
+    inputs: {diaID: "${saudavel}"}
+    assert: {equals: {DiaID: "${saudavel}", TipoAlimentacao: 5, TipoEsporte: 2, TipoSono: 4, Anotacao: "${prefix} saudavel ${ts} v2"}}
+    proves: o mesmo DiaID passou a ter os valores novos
+  - name: excluir_saudavel
+    action: bastter.saude.diario_saudavel_excluir
+    inputs: {diaID: "${saudavel}"}
+    assert: {equals: {Return: true}}
+  - name: saudavel_sumiu
+    postcondition_of: bastter.saude.diario_saudavel_excluir
+    action: bastter.saude.diario_saudavel_listar
+    assert: {list_excludes: {path: Items, where: {DiaID: "${saudavel}"}}}

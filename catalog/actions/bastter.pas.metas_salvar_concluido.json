@@ -1,0 +1,99 @@
+{
+  "id": "bastter.pas.metas_salvar_concluido",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas_concluido",
+  "operation_class": "update",
+  "label": "Marcar ou desmarcar uma meta como cumprida no período",
+  "description": "WS_Carteira.MetasSalvarConcluido. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "concluido": {
+          "examples": [
+            {
+              "metaID": 2930,
+              "referencia": 2930,
+              "anotacao": null
+            },
+            {
+              "metaID": 2930,
+              "referencia": 2930,
+              "anotacao": null
+            },
+            {
+              "metaID": 2932,
+              "referencia": 2932,
+              "anotacao": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "concluido"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasSalvarConcluido",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "concluido": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({concluido:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.metas_listar",
+    "assert": "a lista de metas mostra a meta com a marcação de concluída",
+    "from_scenario": "scenarios/pas_metas_ciclo.yaml#meta_concluida"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:31+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793737642",
+    "notes": "a segunda chamada com a mesma referência desmarca a meta"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    }
+  ],
+  "intent_examples": [
+    "marca a meta de hoje como feita",
+    "cumpri a meta de leitura desta semana",
+    "desmarca a meta de ontem"
+  ]
+}

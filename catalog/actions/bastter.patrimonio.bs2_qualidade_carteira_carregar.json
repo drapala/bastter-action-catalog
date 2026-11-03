@@ -1,0 +1,98 @@
+{
+  "id": "bastter.patrimonio.bs2_qualidade_carteira_carregar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "qualidade_carteira",
+  "operation_class": "read",
+  "label": "Ver a qualidade das empresas da carteira",
+  "description": "WS_Carteira.BS2QualidadeCarteiraCarregar. Called from: Patrimônio - Qualidade da Carteira, Patrimônio - Visão Geral.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {
+          "type": "string",
+          "examples": [
+            "acao,fii,stock,reit",
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "classes"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2QualidadeCarteiraCarregar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"classes\": \"acao,fii,stock,reit\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/qualidade-carteira"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:56:56+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": [
+      "classes"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.qualidade-carteira-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.visao-geral-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/qualidade-carteira"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/visao-geral"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "qual a qualidade da minha carteira",
+    "como estão as empresas que tenho",
+    "nota de qualidade das minhas ações"
+  ]
+}

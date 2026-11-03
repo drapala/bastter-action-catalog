@@ -1,0 +1,76 @@
+{
+  "id": "bastter.saude.race_pega_um_add_proximos10",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_add_proximos10",
+  "operation_class": "read",
+  "label": "Incluir no Pega Um os próximos participantes do ranking",
+  "description": "WS_Carteira.RacePegaUmAddProximos10. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "qtdproximos": {}
+      },
+      "required": [
+        "qtdproximos"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RacePegaUmAddProximos10",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "qtdproximos": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({qtdproximos:$(\"#pegaum-proximos-qtdproximos\").val()})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "adiciona os próximos 10 do ranking no Pega Um",
+    "inclui 20 participantes à frente no Pega Um"
+  ]
+}

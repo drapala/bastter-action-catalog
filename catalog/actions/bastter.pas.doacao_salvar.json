@@ -1,0 +1,115 @@
+{
+  "id": "bastter.pas.doacao_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "doacao",
+  "operation_class": "update",
+  "label": "Registrar ou editar uma doação",
+  "description": "WS_Carteira.DoacaoSalvar. Called from: #PAS - Doações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "doacao": {
+          "examples": [
+            {
+              "doacaoID": 0,
+              "data": "2025-06-16",
+              "Instituicao": {
+                "InstituicaoID": 751
+              },
+              "valor": 5,
+              "codIRPF": "99",
+              "anotacoes": "ZZTESTE doacao 730507"
+            },
+            {
+              "doacaoID": 2080,
+              "data": "2025-06-16",
+              "Instituicao": {
+                "InstituicaoID": 751
+              },
+              "valor": 7,
+              "codIRPF": "99",
+              "anotacoes": "ZZTESTE doacao 730507 b"
+            },
+            {
+              "doacaoID": 0,
+              "data": "2025-06-16",
+              "Instituicao": {
+                "InstituicaoID": 752
+              },
+              "valor": 5,
+              "codIRPF": "99",
+              "anotacoes": "ZZTESTE doacao 731238"
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "doacao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DoacaoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "doacao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({doacao:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/doacoes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.doacao_listar",
+    "assert": "a doação aparece em PAS > Doações com data, valor e código IRPF enviados",
+    "from_scenario": "scenarios/doacoes_ciclo.yaml#doacao_listada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:21:09+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793737259",
+    "notes": "a mesma doação mudou de valor, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.doacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/doacoes"
+    }
+  ],
+  "intent_examples": [
+    "registra uma doação de 100 reais para o hospital",
+    "lança a doação que fiz hoje",
+    "corrige o valor dessa doação"
+  ]
+}

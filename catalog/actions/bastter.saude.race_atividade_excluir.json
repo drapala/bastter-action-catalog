@@ -1,0 +1,90 @@
+{
+  "id": "bastter.saude.race_atividade_excluir",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_atividade",
+  "operation_class": "delete",
+  "label": "Excluir uma atividade de esporte do Race",
+  "description": "WS_Carteira.RaceAtividadeExcluir. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "atividadeID": {
+          "type": "integer",
+          "description": "ID of the atividade."
+        }
+      },
+      "required": [
+        "atividadeID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "atividadeID",
+        "entity": "atividade",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceAtividadeExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "atividadeID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({atividadeID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_atividade_obter",
+    "assert": "the item is no longer in the list"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "publishes",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Changes the public Race ranking and profile. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "apaga a corrida de ontem",
+    "exclui essa atividade do Race"
+  ]
+}

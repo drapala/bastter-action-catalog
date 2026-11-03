@@ -1,0 +1,79 @@
+{
+  "id": "bastter.saude.race_pega_um_excluir",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race",
+  "operation_class": "delete",
+  "label": "Remover um participante da meta Pega Um",
+  "description": "WS_Carteira.RacePegaUmExcluir. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "usuarioIDMeta": {}
+      },
+      "required": [
+        "usuarioIDMeta"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RacePegaUmExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "usuarioIDMeta": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({usuarioIDMeta:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_pega_um_listar",
+    "assert": "the item is no longer in the list"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "tira o fulano do meu Pega Um",
+    "remove esse participante da meta"
+  ]
+}

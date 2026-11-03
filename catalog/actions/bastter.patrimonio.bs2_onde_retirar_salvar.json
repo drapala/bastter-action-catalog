@@ -1,0 +1,148 @@
+{
+  "id": "bastter.patrimonio.bs2_onde_retirar_salvar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "onde_retirar",
+  "operation_class": "update",
+  "label": "Salvar a configuração de onde retirar e os custos mensais",
+  "description": "WS_Carteira.BS2OndeRetirarSalvar. Called from: Patrimônio - De Onde Retirar, Patrimônio - Visão Geral.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "custosMensais": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "outrasRendas": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "salario": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "salarioExibir": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "saldoConta": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "examples": [
+            null,
+            5,
+            null
+          ]
+        },
+        "valorNecessario": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "examples": [
+            null,
+            10,
+            null
+          ]
+        }
+      },
+      "required": [
+        "custosMensais",
+        "outrasRendas",
+        "salario",
+        "salarioExibir",
+        "saldoConta",
+        "valorNecessario"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2OndeRetirarSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "custosMensais": "body",
+        "outrasRendas": "body",
+        "salario": "body",
+        "salarioExibir": "body",
+        "saldoConta": "body",
+        "valorNecessario": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: n"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/onde-retirar"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.patrimonio.bs2_onde_retirar_carregar",
+    "assert": "a tela Onde Retirar passou a ter valor necessário 10 e saldo em conta 5",
+    "from_scenario": "scenarios/config_onde_retirar.yaml#config_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:42+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-onde-retirar-1793737235",
+    "notes": "todos os campos voltaram aos valores antigos"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.onderetirar-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/onde-retirar"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/visao-geral"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "meus custos mensais são 12 mil",
+    "salva a ordem de onde retirar dinheiro"
+  ]
+}

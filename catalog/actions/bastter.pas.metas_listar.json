@@ -1,0 +1,79 @@
+{
+  "id": "bastter.pas.metas_listar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas",
+  "operation_class": "read",
+  "label": "Listar minhas metas",
+  "description": "WS_Carteira.MetasListar. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasListar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:56:51+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": []
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "quais são minhas metas",
+    "mostra minhas metas ativas"
+  ]
+}

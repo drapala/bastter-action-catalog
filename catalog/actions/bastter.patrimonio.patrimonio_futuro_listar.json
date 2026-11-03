@@ -1,0 +1,143 @@
+{
+  "id": "bastter.patrimonio.patrimonio_futuro_listar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "patrimonio_futuro",
+  "operation_class": "read",
+  "label": "Prever o patrimônio futuro em um número de anos",
+  "description": "WS_Carteira.PatrimonioFuturoListar. Called from: Patrimônio - Prever Meu Futuro Patrimônio.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "anos": {
+          "type": "string",
+          "examples": [
+            "10"
+          ]
+        },
+        "aportes": {
+          "type": "string",
+          "examples": [
+            "0"
+          ]
+        },
+        "dj": {
+          "type": "string",
+          "examples": [
+            "50000"
+          ]
+        },
+        "dolar": {
+          "type": "string",
+          "examples": [
+            "5"
+          ]
+        },
+        "ibovespa": {
+          "type": "string",
+          "examples": [
+            "150000"
+          ]
+        },
+        "pasTipo": {
+          "type": "string",
+          "examples": [
+            "4"
+          ]
+        },
+        "tipoVariacao": {
+          "type": "string",
+          "examples": [
+            "holding"
+          ]
+        }
+      },
+      "required": [
+        "anos",
+        "aportes",
+        "dj",
+        "dolar",
+        "ibovespa",
+        "pasTipo",
+        "tipoVariacao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/PatrimonioFuturoListar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "anos": "body",
+        "aportes": "body",
+        "dj": "body",
+        "dolar": "body",
+        "ibovespa": "body",
+        "pasTipo": "body",
+        "tipoVariacao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"anos\": \"10\", \"ibovespa\": \"150000\", \"dolar\": \"5\", \"dj\": \"50000\", \"aportes\": \"0\", \"tipoVariacao\": \"holding\", \"pasTipo\": \"4\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/prever-meu-futuro-patrimonio"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:57:02+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": [
+      "anos",
+      "aportes",
+      "dj",
+      "dolar",
+      "ibovespa",
+      "pasTipo",
+      "tipoVariacao"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.prever-meu-futuro-patrimonio-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/prever-meu-futuro-patrimonio"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quanto vou ter daqui a 10 anos",
+    "projeta meu patrimônio com o Ibovespa a 150 mil",
+    "prever meu futuro patrimônio"
+  ]
+}

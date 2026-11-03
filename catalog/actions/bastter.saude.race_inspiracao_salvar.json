@@ -1,0 +1,80 @@
+{
+  "id": "bastter.saude.race_inspiracao_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_inspiracao",
+  "operation_class": "update",
+  "label": "Adicionar um participante às minhas inspirações",
+  "description": "WS_Carteira.RaceInspiracaoSalvar. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "usuarioIDMeta": {}
+      },
+      "required": [
+        "usuarioIDMeta"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceInspiracaoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "usuarioIDMeta": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({usuarioIDMeta:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_inspiracao_listar",
+    "assert": "the item in the list shows the new values"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "notifies_people",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "The chosen person sees who chose them (Me Escolheram). Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "segue o usuário fulano no Race",
+    "adiciona esse participante às inspirações"
+  ]
+}

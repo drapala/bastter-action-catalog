@@ -1,0 +1,106 @@
+{
+  "id": "bastter.saude.race_rank_historico",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race",
+  "operation_class": "read",
+  "label": "Ver minha posição no ranking do Race semana a semana",
+  "description": "WS_Esporte.RaceRankHistorico. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "desafioDiarioID": {
+          "type": "integer",
+          "description": "ID of the desafioDiario."
+        },
+        "usuarioID": {
+          "type": "integer",
+          "description": "ID of the usuario."
+        }
+      },
+      "required": [
+        "ano",
+        "desafioDiarioID",
+        "usuarioID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "desafioDiarioID",
+        "entity": "desafiodiario",
+        "find_with": null,
+        "create_with": null
+      },
+      {
+        "input": "usuarioID",
+        "entity": "usuario",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Esporte.asmx/RaceRankHistorico",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "desafioDiarioID": "body",
+        "usuarioID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({usuarioID:n,ano:t,desafioDiarioID:null})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "como evoluiu minha posição no ranking este ano",
+    "histórico da minha posição no Race"
+  ]
+}

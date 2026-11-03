@@ -1,0 +1,91 @@
+{
+  "id": "bastter.pas.doacao_instituicao_obter",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "doacao_instituicao",
+  "operation_class": "read",
+  "label": "Ver o nome e o CPF ou CNPJ de uma instituição de doação",
+  "description": "WS_Carteira.DoacaoInstituicaoObter. Called from: #PAS - Doações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "instituicaoID": {
+          "type": "integer",
+          "description": "ID of the instituicao.",
+          "examples": [
+            751,
+            751,
+            752
+          ]
+        }
+      },
+      "required": [
+        "instituicaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "instituicaoID",
+        "entity": "instituicao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DoacaoInstituicaoObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "instituicaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({instituicaoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/doacoes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:28:30+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793730507",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.doacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/doacoes"
+    }
+  ],
+  "intent_examples": [
+    "qual o CNPJ da instituição que ajudo",
+    "mostra os dados dessa instituição"
+  ]
+}

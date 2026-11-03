@@ -1,0 +1,103 @@
+{
+  "id": "bastter.ativos.bs2_ocultar_financeiro",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "financeiro",
+  "operation_class": "update",
+  "label": "Ocultar ou mostrar os valores financeiros na tela",
+  "description": "WS_Carteira.BS2OcultarFinanceiro. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ocultar": {
+          "examples": [
+            true,
+            false,
+            true
+          ]
+        }
+      },
+      "required": [
+        "ocultar"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2OcultarFinanceiro",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ocultar": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({ocultar:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "o BS passou a esconder os valores",
+    "from_scenario": "scenarios/config_ocultar_financeiro.yaml#ficou_oculto"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:35+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-ocultar-financeiro-1793737229",
+    "notes": "os valores voltaram a aparecer e nenhuma opção da carteira mudou"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "esconde os valores da tela",
+    "mostra os valores em reais de novo",
+    "oculta meu financeiro"
+  ]
+}

@@ -1,0 +1,92 @@
+# Hand edits merged last by tools/build_catalog.py, keyed by action id.
+# Each edit comes from a live finding. The source is named in the note.
+
+# --- Writes that reach other users (docs/families/saude.md). Never run.
+bastter.saude.gym_save_treino:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "A treino scores in the public Gym ranking. Not run."}
+bastter.saude.gym_delete_treino:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Changes the public Gym ranking. Not run."}
+bastter.saude.race_atividade_salvar:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "An activity scores in the Race ranking and shows on the public profile. Not run."}
+bastter.saude.race_atividade_excluir:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Changes the public Race ranking and profile. Not run."}
+bastter.saude.race_atividade_validar:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Validates an activity for the public Race. Not run."}
+bastter.saude.race_alimentacao_save:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Food entries feed a public ranking. Not run."}
+bastter.saude.race_alimentacao_delete:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Changes a public ranking. Not run."}
+bastter.saude.race_inspiracao_salvar:
+  side_effects: {external_effect: notifies_people, requires_confirmation: true, notes: "The chosen person sees who chose them (Me Escolheram). Not run."}
+bastter.saude.race_inspiracao_excluir:
+  side_effects: {external_effect: notifies_people, requires_confirmation: true, notes: "Changes what the chosen person sees. Not run."}
+bastter.saude.parou_beber_save:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Joins a public list of users with a counter. Not run."}
+bastter.saude.parou_beber_delete:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Changes a public list of users. Not run."}
+bastter.saude.race_pendencia_salvar:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Saving a pendência publishes it to the Race. Pendências come from Strava or moderation. Not run."}
+bastter.saude.race_pendencia_excluir:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Changes what the Race shows. Not run."}
+bastter.saude.psfg_save:
+  side_effects: {reversible: false, requires_confirmation: true, notes: "No method deletes a PSFG rating, and the account had none to restore. Not run."}
+bastter.saude.race_peso_salvar:
+  side_effects: {reversible: false, requires_confirmation: true, notes: "The first save on an account creates a custom-label row (RacePesoListar.Personalizado) that no method deletes. The user sees no change."}
+
+# --- Item lifecycle (docs/families/imovel-e-ajustes.md and the scripts).
+bastter.ativos.excluir_item:
+  side_effects: {reversible: true, undo_with: bastter.ativos.restaurar_item, notes: "Hides the item from the tab. restaurar_item brings back the same id. excluir_movimentacao_ativo deletes it for good."}
+bastter.ativos.excluir_movimentacao_ativo:
+  label: "Excluir definitivamente um ativo já excluído"
+  operation_class: delete
+  side_effects: {reversible: false, external_effect: none, requires_confirmation: true, notes: "Works on an item that excluir_item already hid. The app says it will no longer show on any screen."}
+bastter.ativos.alterar_pais:
+  side_effects: {notes: "On an acao item it answers Return true and changes nothing. The app uses it on manual stock, reit, europa, bond and etf items."}
+bastter.ativos.atualizar_preco:
+  side_effects: {notes: "On an acao item it answers Return true and changes nothing. The app uses it on manual stock, reit, europa, bond and outro items."}
+bastter.ativos.salvar_objetivo_ativos:
+  side_effects: {requires_confirmation: true, notes: "Writes the objectives of a whole tab and sets a last-changed marker that cannot be set back. Not run."}
+bastter.ativos.incluir_grupo:
+  side_effects: {requires_confirmation: true, notes: "Adds a whole group of stocks to the tab, not one item. Not run."}
+bastter.ativos.copiar_item:
+  side_effects: {notes: "Needs a second portfolio. A portfolio can be deleted only with the account password (carteira_excluir). Not run."}
+bastter.ativos.mover_item:
+  side_effects: {notes: "Needs a second portfolio. A portfolio can be deleted only with the account password (carteira_excluir). Not run."}
+bastter.ativos.carteira_criar:
+  side_effects: {requires_confirmation: true, notes: "A created portfolio can be deleted only with the account password. Not run."}
+bastter.ativos.carteira_excluir:
+  inputs: {schema: {properties: {senha: {type: string, description: "The account password. Ask the user to type it. Never store it."}}}}
+  side_effects: {reversible: false, requires_confirmation: true, notes: "Needs the account password. Deletes a portfolio and everything in it. Not run."}
+
+# --- Asset classes (docs/families/ativos-classes.md).
+bastter.ativos.provento_manual_deletar:
+  route_timeout_s: 300
+  side_effects: {notes: "The server takes about 145 s to answer. The route sets timeout_s 300."}
+
+# --- Finance and income tax (docs/families/financeiro-e-ir.md).
+bastter.financeiro.calculadora_juros_save_topico:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Creates a public topic in the forum. Not run."}
+
+# --- PAS and settings (docs/families/pas-e-config.md).
+bastter.ativos.salvar_opcoes:
+  side_effects: {reversible: false, requires_confirmation: true, notes: "The server writes 0 to ProventosPizzaTipo and ProventosPizzaItem on every call, whatever the body holds. The app's own Configurações save does the same."}
+bastter.ativos.abas_salvar:
+  side_effects: {reversible: false, requires_confirmation: true, notes: "An empty list is stored as [\"\"] and null is refused, so the original [] cannot come back. No tab is hidden by [\"\"]."}
+bastter.pas.diario_atividade_salvar:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Activity amounts feed a public top 50 per activity type (diario_atividade_rank_listar). A large amount shows the user in it. The MCP server does not run it. The scenario wrote 1 and 2 minutes, below the lowest ranked 104."}
+bastter.pas.diario_salvar:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Weights feed a public ranking that shows logins, and there is no delete method. Not run."}
+bastter.home.bs2_home_salvar:
+  side_effects: {notes: "The server refuses null, so an account that never saved a home layout cannot go back to that state. Not run."}
+bastter.patrimonio.bs2_visao_geral_layout_salvar:
+  side_effects: {notes: "Not run: an exact restore of a never-saved layout is not certain."}
+bastter.patrimonio.salvar_objetivo_classes:
+  side_effects: {notes: "Saves only when the objectives add up to 100. An account with no objectives (sum 0) cannot be restored. Not run."}
+bastter.pas.agradecer_salvar:
+  inputs: {schema: {properties: {agradecimento: {type: object, required: [privado], additionalProperties: false, properties: {AgredecimentoID: {type: integer}, data: {type: string}, privado: {const: true, description: "Must be true. A public entry can show to other users."}, Anotacoes: {type: string}}}}}}
+  side_effects: {notes: "Write it as private (the read-back shows Privado true). A public one can show to other users."}
+bastter.pas.diario_sardinhagem_salvar:
+  inputs: {schema: {properties: {sardinhagem: {type: object, required: [privado], additionalProperties: false, properties: {ItemID: {type: integer}, data: {type: string}, privado: {const: true, description: "Must be true. A public entry can show to other users."}, Anotacoes: {type: string}}}}}}
+  side_effects: {notes: "Write it as private (the read-back shows Privado true). A public one can show to other users."}
+bastter.ativos.salvar_provento:
+  side_effects: {notes: "Edits an automatic dividend that the server created, and there is no delete. Not run."}

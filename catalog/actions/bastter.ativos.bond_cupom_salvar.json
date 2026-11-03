@@ -1,0 +1,127 @@
+{
+  "id": "bastter.ativos.bond_cupom_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "bond_cupom",
+  "operation_class": "update",
+  "label": "Lançar ou editar um cupom recebido de um bond",
+  "description": "WS_Carteira.BondCupomSalvar. Called from: Ativos - Bonds.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            6758,
+            6758,
+            6759
+          ]
+        },
+        "cupomID": {
+          "type": "integer",
+          "examples": [
+            0,
+            2561,
+            0
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "2026-11-01",
+            "2026-11-02",
+            "2026-11-01"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "valor": {
+          "type": "integer",
+          "examples": [
+            2,
+            3,
+            2
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "cupomID",
+        "data",
+        "valor"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BondCupomSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "cupomID": "body",
+        "data": "body",
+        "valor": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/bond"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bond_cupom_listar",
+    "assert": "o cupom aparece na lista do bond com o valor enviado",
+    "from_scenario": "scenarios/bond_ciclo.yaml#cupom_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:19:47+00:00",
+    "evidence": "evidence/runs.jsonl#run=bond-ciclo-1793737174",
+    "notes": "o mesmo cupom passou a ter valor 3, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.bond-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança um cupom de 35 dólares no meu bond",
+    "registra o cupom que o bond pagou hoje",
+    "corrige o valor do cupom do bond"
+  ]
+}

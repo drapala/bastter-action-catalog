@@ -1,0 +1,80 @@
+{
+  "id": "bastter.ativos.listar_comunicado_comentarios",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "comunicado_comentarios",
+  "operation_class": "read",
+  "label": "Listar os relatórios comentados dos FIIs",
+  "description": "WS_Carteira.ListarComunicadoComentarios. Called from: Ativos - FIIs, Ativos - FIIs - Gráficos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "hasAudio": {}
+      },
+      "required": [
+        "hasAudio"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ListarComunicadoComentarios",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "hasAudio": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({hasAudio:!1})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/fii"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.ativos.fii-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.fii-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/fii"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/fii/graficos"
+    }
+  ],
+  "intent_examples": [
+    "mostra os relatórios comentados dos meus FIIs",
+    "tem comentário novo sobre algum FII?"
+  ]
+}

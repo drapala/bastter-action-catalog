@@ -1,0 +1,190 @@
+{
+  "id": "bastter.pas.list_filme_serie",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "filme_serie",
+  "operation_class": "read",
+  "label": "Listar filmes e séries: os meus e as sugestões",
+  "description": "WsFilme.ListFilmeSerie. Called from: #PAS - Cãotural.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "assistido": {
+          "type": "string",
+          "examples": [
+            "0",
+            "0",
+            "0"
+          ]
+        },
+        "categoria": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "exibir": {
+          "type": "string",
+          "examples": [
+            "4",
+            "5",
+            "2"
+          ]
+        },
+        "ondeAssistir": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "ordenar": {
+          "type": "string",
+          "examples": [
+            "Avaliacao",
+            "Avaliacao",
+            "Avaliacao"
+          ]
+        },
+        "pagina": {
+          "type": "integer",
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "T",
+            "T",
+            "T"
+          ]
+        },
+        "titulo": {
+          "type": "string",
+          "examples": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "usuarioID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "usuarioIndicacaoID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "required": [
+        "assistido",
+        "categoria",
+        "exibir",
+        "ondeAssistir",
+        "ordenar",
+        "pagina",
+        "tipo",
+        "titulo",
+        "usuarioID",
+        "usuarioIndicacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsFilme.asmx/ListFilmeSerie",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "assistido": "body",
+        "categoria": "body",
+        "exibir": "body",
+        "ondeAssistir": "body",
+        "ordenar": "body",
+        "pagina": "body",
+        "tipo": "body",
+        "titulo": "body",
+        "usuarioID": "body",
+        "usuarioIndicacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"pagina\": 1, \"usuarioID\": 0, \"usuarioIndicacaoID\": 0, \"titulo\": \"\", \"categoria\": 0, \"ondeAssistir\": 0, \"ordenar\": \"Avaliacao\", \"tipo\": \"T\", \"exibir\": \"4\", \"assistido\": \"0\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/caotural"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/pas/caotural and it answered 200.",
+    "captured_keys": [
+      "assistido",
+      "categoria",
+      "exibir",
+      "ondeAssistir",
+      "ordenar",
+      "pagina",
+      "tipo",
+      "titulo",
+      "usuarioID",
+      "usuarioIndicacaoID"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.caotural-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/caotural"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quais filmes eu já assisti",
+    "me sugere uma série",
+    "lista as séries que marquei"
+  ]
+}

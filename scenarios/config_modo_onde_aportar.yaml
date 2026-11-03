@@ -1,0 +1,24 @@
+name: config-modo-onde-aportar
+description: Troca o modo da tela Onde Aportar de 0 (Padrão) para 1 (Por aportes), lê de volta, restaura e confirma que todas as opções da carteira ficaram iguais às de antes.
+steps:
+  - name: modo_antes
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.ModoOndeAportar: 0, CarteiraOpcoes.ModoOndeAportarAlternado: false}}
+    save: {antes: CarteiraOpcoes.ModoOndeAportar, opcoes_antes: CarteiraOpcoes}
+  - name: mudar_modo
+    action: bastter.ativos.modo_onde_aportar_salvar
+    inputs: {modo: "1"}
+  - name: modo_mudou
+    postcondition_of: bastter.ativos.modo_onde_aportar_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.ModoOndeAportar: 1}}
+    proves: o modo do Onde Aportar passou a ser 1
+  - name: restaurar_modo
+    undoes: mudar_modo
+    action: bastter.ativos.modo_onde_aportar_salvar
+    inputs: {modo: "${antes}"}
+  - name: modo_restaurado
+    postcondition_of: bastter.ativos.modo_onde_aportar_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.ModoOndeAportar: "${antes}", CarteiraOpcoes: "${opcoes_antes}"}}
+    proves: o modo voltou ao valor antigo e nenhuma outra opção da carteira mudou

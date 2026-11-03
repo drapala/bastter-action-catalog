@@ -1,0 +1,91 @@
+{
+  "id": "bastter.financeiro.exterminador_divida_get",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "exterminador_divida",
+  "operation_class": "read",
+  "label": "Abrir uma simulação salva do Exterminador de Dívidas",
+  "description": "WsWorks.ExterminadorDividaGet. Called from: Financeiro - Dívidas - Exterminador.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "simulacaoID": {
+          "type": "integer",
+          "description": "ID of the simulacao.",
+          "examples": [
+            139,
+            139,
+            140
+          ]
+        }
+      },
+      "required": [
+        "simulacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "simulacaoID",
+        "entity": "simulacao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsWorks.asmx/ExterminadorDividaGet",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "simulacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({simulacaoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/dividas/exterminador"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:26:08+00:00",
+    "evidence": "evidence/runs.jsonl#run=exterminador-ciclo-1793730364",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.divida.exterminador-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/dividas/exterminador"
+    }
+  ],
+  "intent_examples": [
+    "abre a simulação da dívida do carro",
+    "carrega minha simulação do exterminador"
+  ]
+}

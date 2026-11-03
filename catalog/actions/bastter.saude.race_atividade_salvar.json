@@ -1,0 +1,78 @@
+{
+  "id": "bastter.saude.race_atividade_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_atividade",
+  "operation_class": "update",
+  "label": "Registrar ou editar uma atividade de esporte, como corrida, no Race",
+  "description": "WS_Carteira.RaceAtividadeSalvar. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "atividade": {}
+      },
+      "required": [
+        "atividade"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceAtividadeSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "atividade": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({atividade:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "publishes",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "An activity scores in the Race ranking and shows on the public profile. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "registra que corri 10 km hoje",
+    "lança 1 hora de bike",
+    "corrige o tempo da natação de ontem"
+  ]
+}

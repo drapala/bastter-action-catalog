@@ -1,0 +1,329 @@
+{
+  "id": "bastter.ativos.salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "salvar",
+  "operation_class": "update",
+  "label": "Incluir ou editar um ativo na carteira",
+  "description": "WS_Carteira.Salvar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "classificacaoID": {
+          "type": "string",
+          "examples": [
+            ""
+          ]
+        },
+        "cnpj": {
+          "examples": [
+            null
+          ]
+        },
+        "codIRPF": {
+          "examples": [
+            null
+          ]
+        },
+        "compraImovel": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "controleSaldo": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "dataAux": {
+          "examples": [
+            null
+          ]
+        },
+        "dataDividendos": {
+          "examples": [
+            null
+          ]
+        },
+        "descricao": {
+          "type": "string",
+          "examples": [
+            "PETR4"
+          ]
+        },
+        "descricaoIRPF": {
+          "examples": [
+            null
+          ]
+        },
+        "descricaoImovel": {
+          "examples": [
+            null
+          ]
+        },
+        "destinoID": {
+          "examples": [
+            null
+          ]
+        },
+        "instituicao": {
+          "examples": [
+            null
+          ]
+        },
+        "moedaAtivoID": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            0
+          ]
+        },
+        "moradia": {
+          "examples": [
+            null
+          ]
+        },
+        "naoPatrimonio": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "origemID": {
+          "examples": [
+            null
+          ]
+        },
+        "paisID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "percentualCDI": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "quantidade": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao"
+          ]
+        },
+        "tipoAtualizacaoCDI": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "tipoImovelID": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            12
+          ]
+        },
+        "valor": {
+          "type": "string",
+          "examples": [
+            ""
+          ]
+        },
+        "valorAux": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "vencimento": {
+          "examples": [
+            null
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "classificacaoID",
+        "cnpj",
+        "codIRPF",
+        "compraImovel",
+        "controleSaldo",
+        "dataAux",
+        "dataDividendos",
+        "descricao",
+        "descricaoIRPF",
+        "descricaoImovel",
+        "destinoID",
+        "instituicao",
+        "moedaAtivoID",
+        "moradia",
+        "naoPatrimonio",
+        "origemID",
+        "paisID",
+        "percentualCDI",
+        "quantidade",
+        "tipo",
+        "tipoAtualizacaoCDI",
+        "tipoImovelID",
+        "valor",
+        "valorAux",
+        "vencimento"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/Salvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "classificacaoID": "body",
+        "cnpj": "body",
+        "codIRPF": "body",
+        "compraImovel": "body",
+        "controleSaldo": "body",
+        "dataAux": "body",
+        "dataDividendos": "body",
+        "descricao": "body",
+        "descricaoIRPF": "body",
+        "descricaoImovel": "body",
+        "destinoID": "body",
+        "instituicao": "body",
+        "moedaAtivoID": "body",
+        "moradia": "body",
+        "naoPatrimonio": "body",
+        "origemID": "body",
+        "paisID": "body",
+        "percentualCDI": "body",
+        "quantidade": "body",
+        "tipo": "body",
+        "tipoAtualizacaoCDI": "body",
+        "tipoImovelID": "body",
+        "valor": "body",
+        "valorAux": "body",
+        "vencimento": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"acao\", \"ativoID\": 0, \"classificacaoID\": \"\", \"quantidade\": 0, \"descricao\": \"PETR4\", \"valor\": \"\", \"moedaAtivoID\": 0, \"tipoImovelID\": 12, \"destinoID\": null, \"instituicao\": null, \"compraImovel\": false, \"descricaoImovel\": null, \"codIRPF\": null, \"naoPatrimonio\": false, \"descricaoIRPF\": null, \"pa"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_itens",
+    "assert": "o ativo aparece na aba Ações com o código e a referência da busca",
+    "from_scenario": "scenarios/acao_ciclo_completo.yaml#itens_com_ativo"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:20+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793737755",
+    "notes": "o ativo aparece na aba Stocks com o código da busca",
+    "captured_keys": [
+      "ativoID",
+      "classificacaoID",
+      "cnpj",
+      "codIRPF",
+      "compraImovel",
+      "controleSaldo",
+      "dataAux",
+      "dataDividendos",
+      "descricao",
+      "descricaoIRPF",
+      "descricaoImovel",
+      "destinoID",
+      "instituicao",
+      "moedaAtivoID",
+      "moradia",
+      "naoPatrimonio",
+      "origemID",
+      "paisID",
+      "percentualCDI",
+      "quantidade",
+      "tipo",
+      "tipoAtualizacaoCDI",
+      "tipoImovelID",
+      "valor",
+      "valorAux",
+      "vencimento"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-flows.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "adiciona PETR4 na carteira",
+    "cadastra um imóvel novo",
+    "inclui o ETF IVVB11 nos meus ativos"
+  ]
+}

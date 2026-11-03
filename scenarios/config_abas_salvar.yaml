@@ -1,0 +1,23 @@
+name: config-abas-salvar
+description: Esconde a aba Meu Futuro Patrimônio do menu Patrimônio (tipo 2), lê de volta, restaura a lista antiga de abas escondidas e confirma. Atenção, uma lista vazia volta da leitura como [""] e não como [], e abas nulo dá erro. A primeira execução deixou o menu Patrimônio em [""] (nenhuma aba escondida, igual na tela). A partir daí o cenário restaura exatamente o valor lido.
+steps:
+  - name: abas_antes
+    action: bastter.ativos.bs2_init
+    save: {antes: AbasPatrimonioExcluidas, ativos_antes: AbasAtivosExcluidas, financeiro_antes: AbasFinanceiroExcluidas}
+  - name: esconder_aba
+    action: bastter.ativos.abas_salvar
+    inputs: {tipo: 2, abas: [meu-futuro-patrimonio]}
+  - name: aba_escondida
+    postcondition_of: bastter.ativos.abas_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {AbasPatrimonioExcluidas: [meu-futuro-patrimonio]}}
+    proves: a aba aparece na lista de abas escondidas do menu Patrimônio
+  - name: restaurar_abas
+    undoes: esconder_aba
+    action: bastter.ativos.abas_salvar
+    inputs: {tipo: 2, abas: "${antes}"}
+  - name: abas_restauradas
+    postcondition_of: bastter.ativos.abas_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {AbasPatrimonioExcluidas: "${antes}", AbasAtivosExcluidas: "${ativos_antes}", AbasFinanceiroExcluidas: "${financeiro_antes}"}}
+    proves: as listas de abas escondidas voltaram a ser as de antes

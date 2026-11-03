@@ -1,0 +1,24 @@
+name: config-salvar-ordenacao
+description: Troca a ordenação salva da aba consolidadoproventos de 1 para 2, lê de volta, restaura e confirma que a lista de ordenações ficou igual à de antes.
+steps:
+  - name: ordenacao_antes
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Ordenacao, where: {Aba: consolidadoproventos, OrdenacaoID: 1}}}
+    save: {antes: {path: Ordenacao, where: {Aba: consolidadoproventos}, field: OrdenacaoID}, ordenacao_antes: Ordenacao}
+  - name: mudar_ordenacao
+    action: bastter.ativos.salvar_ordenacao
+    inputs: {aba: consolidadoproventos, ordenacaoID: 2}
+  - name: ordenacao_mudou
+    postcondition_of: bastter.ativos.salvar_ordenacao
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Ordenacao, where: {Aba: consolidadoproventos, OrdenacaoID: 2}}}
+    proves: a aba consolidadoproventos passou a ter ordenação 2
+  - name: restaurar_ordenacao
+    undoes: mudar_ordenacao
+    action: bastter.ativos.salvar_ordenacao
+    inputs: {aba: consolidadoproventos, ordenacaoID: "${antes}"}
+  - name: ordenacao_restaurada
+    postcondition_of: bastter.ativos.salvar_ordenacao
+    action: bastter.ativos.bs2_init
+    assert: {equals: {Ordenacao: "${ordenacao_antes}"}}
+    proves: a lista de ordenações voltou a ser a de antes

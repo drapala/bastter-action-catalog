@@ -1,0 +1,181 @@
+{
+  "id": "bastter.ativos.provento_manual_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "provento_manual",
+  "operation_class": "update",
+  "label": "Lançar ou editar à mão um provento de um ativo",
+  "description": "WS_Carteira.ProventoManualSalvar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            55738,
+            55738,
+            55738
+          ]
+        },
+        "dataEx": {
+          "type": "string",
+          "examples": [
+            "2026-10-01",
+            "2026-10-01",
+            "2026-10-01"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "dataPagamento": {
+          "type": "string",
+          "examples": [
+            "2026-10-15",
+            "2026-10-15",
+            "2026-10-16"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "dataReferencia": {
+          "type": "string",
+          "examples": [
+            "2026-10-01",
+            "2026-10-01",
+            "2026-10-01"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "earningID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            1058
+          ]
+        },
+        "imposto": {
+          "type": "number",
+          "examples": [
+            0.45,
+            0.45,
+            0.75
+          ]
+        },
+        "tipoClasse": {
+          "type": "string",
+          "examples": [
+            "etf",
+            "etf",
+            "etf"
+          ]
+        },
+        "valor": {
+          "type": "number",
+          "examples": [
+            1.5,
+            1.5,
+            2.5
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "dataEx",
+        "dataPagamento",
+        "dataReferencia",
+        "earningID",
+        "imposto",
+        "tipoClasse",
+        "valor"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ProventoManualSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "dataEx": "body",
+        "dataPagamento": "body",
+        "dataReferencia": "body",
+        "earningID": "body",
+        "imposto": "body",
+        "tipoClasse": "body",
+        "valor": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.provento_manual_listar",
+    "assert": "o provento manual aparece na lista do ativo com valor, imposto e data de pagamento enviados",
+    "from_scenario": "scenarios/etf_ciclo.yaml#provento_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:21:28+00:00",
+    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793737275",
+    "notes": "o mesmo provento passou a ter valor 2.5, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança um dividendo de 150 reais da TAEE11",
+    "registra à mão o JCP que caiu hoje",
+    "corrige a data ex desse provento"
+  ]
+}

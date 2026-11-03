@@ -1,0 +1,100 @@
+{
+  "id": "bastter.ativos.listar_rapidinhas_texto",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "rapidinhas_texto",
+  "operation_class": "read",
+  "label": "Listar as rapidinhas em texto dos ativos da carteira",
+  "description": "WS_Carteira.ListarRapidinhasTexto. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ListarRapidinhasTexto",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:13:11+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "mostra as rapidinhas das minhas ações",
+    "tem rapidinha escrita sobre meus FIIs?"
+  ]
+}

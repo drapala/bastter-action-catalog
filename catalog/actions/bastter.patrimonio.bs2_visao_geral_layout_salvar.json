@@ -1,0 +1,80 @@
+{
+  "id": "bastter.patrimonio.bs2_visao_geral_layout_salvar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "visao_geral_layout",
+  "operation_class": "update",
+  "label": "Salvar a ordem e os painéis fechados da visão geral",
+  "description": "WS_Carteira.BS2VisaoGeralLayoutSalvar. Called from: Patrimônio - Visão Geral.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "fechados": {},
+        "ordem": {}
+      },
+      "required": [
+        "fechados",
+        "ordem"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2VisaoGeralLayoutSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "fechados": "body",
+        "ordem": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({ordem:bsVisaoGeral.idsPaineis(),fechados:bsVisaoGeral.fechados})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/visao-geral"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false,
+    "notes": "Not run: an exact restore of a never-saved layout is not certain."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.patrimonio.visao-geral-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.visao-geral-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/visao-geral"
+    }
+  ],
+  "intent_examples": [
+    "fecha o painel de esporte da visão geral",
+    "reorganiza os painéis da visão geral"
+  ]
+}

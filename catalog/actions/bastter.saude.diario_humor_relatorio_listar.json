@@ -1,0 +1,86 @@
+{
+  "id": "bastter.saude.diario_humor_relatorio_listar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "diario_humor_relatorio",
+  "operation_class": "read",
+  "label": "Ver o relatório do diário de humor por período",
+  "description": "WS_Carteira.DiarioHumorRelatorioListar. Called from: Saúde - Diário Humor.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "periodo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "ano",
+            "ano",
+            "ano"
+          ]
+        }
+      },
+      "required": [
+        "periodo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioHumorRelatorioListar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "periodo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({periodo:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/diario-humor"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:16:14+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793729770",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.diariohumor-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/diario-humor"
+    }
+  ],
+  "intent_examples": [
+    "relatório do meu humor no mês",
+    "como variou meu humor este ano"
+  ]
+}

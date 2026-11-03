@@ -1,0 +1,117 @@
+{
+  "id": "bastter.ativos.salvar_opcao",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "opcao",
+  "operation_class": "update",
+  "label": "Salvar uma opção de configuração do sistema",
+  "description": "WS_Carteira.SalvarOpcao. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "type": "string",
+          "examples": [
+            "UltimosProventos",
+            "UltimosProventos",
+            "UltimosProventos"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "examples": [
+            "2",
+            "1",
+            "2"
+          ]
+        }
+      },
+      "required": [
+        "parameter",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarOpcao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "parameter": "body",
+        "value": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(r)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "a opção passou a valer 2",
+    "from_scenario": "scenarios/config_salvar_opcao.yaml#opcao_mudou"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:48+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-salvar-opcao-1793737243",
+    "notes": "a opção voltou ao valor antigo e nenhuma outra opção da carteira mudou"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "liga essa opção nas configurações",
+    "muda essa configuração do BS"
+  ]
+}

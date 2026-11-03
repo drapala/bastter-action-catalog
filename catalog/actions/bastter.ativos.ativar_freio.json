@@ -1,0 +1,124 @@
+{
+  "id": "bastter.ativos.ativar_freio",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "ativar_freio",
+  "operation_class": "action",
+  "label": "Ativar o freio automático e pôr o ativo em quarentena",
+  "description": "WS_Carteira.AtivarFreio. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            1755463,
+            1755466,
+            1755469
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "acao",
+            "acao",
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AtivarFreio",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_itens",
+    "assert": "o freio pôs o item em Quarentena e gravou a data do freio",
+    "from_scenario": "scenarios/item_ajustes.yaml#freio_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:32+00:00",
+    "evidence": "evidence/runs.jsonl#run=item-ajustes-1793737577",
+    "notes": "o freio pôs o item em Quarentena e gravou a data do freio"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    }
+  ],
+  "intent_examples": [
+    "ativa o freio na MGLU3",
+    "coloca essa ação de quarentena pelo freio"
+  ]
+}

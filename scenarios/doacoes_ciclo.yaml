@@ -1,0 +1,108 @@
+name: doacoes-ciclo
+description: >
+  Doações (PAS > Doações e IR > Doações). Estes métodos só registram uma doação que o usuário já fez: não pagam,
+  não notificam ninguém. O cenário cria uma instituição própria (ZZTESTE), registra uma doação para ela, lê nas
+  três telas, edita, apaga a doação e a instituição e confirma que sumiram. Não usa as instituições globais
+  "Anjos" (UsuarioID 0), porque a campanha Anjos mostra um total público.
+vars:
+  cnpj: "11222333000181"
+steps:
+  - name: inst_salvar
+    action: bastter.pas.doacao_instituicao_salvar
+    inputs: {instituicao: {InstituicaoID: 0, Nome: "${prefix} instituicao ${ts}", CPF: "${cnpj}"}}
+    assert: {present: [InstituicaoID]}
+    save: {inst: InstituicaoID}
+  - name: inst_listada
+    postcondition_of: bastter.pas.doacao_instituicao_salvar
+    action: bastter.pas.doacao_instituicao_listar
+    inputs: {}
+    assert: {list_contains: {path: "", where: {InstituicaoID: "${inst}", Nome: "${prefix} instituicao ${ts}"}}}
+    proves: a instituição nova aparece no seletor de instituições
+    stop_on_fail: false
+  - name: inst_obter
+    postcondition_of: bastter.pas.doacao_instituicao_salvar
+    action: bastter.pas.doacao_instituicao_obter
+    inputs: {instituicaoID: "${inst}"}
+    assert: {equals: {InstituicaoID: "${inst}", Nome: "${prefix} instituicao ${ts}", CPF: "${cnpj}"}}
+    stop_on_fail: false
+  - name: inst_editar
+    action: bastter.pas.doacao_instituicao_salvar
+    inputs: {instituicao: {InstituicaoID: "${inst}", Nome: "${prefix} instituicao ${ts} b", CPF: "${cnpj}"}}
+    assert: {equals: {InstituicaoID: "${inst}"}}
+    stop_on_fail: false
+  - name: inst_editada
+    postcondition_of: bastter.pas.doacao_instituicao_salvar
+    action: bastter.pas.doacao_instituicao_obter
+    inputs: {instituicaoID: "${inst}"}
+    assert: {equals: {InstituicaoID: "${inst}", Nome: "${prefix} instituicao ${ts} b"}}
+    proves: o mesmo ID passou a ter o nome novo
+    stop_on_fail: false
+  - name: doacao_salvar
+    action: bastter.pas.doacao_salvar
+    inputs: {doacao: {doacaoID: 0, data: "2025-06-16", Instituicao: {InstituicaoID: "${inst}"}, valor: 5, codIRPF: "99", anotacoes: "${prefix} doacao ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: doacao_listada
+    postcondition_of: bastter.pas.doacao_salvar
+    action: bastter.pas.doacao_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: "", where: {Anotacoes: "${prefix} doacao ${ts}", Valor: 5.0, CodIRPF: 99, Data: "2025-06-16T00:00:00"}}}
+    save: {doacao: {path: "", where: {Anotacoes: "${prefix} doacao ${ts}"}, field: DoacaoID}}
+    proves: a doação aparece em PAS > Doações com data, valor e código IRPF enviados
+  - name: doacao_obter
+    postcondition_of: bastter.pas.doacao_salvar
+    action: bastter.pas.doacao_obter
+    inputs: {doacaoID: "${doacao}"}
+    assert: {equals: {DoacaoID: "${doacao}", Instituicao.InstituicaoID: "${inst}", Valor: 5.0}}
+    stop_on_fail: false
+  - name: doacao_no_ir_2025
+    postcondition_of: bastter.pas.doacao_salvar
+    action: bastter.imposto_de_renda.doacao_listar_ir
+    inputs: {ano: 2025}
+    assert: {list_contains: {path: "", where: {Instituicao: {InstituicaoID: 0, UsuarioID: 0, Nome: "${prefix} instituicao ${ts} b", Apelido: null, CPF: "${cnpj}"}, Valor: 5.0, CodIRPF: 99}}}
+    proves: a doação aparece em IR > Doações 2025 com o CNPJ da instituição
+    stop_on_fail: false
+  - name: doacao_no_consolidado
+    postcondition_of: bastter.pas.doacao_salvar
+    action: bastter.pas.doacao_listar_consolidado
+    inputs: {ordenacao: "2"}
+    assert: {list_contains: {path: "", where: {Instituicao: {InstituicaoID: 0, UsuarioID: 0, Nome: "${prefix} instituicao ${ts} b", Apelido: null, CPF: null}, Valor: 5.0}}}
+    stop_on_fail: false
+  - name: doacao_editar
+    action: bastter.pas.doacao_salvar
+    inputs: {doacao: {doacaoID: "${doacao}", data: "2025-06-16", Instituicao: {InstituicaoID: "${inst}"}, valor: 7, codIRPF: "99", anotacoes: "${prefix} doacao ${ts} b"}}
+    assert: {equals: {Return: true}}
+  - name: doacao_editada
+    postcondition_of: bastter.pas.doacao_salvar
+    action: bastter.pas.doacao_listar
+    inputs: {page: 1}
+    assert:
+      list_contains: {path: "", where: {DoacaoID: "${doacao}", Valor: 7.0, Anotacoes: "${prefix} doacao ${ts} b"}}
+      list_excludes: {path: "", where: {Anotacoes: "${prefix} doacao ${ts}"}}
+    proves: a mesma doação mudou de valor, sem criar outra
+    stop_on_fail: false
+  - name: doacao_excluir
+    action: bastter.pas.doacao_excluir
+    inputs: {doacaoID: "${doacao}"}
+    assert: {equals: {Return: true}}
+  - name: doacao_sumiu
+    postcondition_of: bastter.pas.doacao_excluir
+    action: bastter.pas.doacao_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: "", where: {DoacaoID: "${doacao}"}}}
+    stop_on_fail: false
+  - name: doacao_fora_do_ir
+    postcondition_of: bastter.pas.doacao_excluir
+    action: bastter.imposto_de_renda.doacao_listar_ir
+    inputs: {ano: 2025}
+    assert: {list_excludes: {path: "", where: {Instituicao: {InstituicaoID: 0, UsuarioID: 0, Nome: "${prefix} instituicao ${ts} b", Apelido: null, CPF: "${cnpj}"}}}}
+    stop_on_fail: false
+  - name: inst_excluir
+    action: bastter.pas.doacao_instituicao_excluir
+    inputs: {instituicaoID: "${inst}"}
+    assert: {equals: {Return: true}}
+  - name: inst_sumiu
+    postcondition_of: bastter.pas.doacao_instituicao_excluir
+    action: bastter.pas.doacao_instituicao_listar
+    inputs: {}
+    assert: {list_excludes: {path: "", where: {InstituicaoID: "${inst}"}}}
+    proves: a instituição criada não está mais no seletor

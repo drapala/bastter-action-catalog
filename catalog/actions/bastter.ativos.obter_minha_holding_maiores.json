@@ -1,0 +1,114 @@
+{
+  "id": "bastter.ativos.obter_minha_holding_maiores",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "minha_holding_maiores",
+  "operation_class": "read",
+  "label": "Ver os maiores ativos da Minha Holding por um indicador",
+  "description": "WS_Carteira.ObterMinhaHoldingMaiores. Called from: Ativos - Ações - Minha Holding, Ativos - FIIs - Minha Holding, Ativos - REITs - Minha Holding, Ativos - Stocks - Minha Holding.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao",
+            "fii",
+            "stock"
+          ]
+        },
+        "tipoDado": {
+          "type": "string",
+          "examples": [
+            "ValorMercado",
+            "ValorMercado",
+            "ValorMercado"
+          ]
+        }
+      },
+      "required": [
+        "tipo",
+        "tipoDado"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ObterMinhaHoldingMaiores",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "tipo": "body",
+        "tipoDado": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"acao\", \"tipoDado\": \"ValorMercado\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao/minha-holding"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:56:13+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": [
+      "tipo",
+      "tipoDado"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.chart.maiores.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/fii/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/reit/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/stock/minha-holding"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quais minhas ações com maior valor de mercado",
+    "mostra as empresas mais endividadas da minha holding",
+    "quais ativos tiveram os maiores retornos"
+  ]
+}

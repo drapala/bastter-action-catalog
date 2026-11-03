@@ -1,0 +1,536 @@
+[
+  {
+    "check": "G001",
+    "target": "bastter.ativos.alerta_critico_regras_save",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.alerta_diversificacao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.alterar_pais",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.atualizar_preco",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.bs2_aberturas_limite_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.bs2_navegacao_favorito_alternar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.copiar_item",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.delete_notificacao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.enviar_email",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.eventos_marcar_lido",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.freio_automatico_tempo_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.gerar_minha_holding",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.incluir_grupo",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.integracao_b3_termos_aceitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.integracao_b3_termos_recusar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.meu_bs_proventos",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.meu_bs_save_home_padrao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.meu_bs_save_panel",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.mover_item",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.nao_notificar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.pedir_bdr",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.pedir_etf",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.pesquisar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.remessa_online_authorize",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.roubei_atualizar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.roubei_vezes_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_movimentacoes_nota",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_objetivo_ativos",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_objetivo_indice_renda_fixa",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_opcoes_menu_lateral_aberto",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_oq_fazer",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.salvar_provento",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.save_cookie_consent",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.save_notificacoes_default_tipo",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.save_termos_uso",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.solicitar_analise",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.sorteio_ativos_sortear",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.sorteio_ativos_update_popup",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.token_sair",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.token_validar_sessao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.ultima_aba_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ativos.update_notificacoes",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.configuracoes.bs2_aberturas_limite",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.auth_app_desabilitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.auth_app_enviar_email_reset",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.auth_app_habilitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.auth_app_solicitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.integracao_b3_salvar_custos",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.integracao_b3_salvar_dados",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.integracao_b3_salvar_importacao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.token_desabilitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.token_enviar_email",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.ferramentas.token_habilitar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.financeiro.calculadora_juros_save_topico",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.home.bs2_lucro_socio",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.home.meu_bs_proventos_classes",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.imposto_de_renda.ir_marcar_linha",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.imposto_de_renda.salvar_ir_imovel_aluguel_previdencia_dep",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.imposto_de_renda.salvar_opcoes_ir_copiar_marcar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.imposto_de_renda.simulador_ir_calcular",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.pas.agradecer_salvar_notificacao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.pas.diario_sardinhagem_salvar_notificacao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_insights_cachorrinho",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_insights_sem_aporte",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_insights_ultimas_compras",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_onde_retirar_renda",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_qualidade_carteira_concentracao",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_visao_geral_carteira",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_visao_geral_insights",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_visao_geral_layout_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.bs2_visao_geral_onde_aportar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.cleitometro_nao_compartilha_atualizar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.incluir",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.salvar_objetivo_classes",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.salvar_posicao_historico_anual",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.patrimonio.tempo_sem_vender_nao_compartilha_atualizar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_atividade_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_atividade_validar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_diversificacao_geral",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_fila_excluir",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_lembrete_auto_sugestao_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_pega_um_salvar_fixo",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_pega_um_save_esporte_id",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_pega_um_save_prox_automatico",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_sequencia_meta_salvar",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_strava_deauthorization",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_strava_import_activities",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_strava_update_workout_esporte_id",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  },
+  {
+    "check": "G001",
+    "target": "bastter.saude.race_tem_atividade_dia",
+    "severity": "gap",
+    "message": "write with no postcondition"
+  }
+]

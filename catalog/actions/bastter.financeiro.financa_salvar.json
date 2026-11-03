@@ -1,0 +1,235 @@
+{
+  "id": "bastter.financeiro.financa_salvar",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa",
+  "operation_class": "update",
+  "label": "Lançar ou editar uma receita ou despesa (gasto) nas finanças",
+  "description": "WS_Carteira.FinancaSalvar. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "categoriaDescricao": {
+          "type": "string",
+          "examples": [
+            "ZZTESTE cat 730307",
+            "",
+            ""
+          ]
+        },
+        "categoriaID": {
+          "type": "integer",
+          "examples": [
+            0,
+            25632,
+            25632
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "15/11/2026",
+            "15/11/2026",
+            "16/11/2026"
+          ],
+          "description": "Date format: dd/mm/yyyy."
+        },
+        "descricao": {
+          "type": "string",
+          "examples": [
+            "ZZTESTE gasto 730307",
+            "ZZTESTE gasto 730307",
+            "ZZTESTE receita 730307"
+          ]
+        },
+        "despesaDedutivel": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "examples": [
+            null,
+            {
+              "Codigo": "10",
+              "RealizadaCom": "1",
+              "CPFCNPJ": "111.444.777-35",
+              "NomeBeneficiario": "ZZTESTE medico 730307",
+              "Descricao": "ZZTESTE gasto 730307",
+              "ValorNaoDedutivel": 0
+            },
+            null
+          ]
+        },
+        "impostoExterior": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "isDespesaDedutivel": {
+          "type": "boolean",
+          "examples": [
+            false,
+            true,
+            false
+          ]
+        },
+        "lancamentoID": {
+          "type": "integer",
+          "examples": [
+            0,
+            280336,
+            0
+          ]
+        },
+        "moedaID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rendExterior": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "2",
+            "2",
+            "1"
+          ]
+        },
+        "tipoRecorrencia": {
+          "type": "string",
+          "examples": [
+            "0",
+            "0",
+            "2"
+          ]
+        },
+        "valor": {
+          "type": "string",
+          "examples": [
+            "10,00",
+            "12,00",
+            "5,00"
+          ]
+        }
+      },
+      "required": [
+        "categoriaDescricao",
+        "categoriaID",
+        "data",
+        "descricao",
+        "despesaDedutivel",
+        "impostoExterior",
+        "isDespesaDedutivel",
+        "lancamentoID",
+        "moedaID",
+        "rendExterior",
+        "tipo",
+        "tipoRecorrencia",
+        "valor"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "categoriaDescricao": "body",
+        "categoriaID": "body",
+        "data": "body",
+        "descricao": "body",
+        "despesaDedutivel": "body",
+        "impostoExterior": "body",
+        "isDespesaDedutivel": "body",
+        "lancamentoID": "body",
+        "moedaID": "body",
+        "rendExterior": "body",
+        "tipo": "body",
+        "tipoRecorrencia": "body",
+        "valor": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(t)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.financa_obter_itens",
+    "assert": "a despesa aparece no mês 11/2026 com tipo, valor e status enviados",
+    "from_scenario": "scenarios/financas_ciclo.yaml#despesa_criada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:10+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "notes": "a periodicidade Mensal gerou a mesma receita em 12/2026"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança um gasto de 300 reais no mercado",
+    "registra meu salário de 10 mil",
+    "cadastra a conta de luz todo mês"
+  ]
+}

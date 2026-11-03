@@ -1,0 +1,218 @@
+{
+  "id": "bastter.patrimonio.salvar_objetivo_classes",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "objetivo_classes",
+  "operation_class": "update",
+  "label": "Salvar o objetivo percentual de cada classe no patrimônio",
+  "description": "WS_Carteira.SalvarObjetivoClasses. Called from: Patrimônio - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "acao": {
+          "type": "integer",
+          "examples": [
+            10,
+            10,
+            10
+          ]
+        },
+        "ajustarProporcional": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "bdr": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "bond": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "etf": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "europa": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "fii": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "imovel": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "moeda": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "outro": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "reit": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rendafixa": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "stock": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "tipoExibicao": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "required": [
+        "acao",
+        "ajustarProporcional",
+        "bdr",
+        "bond",
+        "etf",
+        "europa",
+        "fii",
+        "imovel",
+        "moeda",
+        "outro",
+        "reit",
+        "rendafixa",
+        "stock",
+        "tipoExibicao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarObjetivoClasses",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "acao": "body",
+        "ajustarProporcional": "body",
+        "bdr": "body",
+        "bond": "body",
+        "etf": "body",
+        "europa": "body",
+        "fii": "body",
+        "imovel": "body",
+        "moeda": "body",
+        "outro": "body",
+        "reit": "body",
+        "rendafixa": "body",
+        "stock": "body",
+        "tipoExibicao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(t)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/consolidado"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false,
+    "notes": "Saves only when the objectives add up to 100. An account with no objectives (sum 0) cannot be restored. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.common.patrimonio.consolidado-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.common.patrimonio.consolidado-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/consolidado"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "quero 30% em ações e 20% em FIIs",
+    "muda o objetivo da renda fixa para 25%"
+  ]
+}

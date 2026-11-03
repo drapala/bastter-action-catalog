@@ -1,0 +1,135 @@
+{
+  "id": "bastter.imposto_de_renda.obter_posicao_anual_ativos",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "posicao_anual_ativos",
+  "operation_class": "read",
+  "label": "Ver os bens e direitos do ano para a declaração do IR",
+  "description": "WS_Carteira.ObterPosicaoAnualAtivos. Called from: Imposto de Renda - Bens e Direitos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": "integer",
+          "examples": [
+            2025,
+            2025,
+            2025
+          ]
+        },
+        "destinoID": {
+          "description": "ID of the destino.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "examples": [
+            null,
+            null,
+            3
+          ]
+        },
+        "ordenacao": {
+          "type": "string",
+          "examples": [
+            "1",
+            "1",
+            "1"
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "cripto",
+            "imovel",
+            "moeda"
+          ]
+        }
+      },
+      "required": [
+        "ano",
+        "destinoID",
+        "ordenacao",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "destinoID",
+        "entity": "destino",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ObterPosicaoAnualAtivos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "destinoID": "body",
+        "ordenacao": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"cripto\", \"destinoID\": null, \"ano\": 2025, \"ordenacao\": \"1\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/bens-e-direitos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:08:23+00:00",
+    "evidence": "evidence/runs.jsonl#run=dev-ativos-classes-1793729302",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": [
+      "ano",
+      "destinoID",
+      "ordenacao",
+      "tipo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.bensdireitos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/bens-e-direitos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "mostra os bens e direitos de 2025",
+    "como declaro minhas ações no IR",
+    "posição em 31/12 para a declaração"
+  ]
+}

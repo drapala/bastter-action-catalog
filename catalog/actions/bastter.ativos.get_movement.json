@@ -1,0 +1,129 @@
+{
+  "id": "bastter.ativos.get_movement",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movement",
+  "operation_class": "read",
+  "label": "Listar as compras e vendas de um ativo do exterior",
+  "description": "WS_Carteira.GetMovement. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            746012,
+            746012,
+            55738
+          ]
+        },
+        "symbol": {
+          "examples": [
+            "AAPL",
+            "AAPL",
+            "VOO"
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "stock",
+            "stock",
+            "etf"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "symbol",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GetMovement",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "symbol": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({symbol:t,tipo:n,ativoID:i})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:09:36+00:00",
+    "evidence": "evidence/runs.jsonl#run=dev-ativos-classes-1793729376",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    }
+  ],
+  "intent_examples": [
+    "mostra minhas compras de AAPL",
+    "lista as movimentações dessa stock"
+  ]
+}

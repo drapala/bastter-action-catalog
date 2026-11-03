@@ -1,0 +1,69 @@
+{
+  "id": "bastter.imposto_de_renda.simulador_ir_calcular",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "simulador_ir_calcular",
+  "operation_class": "action",
+  "label": "Simular o imposto de renda de uma venda de ativos",
+  "description": "WS_Carteira.SimuladorIRCalcular. Called from: Imposto de Renda - Simulador de IR.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SimuladorIRCalcular",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/simulador-ir"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.impostorenda.simulador.ir-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.simulador.ir-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/simulador-ir"
+    }
+  ],
+  "intent_examples": [
+    "quanto de IR pago se vender 100 PETR4",
+    "simula o imposto da venda dos meus FIIs"
+  ]
+}

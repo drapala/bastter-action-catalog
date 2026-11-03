@@ -1,0 +1,74 @@
+name: fii-excluir-definitivo
+description: Inclui HGLG11, compra e vende 1 cota, exclui o item (fica marcado como excluído nos Bens e Direitos), exclui definitivamente e confirma que sumiu de todas as telas.
+vars:
+  ticker: HGLG11
+  itens_filtro: {tipo: fii, ordenacao: 1, classificacao: "0", categoria: 0, setor: 0, segmento: "0", country: 0, gestorID: "0", classificacao2: 0, exchange: null, mandatoID: "0"}
+  bens_filtro: {tipo: fii, destinoID: null, ano: 2026, ordenacao: "1"}
+steps:
+  - name: ativo_ausente
+    guard: true
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${ticker}"}}}
+    proves: a aba não mostra o ativo, então ele não é uma posição visível do usuário
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {tipo: fii, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${ticker}", valor: "", moedaAtivoID: 0, tipoImovelID: 12, destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 0, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: ativo_sem_movimentacao
+    guard: true
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: fii, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {empty: [Itens]}
+    proves: o item que o salvar devolveu não tem movimentação, então nenhuma operação do usuário fica em risco
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}"}}}
+  - name: lancar_compra
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {movimentacaoID: 0, tipo: fii, tipomov: compra, ativoID: "${item}", quantidade: 1, data: "11/03/2026", totalOperacaoBruto: 10, totalOperacaoLiq: null, ignorair: false, ignoraIsencao: false, subscricaoID: 0, gasto: false, observacao: null}
+    assert: {equals: {Return: true}}
+  - name: lancar_venda
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {movimentacaoID: 0, tipo: fii, tipomov: venda, ativoID: "${item}", quantidade: -1, data: "11/03/2026", totalOperacaoBruto: 10, totalOperacaoLiq: null, ignorair: false, ignoraIsencao: false, subscricaoID: 0, gasto: false, observacao: null}
+    assert: {equals: {Return: true}}
+  - name: compra_e_venda_gravadas
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: fii, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Tipo: Venda, Quantidade: -1.0, QtdTotal: 0.0}}}
+    proves: a venda zera a posição (quantidade total 0 depois da venda)
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: fii, ativoID: "${item}", carteiraID: 0}
+    assert: {equals: {Return: "Item excluído com sucesso."}}
+  - name: ativo_saiu_da_aba
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o item saiu da aba FIIs
+  - name: ativo_marcado_excluido
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_filtro}"
+    assert: {list_contains: {path: "", where: {AtivoID: "${item}", Excluido: true}}}
+    proves: o item excluído continua nos Bens e Direitos com Excluido true (exclusão lógica, as movimentações ficam)
+  - name: excluir_definitivo
+    action: bastter.ativos.excluir_movimentacao_ativo
+    inputs: {tipo: fii, ativoID: "${item}"}
+    assert: {equals: {Return: OK}}
+  - name: bens_sem_ativo
+    postcondition_of: bastter.ativos.excluir_movimentacao_ativo
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_filtro}"
+    assert: {list_excludes: {path: "", where: {AtivoID: "${item}"}}}
+    proves: o item sumiu dos Bens e Direitos
+  - name: movimentacoes_sumiram
+    postcondition_of: bastter.ativos.excluir_movimentacao_ativo
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: fii, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {Tipo: Compra}}}
+    proves: a compra e a venda do item foram apagadas junto

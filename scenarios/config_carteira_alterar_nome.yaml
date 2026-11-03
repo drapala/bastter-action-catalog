@@ -1,0 +1,29 @@
+name: config-carteira-alterar-nome
+description: Renomeia a única carteira de Principal para ZZTESTE com o carimbo da execução, lê de volta, volta o nome para Principal e confirma.
+steps:
+  - name: carteira_antes
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Carteiras, where: {Nome: Principal}}}
+    save: {carteira: CarteiraID, nome_antes: {path: Carteiras, where: {Nome: Principal}, field: Nome}}
+  - name: confere_carteira
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Carteiras, where: {CarteiraID: "${carteira}", Nome: "${nome_antes}"}}}
+  - name: renomear
+    action: bastter.ativos.carteira_alterar_nome
+    inputs: {carteiraID: "${carteira}", nome: "${prefix} ${ts}"}
+    assert: {equals: {Return: true}}
+  - name: nome_mudou
+    postcondition_of: bastter.ativos.carteira_alterar_nome
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Carteiras, where: {CarteiraID: "${carteira}", Nome: "${prefix} ${ts}"}}}
+    proves: a carteira passou a se chamar ZZTESTE com o carimbo
+  - name: restaurar_nome
+    undoes: renomear
+    action: bastter.ativos.carteira_alterar_nome
+    inputs: {carteiraID: "${carteira}", nome: "${nome_antes}"}
+    assert: {equals: {Return: true}}
+  - name: nome_restaurado
+    postcondition_of: bastter.ativos.carteira_alterar_nome
+    action: bastter.ativos.bs2_init
+    assert: {list_contains: {path: Carteiras, where: {CarteiraID: "${carteira}", Nome: "${nome_antes}"}}}
+    proves: a carteira voltou a se chamar Principal

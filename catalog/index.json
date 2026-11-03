@@ -1,0 +1,4252 @@
+[
+  {
+    "id": "bastter.ativos.abas_salvar",
+    "label": "Escolher quais abas aparecem em cada área do sistema",
+    "area": "Ativos",
+    "entity": "abas",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.alerta_critico_regras_list",
+    "label": "Ver as regras de alerta crítico de um ativo",
+    "area": "Ativos",
+    "entity": "alerta_critico_regras",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.alerta_critico_regras_save",
+    "label": "Salvar alerta critico regras",
+    "area": "Ativos",
+    "entity": "alerta_critico_regras",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.alerta_diversificacao",
+    "label": "Verificar se um ativo passa de 2% do patrimônio",
+    "area": "Ativos",
+    "entity": "alerta_diversificacao",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.alterar_categoria",
+    "label": "Alterar a classificação de um ativo, como quarentena",
+    "area": "Ativos",
+    "entity": "categoria",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.alterar_pais",
+    "label": "Alterar o país de um ativo",
+    "area": "Ativos",
+    "entity": "pais",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.ativar_freio",
+    "label": "Ativar o freio automático e pôr o ativo em quarentena",
+    "area": "Ativos",
+    "entity": "ativar_freio",
+    "operation_class": "action",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.atualizar_preco",
+    "label": "Atualizar à mão o preço de um ativo cadastrado manualmente",
+    "area": "Ativos",
+    "entity": "preco",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bond_cupom_deletar",
+    "label": "Excluir um cupom recebido de um bond",
+    "area": "Ativos",
+    "entity": "bond_cupom",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.bond_cupom_listar",
+    "label": "Listar os cupons recebidos de um bond",
+    "area": "Ativos",
+    "entity": "bond_cupom",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bond_cupom_salvar",
+    "label": "Lançar ou editar um cupom recebido de um bond",
+    "area": "Ativos",
+    "entity": "bond_cupom",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_aberturas_limite_salvar",
+    "label": "Definir após quantas aberturas no dia o sistema avisa",
+    "area": "Ativos",
+    "entity": "aberturas_limite",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_init",
+    "label": "Ver a carteira ativa, as opções e a lista de carteiras",
+    "area": "Ativos",
+    "entity": "bs2_init",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_list_ativos",
+    "label": "Listar todos os ativos da carteira consolidada",
+    "area": "Ativos",
+    "entity": "ativos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_navegacao_carregar",
+    "label": "Ver as páginas recentes, mais acessadas e favoritas",
+    "area": "Ativos",
+    "entity": "navegacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_navegacao_favorito_alternar",
+    "label": "Marcar ou desmarcar uma página como favorita",
+    "area": "Ativos",
+    "entity": "navegacao_favorito",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_ocultar_financeiro",
+    "label": "Ocultar ou mostrar os valores financeiros na tela",
+    "area": "Ativos",
+    "entity": "financeiro",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.bs2_possui_analises",
+    "label": "Ver quais análises de carteira já foram pedidas",
+    "area": "Ativos",
+    "entity": "analises",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.carteira_alterar_nome",
+    "label": "Renomear a carteira ativa",
+    "area": "Ativos",
+    "entity": "carteira_nome",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.carteira_carregar",
+    "label": "Trocar para outra carteira",
+    "area": "Ativos",
+    "entity": "carteira",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.carteira_criar",
+    "label": "Criar uma nova carteira",
+    "area": "Ativos",
+    "entity": "carteira",
+    "operation_class": "create",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.carteira_excluir",
+    "label": "Excluir a carteira ativa, confirmando com a senha",
+    "area": "Ativos",
+    "entity": "carteira",
+    "operation_class": "delete",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.colunas_salvar",
+    "label": "Escolher quais colunas aparecem na tabela de ativos",
+    "area": "Ativos",
+    "entity": "colunas",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.config_list",
+    "label": "Ver as preferências salvas de gráficos e telas",
+    "area": "Ativos",
+    "entity": "config",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.config_save",
+    "label": "Salvar uma preferência de tela ou gráfico",
+    "area": "Ativos",
+    "entity": "config",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.consolidado_obter_eventos",
+    "label": "Listar os eventos dos ativos, com filtro de ativo, mês e lidos",
+    "area": "Ativos",
+    "entity": "consolidado_obter_eventos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.consolidado_obter_proventos",
+    "label": "Listar proventos e dividendos recebidos, por ativo, tipo e período",
+    "area": "Ativos",
+    "entity": "proventos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.copiar_item",
+    "label": "Copiar um ativo para outra carteira",
+    "area": "Ativos",
+    "entity": "item",
+    "operation_class": "create",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.delete_movement",
+    "label": "Excluir uma compra ou venda de um ativo do exterior",
+    "area": "Ativos",
+    "entity": "movement",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.delete_notificacao",
+    "label": "Excluir notificacao",
+    "area": "Ativos",
+    "entity": "notificacao",
+    "operation_class": "delete",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.enviar_email",
+    "label": "Executar enviar email",
+    "area": "Ativos",
+    "entity": "enviar_email",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.eventos_marcar_lido",
+    "label": "Marcar eventos de ativos como lidos",
+    "area": "Ativos",
+    "entity": "eventos_marcar_lido",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.excluir_item",
+    "label": "Excluir um ativo da carteira",
+    "area": "Ativos",
+    "entity": "item",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.excluir_movimentacao",
+    "label": "Excluir uma compra ou venda de um ativo",
+    "area": "Ativos",
+    "entity": "movimentacao",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.excluir_movimentacao_ativo",
+    "label": "Excluir definitivamente um ativo já excluído",
+    "area": "Ativos",
+    "entity": "movimentacao_ativo",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.freio_automatico_tempo_salvar",
+    "label": "Configurar o tempo de quarentena do freio automático",
+    "area": "Ativos",
+    "entity": "freio_automatico_tempo",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.gerar_minha_holding",
+    "label": "Ver a Minha Holding: resultado proporcional da carteira por ano",
+    "area": "Ativos",
+    "entity": "gerar_minha_holding",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.get_comunicado",
+    "label": "Ver um comunicado comentado de um FII",
+    "area": "Ativos",
+    "entity": "comunicado",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.get_movement",
+    "label": "Listar as compras e vendas de um ativo do exterior",
+    "area": "Ativos",
+    "entity": "movement",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.get_notificacoes",
+    "label": "Ler notificacoes",
+    "area": "Ativos",
+    "entity": "notificacoes",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_automatico_salvar",
+    "label": "Configurar o lançamento automático do aluguel de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_aluguel_automatico",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_cotar",
+    "label": "Converter para reais um aluguel em moeda estrangeira",
+    "area": "Ativos",
+    "entity": "imovel_aluguel",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_deletar",
+    "label": "Excluir um aluguel lançado de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_aluguel",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_listar",
+    "label": "Listar os aluguéis recebidos de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_aluguel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_salvar",
+    "label": "Lançar ou editar um aluguel recebido de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_aluguel",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_aluguel_salvar_inquilino",
+    "label": "Salvar o nome e o CNPJ do inquilino de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_aluguel_inquilino",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_benfeitoria_deletar",
+    "label": "Excluir uma benfeitoria de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_benfeitoria",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.imovel_benfeitoria_salvar",
+    "label": "Lançar ou editar uma benfeitoria de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_benfeitoria",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_despesa_deletar",
+    "label": "Excluir uma despesa de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_despesa",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.imovel_despesa_salvar",
+    "label": "Lançar ou editar uma despesa de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_despesa",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_movimentacao_obter",
+    "label": "Ver os dados de compra e de venda de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_movimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.imovel_movimentacao_salvar",
+    "label": "Salvar os dados de compra ou de venda de um imóvel",
+    "area": "Ativos",
+    "entity": "imovel_movimentacao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.incluir_grupo",
+    "label": "Incluir de uma vez um grupo de ativos na carteira",
+    "area": "Ativos",
+    "entity": "grupo",
+    "operation_class": "create",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.integracao_b3_termos_aceitar",
+    "label": "Aceitar os termos da integração com a B3",
+    "area": "Ativos",
+    "entity": "integracao_b3_termos_aceitar",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.integracao_b3_termos_recusar",
+    "label": "Recusar os termos e desativar a integração com a B3",
+    "area": "Ativos",
+    "entity": "integracao_b3_termos_recusar",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.is_authenticated",
+    "label": "Ler authenticated",
+    "area": "Ativos",
+    "entity": "authenticated",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_alertas",
+    "label": "Ver os alertas do sistema e dos ativos",
+    "area": "Ativos",
+    "entity": "alertas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_anotacao_classe",
+    "label": "Listar as anotações dos ativos de uma classe",
+    "area": "Ativos",
+    "entity": "anotacao_classe",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_classificacao",
+    "label": "Listar as classificações de ativo para filtro",
+    "area": "Ativos",
+    "entity": "classificacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_comunicado_comentarios",
+    "label": "Listar os relatórios comentados dos FIIs",
+    "area": "Ativos",
+    "entity": "comunicado_comentarios",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_curiosidades",
+    "label": "Ver as curiosidades dos ativos da carteira",
+    "area": "Ativos",
+    "entity": "curiosidades",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_fii_segmento",
+    "label": "Listar os segmentos de FII do filtro da tela de FIIs",
+    "area": "Ativos",
+    "entity": "fii_segmento",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_industry",
+    "label": "Listar as indústrias de um setor de stocks e BDRs",
+    "area": "Ativos",
+    "entity": "industry",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_rapidinhas_audio",
+    "label": "Listar as rapidinhas em áudio dos ativos da carteira",
+    "area": "Ativos",
+    "entity": "rapidinhas_audio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_rapidinhas_texto",
+    "label": "Listar as rapidinhas em texto dos ativos da carteira",
+    "area": "Ativos",
+    "entity": "rapidinhas_texto",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_sector",
+    "label": "Listar os setores de stocks e BDRs",
+    "area": "Ativos",
+    "entity": "sector",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_sector_reit",
+    "label": "Listar os setores de REITs",
+    "area": "Ativos",
+    "entity": "sector_reit",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_segmento",
+    "label": "Listar os segmentos de ações de um setor",
+    "area": "Ativos",
+    "entity": "segmento",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_segmento_fii",
+    "label": "Listar os segmentos de FII",
+    "area": "Ativos",
+    "entity": "segmento_fii",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.listar_setor",
+    "label": "Listar os setores de ações brasileiras",
+    "area": "Ativos",
+    "entity": "setor",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.meu_bs_list_panels",
+    "label": "Listar os painéis da página Meu Bastter System",
+    "area": "Ativos",
+    "entity": "meu_bs_panels",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.meu_bs_proventos",
+    "label": "Ver o total de proventos (dividendos) de hoje, semana, mês e ano",
+    "area": "Ativos",
+    "entity": "meu_bs_proventos",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.meu_bs_proventos_detalhes",
+    "label": "Ver os proventos de hoje, da semana, do mês ou do ano",
+    "area": "Ativos",
+    "entity": "meu_bs_proventos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.meu_bs_save_home_padrao",
+    "label": "Definir a página inicial padrão do sistema",
+    "area": "Ativos",
+    "entity": "meu_bs_home_padrao",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.meu_bs_save_panel",
+    "label": "Abrir ou fechar um painel da página Meu Bastter System",
+    "area": "Ativos",
+    "entity": "meu_bs_panel",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.modo_onde_aportar_salvar",
+    "label": "Alterar o modo da tela Onde Aportar",
+    "area": "Ativos",
+    "entity": "modo_onde_aportar",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.moeda_cotacao_obter",
+    "label": "Ver a cotação de uma moeda em uma data",
+    "area": "Ativos",
+    "entity": "moeda_cotacao",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.mover_item",
+    "label": "Mover um ativo para outra carteira",
+    "area": "Ativos",
+    "entity": "item",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.nao_notificar",
+    "label": "Executar nao notificar",
+    "area": "Ativos",
+    "entity": "nao_notificar",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_anotacao_classe",
+    "label": "Ver a anotação de uma classe de ativos",
+    "area": "Ativos",
+    "entity": "anotacao_classe",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_anotacoes",
+    "label": "Ver a anotação de um ativo",
+    "area": "Ativos",
+    "entity": "anotacoes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_ativos_menor_percentual",
+    "label": "Ver onde aportar: os ativos mais abaixo do objetivo",
+    "area": "Ativos",
+    "entity": "ativos_menor_percentual",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_categorias",
+    "label": "Listar as categorias para classificar ativos",
+    "area": "Ativos",
+    "entity": "categorias",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_consolidado_proventos_dados_graficos",
+    "label": "Ver os gráficos de proventos por ano e por mês",
+    "area": "Ativos",
+    "entity": "proventos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_dados_graficos",
+    "label": "Ver os gráficos de uma classe de ativos por setor e proventos",
+    "area": "Ativos",
+    "entity": "obter_dados_graficos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_detalhes_ativo",
+    "label": "Ver os detalhes de um ativo da carteira",
+    "area": "Ativos",
+    "entity": "ativo",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_exibir_financeiro_rank",
+    "label": "Ver o ranking de tempo com o financeiro oculto",
+    "area": "Ativos",
+    "entity": "exibir_financeiro",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_imoveis_dados_graficos",
+    "label": "Ver os gráficos de aluguéis dos imóveis (Minha Imobiliária)",
+    "area": "Ativos",
+    "entity": "imoveis",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_itens",
+    "label": "Listar os ativos de uma classe, como ações ou FIIs, com filtros",
+    "area": "Ativos",
+    "entity": "itens",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_itens_renda_fixa",
+    "label": "Listar os investimentos de renda fixa",
+    "area": "Ativos",
+    "entity": "itens_renda_fixa",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_minha_holding_maiores",
+    "label": "Ver os maiores ativos da Minha Holding por um indicador",
+    "area": "Ativos",
+    "entity": "minha_holding_maiores",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_movimentacao",
+    "label": "Listar as compras e vendas de um ativo",
+    "area": "Ativos",
+    "entity": "movimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_o_que_fazer",
+    "label": "Ver a configuração do Onde Aportar",
+    "area": "Ativos",
+    "entity": "o_que_fazer",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.obter_posicao_historico",
+    "label": "Ver a evolução histórica do patrimônio em um período",
+    "area": "Ativos",
+    "entity": "posicao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.outro_provento_deletar",
+    "label": "Excluir um rendimento de um ativo da classe Outros",
+    "area": "Ativos",
+    "entity": "outro_provento",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.outro_provento_listar",
+    "label": "Listar os rendimentos de um ativo da classe Outros",
+    "area": "Ativos",
+    "entity": "outro_provento",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.outro_provento_salvar",
+    "label": "Lançar ou editar um rendimento de um ativo da classe Outros",
+    "area": "Ativos",
+    "entity": "outro_provento",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.pedir_bdr",
+    "label": "Pedir a inclusão de um BDR no sistema",
+    "area": "Ativos",
+    "entity": "pedir_bdr",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.pedir_etf",
+    "label": "Pedir a inclusão de um ETF no sistema",
+    "area": "Ativos",
+    "entity": "pedir_etf",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.pesquisar",
+    "label": "Buscar um ativo pelo código dentro de uma classe",
+    "area": "Ativos",
+    "entity": "pesquisar",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.popup_exists",
+    "label": "Ler popup",
+    "area": "Ativos",
+    "entity": "popup",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.provento_manual_deletar",
+    "label": "Excluir um provento lançado à mão",
+    "area": "Ativos",
+    "entity": "provento_manual",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.provento_manual_listar",
+    "label": "Listar os proventos lançados à mão de um ativo",
+    "area": "Ativos",
+    "entity": "provento_manual",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.provento_manual_salvar",
+    "label": "Lançar ou editar à mão um provento de um ativo",
+    "area": "Ativos",
+    "entity": "provento_manual",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.remessa_online_authorize",
+    "label": "Conectar a conta da Remessa Online ao sistema",
+    "area": "Ativos",
+    "entity": "remessa_online_authorize",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.remessa_online_get_authorization",
+    "label": "Ver se a conta da Remessa Online está conectada",
+    "area": "Ativos",
+    "entity": "remessa_online_authorization",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.renda_fixa_cupom_deletar",
+    "label": "Excluir um cupom ou juros de um título de renda fixa",
+    "area": "Ativos",
+    "entity": "renda_fixa_cupom",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.renda_fixa_cupom_listar",
+    "label": "Listar os cupons e juros de um título de renda fixa",
+    "area": "Ativos",
+    "entity": "renda_fixa_cupom",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.renda_fixa_cupom_salvar",
+    "label": "Lançar ou editar um cupom ou juros de renda fixa",
+    "area": "Ativos",
+    "entity": "renda_fixa_cupom",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.renda_fixa_vencimentos_listar",
+    "label": "Ver os vencimentos dos títulos de renda fixa",
+    "area": "Ativos",
+    "entity": "renda_fixa_vencimentos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.restaurar_item",
+    "label": "Restaurar um ativo excluído da carteira",
+    "area": "Ativos",
+    "entity": "restaurar_item",
+    "operation_class": "action",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.roubei_atualizar",
+    "label": "Esconder o aviso Roubei do Bastter por um ano",
+    "area": "Ativos",
+    "entity": "roubei",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.roubei_obter_ativo",
+    "label": "Ver o ativo do Roubei: maior objetivo e sem aporte há tempo",
+    "area": "Ativos",
+    "entity": "roubei_ativo",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.roubei_vezes_salvar",
+    "label": "Definir quantas vezes por ano o Roubei do Bastter aparece",
+    "area": "Ativos",
+    "entity": "roubei_vezes",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar",
+    "label": "Incluir ou editar um ativo na carteira",
+    "area": "Ativos",
+    "entity": "salvar",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_anotacao_classe",
+    "label": "Salvar a anotação de uma classe de ativos",
+    "area": "Ativos",
+    "entity": "anotacao_classe",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_anotacoes",
+    "label": "Salvar a anotação de um ativo",
+    "area": "Ativos",
+    "entity": "anotacoes",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_movimentacao",
+    "label": "Lançar ou editar uma compra ou venda de um ativo",
+    "area": "Ativos",
+    "entity": "movimentacao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_movimentacao_ordena",
+    "label": "Escolher a ordem da lista de compras e vendas",
+    "area": "Ativos",
+    "entity": "movimentacao",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_movimentacoes_nota",
+    "label": "Lançar várias compras e vendas de uma nota de corretagem",
+    "area": "Ativos",
+    "entity": "movimentacoes_nota",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_objetivo_ativos",
+    "label": "Salvar o objetivo percentual de cada ativo de uma classe",
+    "area": "Ativos",
+    "entity": "objetivo_ativos",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.salvar_objetivo_indice_renda_fixa",
+    "label": "Salvar o objetivo por índice da renda fixa",
+    "area": "Ativos",
+    "entity": "objetivo_renda_fixa",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_opcao",
+    "label": "Salvar uma opção de configuração do sistema",
+    "area": "Ativos",
+    "entity": "opcao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_opcoes",
+    "label": "Salvar as configurações gerais do sistema",
+    "area": "Ativos",
+    "entity": "opcoes",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.salvar_opcoes_menu_lateral_aberto",
+    "label": "Lembrar se o menu lateral fica aberto ou fechado",
+    "area": "Ativos",
+    "entity": "opcoes_menu_lateral_aberto",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_oq_fazer",
+    "label": "Salvar a configuração do Onde Aportar, como valor e dia",
+    "area": "Ativos",
+    "entity": "oq_fazer",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_ordenacao",
+    "label": "Salvar a ordenação de uma lista ou aba",
+    "area": "Ativos",
+    "entity": "ordenacao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.salvar_provento",
+    "label": "Corrigir a data de pagamento ou o imposto de um provento",
+    "area": "Ativos",
+    "entity": "provento",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.save_comunicado_lido",
+    "label": "Marcar um comunicado de FII como lido",
+    "area": "Ativos",
+    "entity": "comunicado",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.save_cookie_consent",
+    "label": "Salvar cookie consent",
+    "area": "Ativos",
+    "entity": "cookie_consent",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.save_movement",
+    "label": "Lançar ou editar uma compra ou venda de um ativo do exterior",
+    "area": "Ativos",
+    "entity": "movement",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.save_notificacoes_default_tipo",
+    "label": "Salvar notificacoes default tipo",
+    "area": "Ativos",
+    "entity": "notificacoes_default_tipo",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.save_termos_uso",
+    "label": "Salvar termos uso",
+    "area": "Ativos",
+    "entity": "termos_uso",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.solicitar_analise",
+    "label": "Pedir uma análise da carteira no fórum",
+    "area": "Ativos",
+    "entity": "analise",
+    "operation_class": "create",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.sorteio_ativos_list",
+    "label": "Listar os ativos que entram no sorteio de aporte",
+    "area": "Ativos",
+    "entity": "sorteio_ativos",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.sorteio_ativos_sortear",
+    "label": "Sortear um ativo para o próximo aporte",
+    "area": "Ativos",
+    "entity": "sorteio_ativos",
+    "operation_class": "create",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.sorteio_ativos_update_popup",
+    "label": "Adiar ou desligar o aviso do sorteio de ativos",
+    "area": "Ativos",
+    "entity": "sorteio_ativos_popup",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.super_pesquisa_ativos",
+    "label": "Buscar ativos por nome ou código em todas as classes",
+    "area": "Ativos",
+    "entity": "super_ativos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.token_sair",
+    "label": "Sair da sessão do sistema",
+    "area": "Ativos",
+    "entity": "token_sair",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.token_validar_sessao",
+    "label": "Verificar se a sessão ainda é válida",
+    "area": "Ativos",
+    "entity": "token_validar_sessao",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ativos.ultima_aba_salvar",
+    "label": "Lembrar a última aba aberta",
+    "area": "Ativos",
+    "entity": "ultima_aba",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ativos.update_notificacoes",
+    "label": "Salvar notificacoes",
+    "area": "Ativos",
+    "entity": "notificacoes",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.configuracoes.bs2_aberturas_limite",
+    "label": "Ver o limite atual do aviso de aberturas no dia",
+    "area": "Configurações",
+    "entity": "aberturas_limite",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.configuracoes.modo_salvar",
+    "label": "Mudar o modo de visualização do sistema",
+    "area": "Configurações",
+    "entity": "modo",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.consolidado.carteira_listar_consolidado",
+    "label": "Ver o consolidado de várias carteiras juntas",
+    "area": "Consolidado",
+    "entity": "carteira",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.consolidado.onde_aportar_consolidado_obter",
+    "label": "Ver onde aportar somando várias carteiras",
+    "area": "Consolidado",
+    "entity": "onde_aportar",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.faq.faq_deletar",
+    "label": "Excluir faq",
+    "area": "FAQ",
+    "entity": "faq",
+    "operation_class": "delete",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.faq.faq_listar",
+    "label": "Buscar e listar as perguntas do FAQ",
+    "area": "FAQ",
+    "entity": "faq",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.faq.faq_listar_top",
+    "label": "Listar as perguntas mais vistas do FAQ",
+    "area": "FAQ",
+    "entity": "faq_top",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.faq.faq_obter",
+    "label": "Ver o título e o texto de uma pergunta do FAQ",
+    "area": "FAQ",
+    "entity": "faq",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.faq.faq_salvar",
+    "label": "Salvar faq",
+    "area": "FAQ",
+    "entity": "faq",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ferramentas.auth_app_desabilitar",
+    "label": "Desativar a autorização de acesso pelo app do Bastter",
+    "area": "Ferramentas",
+    "entity": "auth_app",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.auth_app_enviar_email_reset",
+    "label": "Enviar e-mail com link para desativar a autorização pelo app",
+    "area": "Ferramentas",
+    "entity": "auth_app_enviar_email_reset",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.auth_app_habilitar",
+    "label": "Ativar a autorização de acesso pelo app do Bastter",
+    "area": "Ferramentas",
+    "entity": "auth_app",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.auth_app_solicitar",
+    "label": "Enviar ao celular o pedido de autorização pelo app",
+    "area": "Ferramentas",
+    "entity": "auth_app",
+    "operation_class": "create",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.importar_movimentacao",
+    "label": "Importar compras e vendas de planilha, B3 ou Charles Schwab",
+    "area": "Ferramentas",
+    "entity": "movimentacao",
+    "operation_class": "create",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.integracao_b3_init",
+    "label": "Ver o status e a configuração da integração com a B3",
+    "area": "Ferramentas",
+    "entity": "integracao_b3",
+    "operation_class": "read",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.ferramentas.integracao_b3_salvar_custos",
+    "label": "Salvar os custos de corretagem usados na importação da B3",
+    "area": "Ferramentas",
+    "entity": "integracao_b3_custos",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.integracao_b3_salvar_dados",
+    "label": "Autorizar a integração com a B3 pelo login da B3",
+    "area": "Ferramentas",
+    "entity": "integracao_b3",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.integracao_b3_salvar_importacao",
+    "label": "Pedir a importação das operações da B3 a partir de uma data",
+    "area": "Ferramentas",
+    "entity": "integracao_b3_importacao",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.token_desabilitar",
+    "label": "Desativar o acesso por token, informando o código",
+    "area": "Ferramentas",
+    "entity": "token",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.token_enviar_email",
+    "label": "Enviar e-mail com link para desativar o token",
+    "area": "Ferramentas",
+    "entity": "token_enviar_email",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.ferramentas.token_habilitar",
+    "label": "Ativar o acesso ao sistema por token",
+    "area": "Ferramentas",
+    "entity": "token",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.calc_juros_delete",
+    "label": "Excluir uma simulação de juros compostos",
+    "area": "Financeiro",
+    "entity": "calc_juros",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.calc_juros_get",
+    "label": "Abrir uma simulação salva de juros compostos",
+    "area": "Financeiro",
+    "entity": "calc_juros",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.calc_juros_list",
+    "label": "Listar as simulações salvas de juros compostos",
+    "area": "Financeiro",
+    "entity": "calc_juros",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.calc_juros_save",
+    "label": "Salvar uma simulação de juros compostos",
+    "area": "Financeiro",
+    "entity": "calc_juros",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.calculadora_juros_save_topico",
+    "label": "Compartilhar uma simulação de juros compostos no fórum",
+    "area": "Financeiro",
+    "entity": "calculadora_juros_topico",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.exterminador_divida_delete",
+    "label": "Excluir uma simulação do Exterminador de Dívidas",
+    "area": "Financeiro",
+    "entity": "exterminador_divida",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.exterminador_divida_get",
+    "label": "Abrir uma simulação salva do Exterminador de Dívidas",
+    "area": "Financeiro",
+    "entity": "exterminador_divida",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.exterminador_divida_list",
+    "label": "Listar as simulações do Exterminador de Dívidas",
+    "area": "Financeiro",
+    "entity": "exterminador_divida",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.exterminador_divida_save",
+    "label": "Salvar uma simulação do Exterminador de Dívidas",
+    "area": "Financeiro",
+    "entity": "exterminador_divida",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_deletar",
+    "label": "Excluir um lançamento de receita ou despesa",
+    "area": "Financeiro",
+    "entity": "financa",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.financa_excluir_categoria",
+    "label": "Excluir uma categoria de finanças",
+    "area": "Financeiro",
+    "entity": "financa_categoria",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.financeiro.financa_listar_sugestoes",
+    "label": "Sugerir CPF, CNPJ ou nome de beneficiário de despesa dedutível",
+    "area": "Financeiro",
+    "entity": "financa_sugestoes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_consolidado_categoria",
+    "label": "Ver receitas e despesas por categoria no ano",
+    "area": "Financeiro",
+    "entity": "financa_categoria",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_consolidado_data",
+    "label": "Ver o total de receitas e despesas por mês e por ano",
+    "area": "Financeiro",
+    "entity": "financa_data",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_dados_graficos",
+    "label": "Ver o gráfico de receitas, despesas e saldo",
+    "area": "Financeiro",
+    "entity": "financa",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_despesa_dedutivel",
+    "label": "Ver os dados de despesa dedutível de um lançamento",
+    "area": "Financeiro",
+    "entity": "financa_despesa_dedutivel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_evolucao_categoria",
+    "label": "Ver a evolução de uma categoria de receita ou despesa",
+    "area": "Financeiro",
+    "entity": "financa_evolucao_categoria",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_obter_itens",
+    "label": "Listar as receitas e despesas de um mês",
+    "area": "Financeiro",
+    "entity": "financa_itens",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_salvar",
+    "label": "Lançar ou editar uma receita ou despesa (gasto) nas finanças",
+    "area": "Financeiro",
+    "entity": "financa",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_save_pago",
+    "label": "Marcar uma despesa como paga ou não paga",
+    "area": "Financeiro",
+    "entity": "financa_pago",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.financa_save_recebido",
+    "label": "Marcar uma receita como recebida ou não recebida",
+    "area": "Financeiro",
+    "entity": "financa_recebido",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.get_aportes_historico",
+    "label": "Ver o histórico e as médias de aportes",
+    "area": "Financeiro",
+    "entity": "aportes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.listar_movimentacao",
+    "label": "Listar os aportes: compras e vendas de todos os ativos",
+    "area": "Financeiro",
+    "entity": "movimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.obter_dividas_dados_graficos",
+    "label": "Ver os gráficos das dívidas: posição e quanto já amortizei",
+    "area": "Financeiro",
+    "entity": "dividas",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.financeiro.salvar_opcoes_financeiro_aportes",
+    "label": "Salvar as opções da tela de aportes",
+    "area": "Financeiro",
+    "entity": "opcoes_financeiro_aportes",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.bs2_home_carregar",
+    "label": "Ver como a página inicial Meu Bastter System está montada",
+    "area": "Home",
+    "entity": "home",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.bs2_home_indice_super_pas",
+    "label": "Ver o índice da carteira: nota de 0 a 10 com selo #PAS",
+    "area": "Home",
+    "entity": "home_super_pas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.bs2_home_resumo",
+    "label": "Ver o resumo da home: patrimônio, variação e proventos",
+    "area": "Home",
+    "entity": "home",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.bs2_home_salvar",
+    "label": "Salvar a arrumação dos painéis da página inicial",
+    "area": "Home",
+    "entity": "home",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.bs2_lucro_socio",
+    "label": "Ver o lucro e o caixa de sócio proporcionais às suas ações",
+    "area": "Home",
+    "entity": "lucro_socio",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.meu_bs_proventos_classes",
+    "label": "Ver os proventos por classe e por ativo em cada período",
+    "area": "Home",
+    "entity": "meu_bs_proventos_classes",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.home.meu_bs_variacao_ativos",
+    "label": "Ver a variação dos ativos em cada período",
+    "area": "Home",
+    "entity": "meu_bs_ativos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.config_obter_especifica",
+    "label": "Ver uma configuração do perfil, como o aceite do aviso do IR",
+    "area": "Imposto de Renda",
+    "entity": "config_especifica",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.config_salvar",
+    "label": "Salvar uma configuração do perfil, como o aceite do aviso do IR",
+    "area": "Imposto de Renda",
+    "entity": "config",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.doacao_listar_ir",
+    "label": "Listar as doações do ano para a declaração do IR",
+    "area": "Imposto de Renda",
+    "entity": "doacao_ir",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.excluir_ir_rendimento_manual",
+    "label": "Excluir um rendimento lançado à mão no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_rendimento_manual",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.imposto_de_renda.excluir_prejuizo_ano_anterior",
+    "label": "Excluir um prejuízo de anos anteriores do IR",
+    "area": "Imposto de Renda",
+    "entity": "prejuizo_ano_anterior",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.imposto_de_renda.financa_listar_despesa_dedutivel",
+    "label": "Listar as despesas dedutíveis do ano para o IR",
+    "area": "Imposto de Renda",
+    "entity": "financa_despesa_dedutivel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_aluguel_rendimento_excluir",
+    "label": "Excluir o rendimento de aluguel de um ano no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_aluguel_rendimento",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_aluguel_rendimento_listar",
+    "label": "Listar os rendimentos de aluguel por ano no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_aluguel_rendimento",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_aluguel_rendimento_salvar",
+    "label": "Lançar ou editar o rendimento de aluguel de um ano no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_aluguel_rendimento",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_delete_bens_direitos_exterior",
+    "label": "Apagar valores manuais de um bem no exterior e recalcular",
+    "area": "Imposto de Renda",
+    "entity": "ir_bens_direitos_exterior",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_marcar_linha",
+    "label": "Marcar linhas do IR como já copiadas para a declaração",
+    "area": "Imposto de Renda",
+    "entity": "ir_linha",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.ir_save_bens_direitos_exterior",
+    "label": "Salvar lucro, dividendos e imposto pago de um bem no exterior",
+    "area": "Imposto de Renda",
+    "entity": "ir_bens_direitos_exterior",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.irdarf_excluir",
+    "label": "Excluir um DARF lançado",
+    "area": "Imposto de Renda",
+    "entity": "irdarf",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.imposto_de_renda.irdarf_listar",
+    "label": "Listar os DARFs lançados",
+    "area": "Imposto de Renda",
+    "entity": "irdarf",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.irdarf_obter",
+    "label": "Ver o DARF de um mês com código de receita e valor",
+    "area": "Imposto de Renda",
+    "entity": "irdarf",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.irdarf_salvar",
+    "label": "Lançar ou editar um DARF com código, período e valor",
+    "area": "Imposto de Renda",
+    "entity": "irdarf",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.listar_ganho_capital2024",
+    "label": "Ver o ganho de capital de ativos no exterior no ano",
+    "area": "Imposto de Renda",
+    "entity": "ganho_capital2024",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.listar_prejuizo_ano_anterior",
+    "label": "Listar os prejuízos de anos anteriores a compensar",
+    "area": "Imposto de Renda",
+    "entity": "prejuizo_ano_anterior",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_cbe",
+    "label": "Ver os dados para a declaração CBE do Banco Central",
+    "area": "Imposto de Renda",
+    "entity": "cbe",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_ir_imovel_aluguel",
+    "label": "Ver os aluguéis do ano como rendimentos tributáveis no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_imovel_aluguel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_ir_rendimento_manual",
+    "label": "Ver um rendimento lançado à mão no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_rendimento_manual",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_ir_rendimento_pj",
+    "label": "Ver os rendimentos recebidos de pessoa jurídica no ano",
+    "area": "Imposto de Renda",
+    "entity": "ir_rendimento_pj",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_ir_venda",
+    "label": "Ver o resultado mensal das vendas em bolsa para o IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_venda",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_posicao_anual_ativos",
+    "label": "Ver os bens e direitos do ano para a declaração do IR",
+    "area": "Imposto de Renda",
+    "entity": "posicao_anual_ativos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_posicao_anual_proventos",
+    "label": "Ver os proventos do ano para o IR: isentos e tributáveis",
+    "area": "Imposto de Renda",
+    "entity": "posicao_anual_proventos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.obter_posicao_anual_proventos_stock",
+    "label": "Ver os dividendos de stocks e REITs do ano para o IR",
+    "area": "Imposto de Renda",
+    "entity": "posicao_anual_proventos_stock",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.posicao_listar_ativo",
+    "label": "Buscar um ativo da carteira para o simulador de IR",
+    "area": "Imposto de Renda",
+    "entity": "posicao_ativo",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.salvar_ir_imovel_aluguel_previdencia_dep",
+    "label": "Salvar previdência e dependentes no cálculo do imposto do aluguel",
+    "area": "Imposto de Renda",
+    "entity": "ir_imovel_aluguel_previdencia_dep",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.salvar_ir_rendimento_manual",
+    "label": "Lançar ou editar à mão um rendimento no IR",
+    "area": "Imposto de Renda",
+    "entity": "ir_rendimento_manual",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.salvar_opcoes_ir_copiar_marcar",
+    "label": "Ligar ou desligar marcar a linha ao copiar no IR",
+    "area": "Imposto de Renda",
+    "entity": "opcoes_ir",
+    "operation_class": "create",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.salvar_prejuizo_ano_anterior",
+    "label": "Lançar ou editar um prejuízo de ano anterior a compensar",
+    "area": "Imposto de Renda",
+    "entity": "prejuizo_ano_anterior",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.imposto_de_renda.simulador_ir_calcular",
+    "label": "Simular o imposto de renda de uma venda de ativos",
+    "area": "Imposto de Renda",
+    "entity": "simulador_ir_calcular",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.agradecer_excluir",
+    "label": "Excluir um item do diário de agradecimento",
+    "area": "PAS",
+    "entity": "agradecer",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.agradecer_listar",
+    "label": "Listar meus registros do diário de agradecimento",
+    "area": "PAS",
+    "entity": "agradecer",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.agradecer_obter",
+    "label": "Abrir um registro do diário de agradecimento",
+    "area": "PAS",
+    "entity": "agradecer",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.agradecer_outros_listar",
+    "label": "Ver os agradecimentos de outros usuários",
+    "area": "PAS",
+    "entity": "agradecer_outros",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.agradecer_salvar",
+    "label": "Escrever ou editar um agradecimento no diário",
+    "area": "PAS",
+    "entity": "agradecer",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.agradecer_salvar_notificacao",
+    "label": "Definir de quantos em quantos dias lembrar de agradecer",
+    "area": "PAS",
+    "entity": "agradecer_notificacao",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diario_atividade_consolidado_listar",
+    "label": "Ver o total de cada atividade no diário #PAS",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_atividade_excluir",
+    "label": "Excluir uma atividade do diário #PAS",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diario_atividade_listar",
+    "label": "Listar as atividades do diário #PAS",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_atividade_obter",
+    "label": "Abrir uma atividade do diário #PAS",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_atividade_rank_listar",
+    "label": "Ver o ranking de usuários em um tipo de atividade",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_atividade_salvar",
+    "label": "Registrar ou editar uma atividade no diário #PAS",
+    "area": "PAS",
+    "entity": "diario_atividade",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diario_obter",
+    "label": "Ver o peso inicial e o peso atual do diário #PAS",
+    "area": "PAS",
+    "entity": "diario",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_peso_rank_listar",
+    "label": "Ver o ranking de perda de peso dos usuários",
+    "area": "PAS",
+    "entity": "diario_peso",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_salvar",
+    "label": "Salvar o peso inicial e o peso atual no diário #PAS",
+    "area": "PAS",
+    "entity": "diario",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diario_sardinhagem_salvar",
+    "label": "Escrever ou editar um registro no Diário da Sardinhagem",
+    "area": "PAS",
+    "entity": "diario_sardinhagem",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diario_sardinhagem_salvar_notificacao",
+    "label": "Definir de quantos em quantos dias lembrar do Diário da Sardinhagem",
+    "area": "PAS",
+    "entity": "diario_sardinhagem_notificacao",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diario_tipo_atividade_listar",
+    "label": "Listar os tipos de atividade do diário #PAS",
+    "area": "PAS",
+    "entity": "diario_tipo_atividade",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diariosardinhagem_excluir",
+    "label": "Excluir um registro do Diário da Sardinhagem",
+    "area": "PAS",
+    "entity": "diariosardinhagem",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.diariosardinhagem_listar",
+    "label": "Listar meus registros do Diário da Sardinhagem",
+    "area": "PAS",
+    "entity": "diariosardinhagem",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diariosardinhagem_obter",
+    "label": "Abrir um registro do Diário da Sardinhagem",
+    "area": "PAS",
+    "entity": "diariosardinhagem",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.diariosardinhagem_outros_listar",
+    "label": "Ver as sardinhagens de outros usuários",
+    "area": "PAS",
+    "entity": "diariosardinhagem_outros",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_excluir",
+    "label": "Excluir uma doação",
+    "area": "PAS",
+    "entity": "doacao",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.doacao_instituicao_excluir",
+    "label": "Excluir uma instituição ou pessoa das doações",
+    "area": "PAS",
+    "entity": "doacao_instituicao",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.doacao_instituicao_listar",
+    "label": "Listar as instituições e pessoas que recebem doações",
+    "area": "PAS",
+    "entity": "doacao_instituicao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_instituicao_obter",
+    "label": "Ver o nome e o CPF ou CNPJ de uma instituição de doação",
+    "area": "PAS",
+    "entity": "doacao_instituicao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_instituicao_salvar",
+    "label": "Cadastrar ou editar uma instituição ou pessoa de doação",
+    "area": "PAS",
+    "entity": "doacao_instituicao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_listar",
+    "label": "Listar as doações feitas",
+    "area": "PAS",
+    "entity": "doacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_listar_consolidado",
+    "label": "Ver o total doado por instituição",
+    "area": "PAS",
+    "entity": "doacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_obter",
+    "label": "Abrir uma doação",
+    "area": "PAS",
+    "entity": "doacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.doacao_salvar",
+    "label": "Registrar ou editar uma doação",
+    "area": "PAS",
+    "entity": "doacao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.domain_list",
+    "label": "Listar os gêneros de música do Cãotural",
+    "area": "PAS",
+    "entity": "domain",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.get_filme_serie_categorias",
+    "label": "Listar as categorias de filmes e séries",
+    "area": "PAS",
+    "entity": "filme_serie_categorias",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.get_filme_serie_onde_assistir",
+    "label": "Listar os serviços onde assistir filmes e séries",
+    "area": "PAS",
+    "entity": "filme_serie_onde_assistir",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.get_livros_categorias",
+    "label": "Listar as categorias e os idiomas de livros",
+    "area": "PAS",
+    "entity": "livros_categorias",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.get_works_info_web",
+    "label": "Ver o andamento da campanha de doação para crianças",
+    "area": "PAS",
+    "entity": "works_info_web",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.list_filme_serie",
+    "label": "Listar filmes e séries: os meus e as sugestões",
+    "area": "PAS",
+    "entity": "filme_serie",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.list_livro",
+    "label": "Listar livros: os meus e as sugestões",
+    "area": "PAS",
+    "entity": "livro",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_anotacoes_consolidado",
+    "label": "Ver o consolidado de metas e anotações por ano",
+    "area": "PAS",
+    "entity": "metas_anotacoes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_arquivar",
+    "label": "Arquivar ou desarquivar uma meta",
+    "area": "PAS",
+    "entity": "metas_arquivar",
+    "operation_class": "action",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_excluir",
+    "label": "Excluir uma meta",
+    "area": "PAS",
+    "entity": "metas",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.pas.metas_listar",
+    "label": "Listar minhas metas",
+    "area": "PAS",
+    "entity": "metas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_obter",
+    "label": "Abrir uma meta para ver ou editar",
+    "area": "PAS",
+    "entity": "metas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_salvar",
+    "label": "Criar ou editar uma meta",
+    "area": "PAS",
+    "entity": "metas",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.metas_salvar_concluido",
+    "label": "Marcar ou desmarcar uma meta como cumprida no período",
+    "area": "PAS",
+    "entity": "metas_concluido",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.pas.musica_list",
+    "label": "Listar músicas: as minhas e as sugestões",
+    "area": "PAS",
+    "entity": "musica",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_concentracao_retorno_carregar",
+    "label": "Ver quais ativos concentram o retorno da carteira",
+    "area": "Patrimônio",
+    "entity": "concentracao_retorno",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_diversificacao_indice",
+    "label": "Ver o índice de diversificação do patrimônio",
+    "area": "Patrimônio",
+    "entity": "diversificacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_cachorrinho",
+    "label": "Ver os ativos que mudaram de #PAS no último trimestre",
+    "area": "Patrimônio",
+    "entity": "insights_cachorrinho",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_classes_salvar",
+    "label": "Escolher as classes de ativos usadas nos insights",
+    "area": "Patrimônio",
+    "entity": "insights_classes",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_eventos",
+    "label": "Ver os eventos mais recentes dos ativos nos insights",
+    "area": "Patrimônio",
+    "entity": "insights",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_percentuais",
+    "label": "Ver os maiores percentuais por classe e por ativo",
+    "area": "Patrimônio",
+    "entity": "insights",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_postagens",
+    "label": "Ver as últimas postagens sobre os ativos da carteira",
+    "area": "Patrimônio",
+    "entity": "insights",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_sem_aporte",
+    "label": "Ver os ativos que não recebem aporte há mais tempo",
+    "area": "Patrimônio",
+    "entity": "insights_sem_aporte",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_ultimas_compras",
+    "label": "Ver as últimas compras feitas na carteira",
+    "area": "Patrimônio",
+    "entity": "insights_ultimas_compras",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_insights_variacao",
+    "label": "Ver os ativos que mais subiram e mais caíram",
+    "area": "Patrimônio",
+    "entity": "insights",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_onde_retirar_carregar",
+    "label": "Ver o plano de onde retirar dinheiro da carteira",
+    "area": "Patrimônio",
+    "entity": "onde_retirar",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_onde_retirar_renda",
+    "label": "Ver a renda que o patrimônio gera frente aos custos mensais",
+    "area": "Patrimônio",
+    "entity": "onde_retirar_renda",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_onde_retirar_salvar",
+    "label": "Salvar a configuração de onde retirar e os custos mensais",
+    "area": "Patrimônio",
+    "entity": "onde_retirar",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_qualidade_carteira_carregar",
+    "label": "Ver a qualidade das empresas da carteira",
+    "area": "Patrimônio",
+    "entity": "qualidade_carteira",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_qualidade_carteira_concentracao",
+    "label": "Ver a concentração da carteira por faixa de percentual",
+    "area": "Patrimônio",
+    "entity": "qualidade_carteira_concentracao",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_visao_geral_carteira",
+    "label": "Ver renda, autonomia, diversificação e concentração na visão geral",
+    "area": "Patrimônio",
+    "entity": "visao_geral_carteira",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_visao_geral_insights",
+    "label": "Ver os destaques: altas, quedas e mudanças de #PAS",
+    "area": "Patrimônio",
+    "entity": "visao_geral_insights",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_visao_geral_layout_salvar",
+    "label": "Salvar a ordem e os painéis fechados da visão geral",
+    "area": "Patrimônio",
+    "entity": "visao_geral_layout",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_visao_geral_onde_aportar",
+    "label": "Ver onde aportar no painel da visão geral",
+    "area": "Patrimônio",
+    "entity": "visao_geral_onde_aportar",
+    "operation_class": "action",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.bs2_visao_geral_resumo",
+    "label": "Ver o resumo do patrimônio: total, aportes e distribuição",
+    "area": "Patrimônio",
+    "entity": "visao_geral",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.cleitometro_nao_compartilha_atualizar",
+    "label": "Mostrar ou esconder meu nível do Cleitômetro para outros",
+    "area": "Patrimônio",
+    "entity": "cleitometro_nao_compartilha",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.patrimonio.cleitometro_obter",
+    "label": "Ver meu nível no Cleitômetro",
+    "area": "Patrimônio",
+    "entity": "cleitometro",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.cleitometro_rank",
+    "label": "Ver o ranking do Cleitômetro",
+    "area": "Patrimônio",
+    "entity": "cleitometro",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.filtrar_pas",
+    "label": "Filtrar ativos por classificação #PAS, setor e país",
+    "area": "Patrimônio",
+    "entity": "pas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.incluir",
+    "label": "Incluir na carteira um ativo achado no filtro #PAS",
+    "area": "Patrimônio",
+    "entity": "incluir",
+    "operation_class": "create",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.list_acoes",
+    "label": "Listar os códigos de ação de uma empresa",
+    "area": "Patrimônio",
+    "entity": "acoes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.listar_diversificacao_percentual_geral",
+    "label": "Ver a diversificação do patrimônio por classe de ativo",
+    "area": "Patrimônio",
+    "entity": "diversificacao_percentual_geral",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.listar_global_detalhes",
+    "label": "Ver os ativos de um país no patrimônio global",
+    "area": "Patrimônio",
+    "entity": "global",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.listar_global_pais",
+    "label": "Ver a distribuição do patrimônio por país",
+    "area": "Patrimônio",
+    "entity": "global_pais",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.listar_pas",
+    "label": "Listar os ativos da carteira com sua classificação #PAS",
+    "area": "Patrimônio",
+    "entity": "pas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.listar_pas_percentual",
+    "label": "Ver o percentual da carteira em cada nível #PAS",
+    "area": "Patrimônio",
+    "entity": "pas_percentual",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.obter_classes",
+    "label": "Ver o consolidado do patrimônio por classe de ativo",
+    "area": "Patrimônio",
+    "entity": "classes",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.obter_classes_pas",
+    "label": "Ver a classificação #PAS de cada classe da carteira",
+    "area": "Patrimônio",
+    "entity": "classes_pas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.patrimonio_futuro_listar",
+    "label": "Prever o patrimônio futuro em um número de anos",
+    "area": "Patrimônio",
+    "entity": "patrimonio_futuro",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.salvar_objetivo_classes",
+    "label": "Salvar o objetivo percentual de cada classe no patrimônio",
+    "area": "Patrimônio",
+    "entity": "objetivo_classes",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.salvar_posicao_historico_anual",
+    "label": "Editar o histórico anual do patrimônio por classe",
+    "area": "Patrimônio",
+    "entity": "posicao_anual",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.tempo_sem_vender_nao_compartilha_atualizar",
+    "label": "Ligar ou desligar o contador de tempo sem vender",
+    "area": "Patrimônio",
+    "entity": "tempo_sem_vender_nao_compartilha",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.patrimonio.tempo_sem_vender_obter",
+    "label": "Ver há quanto tempo estou sem vender ativos",
+    "area": "Patrimônio",
+    "entity": "tempo_sem_vender",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.patrimonio.tempo_sem_vender_rank",
+    "label": "Ver o ranking de tempo sem vender",
+    "area": "Patrimônio",
+    "entity": "tempo_sem_vender",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.ano_ano_obter",
+    "label": "Ver o comparativo ano a ano de esportes e de aportes",
+    "area": "Saúde",
+    "entity": "ano_ano",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.ano_ano_obter_esporte",
+    "label": "Ver o comparativo ano a ano de esportes de um usuário",
+    "area": "Saúde",
+    "entity": "ano_ano_esporte",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_humor_excluir",
+    "label": "Excluir um dia do diário de humor",
+    "area": "Saúde",
+    "entity": "diario_humor",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.diario_humor_listar",
+    "label": "Listar os dias do diário de humor",
+    "area": "Saúde",
+    "entity": "diario_humor",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_humor_obter",
+    "label": "Abrir um dia do diário de humor",
+    "area": "Saúde",
+    "entity": "diario_humor",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_humor_relatorio_listar",
+    "label": "Ver o relatório do diário de humor por período",
+    "area": "Saúde",
+    "entity": "diario_humor_relatorio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_humor_salvar",
+    "label": "Registrar ou editar o humor de um dia",
+    "area": "Saúde",
+    "entity": "diario_humor",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_saudavel_excluir",
+    "label": "Excluir um dia do diário saudável",
+    "area": "Saúde",
+    "entity": "diario_saudavel",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.diario_saudavel_listar",
+    "label": "Listar os dias do diário saudável: alimentação, esporte e sono",
+    "area": "Saúde",
+    "entity": "diario_saudavel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_saudavel_obter",
+    "label": "Abrir um dia do diário saudável",
+    "area": "Saúde",
+    "entity": "diario_saudavel",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.diario_saudavel_salvar",
+    "label": "Registrar como foram a alimentação, o esporte e o sono do dia",
+    "area": "Saúde",
+    "entity": "diario_saudavel",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_delete_exercicio",
+    "label": "Excluir um exercício criado no Bastter Gym",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.gym_delete_favorito_exercicio",
+    "label": "Tirar um exercício dos favoritos",
+    "area": "Saúde",
+    "entity": "gym_favorito_exercicio",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.gym_delete_serie",
+    "label": "Excluir um programa de treino do Bastter Gym",
+    "area": "Saúde",
+    "entity": "gym_serie",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.gym_delete_treino",
+    "label": "Excluir um treino registrado no diário do Gym",
+    "area": "Saúde",
+    "entity": "gym_treino",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.gym_get_exercicio",
+    "label": "Ver um exercício e os músculos que ele trabalha",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_get_last_treino",
+    "label": "Ver o peso e o percentual de gordura do último treino",
+    "area": "Saúde",
+    "entity": "gym_last_treino",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_get_serie",
+    "label": "Ver os exercícios de um programa de treino",
+    "area": "Saúde",
+    "entity": "gym_serie",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_get_treino",
+    "label": "Abrir um treino registrado para editar",
+    "area": "Saúde",
+    "entity": "gym_treino",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_get_treino_exercicios",
+    "label": "Ver os exercícios feitos em um treino",
+    "area": "Saúde",
+    "entity": "gym_treino_exercicios",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_exercicio",
+    "label": "Listar os exercícios do Bastter Gym",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_historico_exercicio",
+    "label": "Ver a evolução de carga por exercício",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_historico_serie",
+    "label": "Ver a evolução de cada programa de treino",
+    "area": "Saúde",
+    "entity": "gym_serie",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_musculo",
+    "label": "Listar os músculos para classificar exercícios",
+    "area": "Saúde",
+    "entity": "gym_musculo",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_serie",
+    "label": "Listar meus programas de treino",
+    "area": "Saúde",
+    "entity": "gym_serie",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_list_treino",
+    "label": "Listar os treinos registrados no diário do Gym",
+    "area": "Saúde",
+    "entity": "gym_treino",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_rank",
+    "label": "Ver o ranking do Bastter Gym, geral ou por exercício",
+    "area": "Saúde",
+    "entity": "gym",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_rank_grafico",
+    "label": "Ver minha posição no ranking de um exercício",
+    "area": "Saúde",
+    "entity": "gym_grafico",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_save_exercicio",
+    "label": "Criar ou editar um exercício no Bastter Gym",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_save_favorito_exercicio",
+    "label": "Marcar um exercício como favorito",
+    "area": "Saúde",
+    "entity": "gym_favorito_exercicio",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_save_nome_serie",
+    "label": "Renomear um programa de treino",
+    "area": "Saúde",
+    "entity": "gym_nome_serie",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_save_serie",
+    "label": "Criar ou editar um programa de treino",
+    "area": "Saúde",
+    "entity": "gym_serie",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.gym_save_treino",
+    "label": "Registrar ou editar um treino de musculação feito no Gym",
+    "area": "Saúde",
+    "entity": "gym_treino",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.gym_search_exercicio",
+    "label": "Buscar exercícios por nome ou músculo",
+    "area": "Saúde",
+    "entity": "gym_exercicio",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.parou_beber_delete",
+    "label": "Desmarcar que parei de beber",
+    "area": "Saúde",
+    "entity": "parou_beber",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.parou_beber_get_stats",
+    "label": "Ver se marquei que parei de beber e quantos pararam",
+    "area": "Saúde",
+    "entity": "parou_beber",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.parou_beber_list",
+    "label": "Ver a lista de quem parou de beber",
+    "area": "Saúde",
+    "entity": "parou_beber",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.parou_beber_save",
+    "label": "Marcar que parei de beber",
+    "area": "Saúde",
+    "entity": "parou_beber",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.psfg_list",
+    "label": "Ver minhas notas nos parâmetros de saúde física geral",
+    "area": "Saúde",
+    "entity": "psfg",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.psfg_save",
+    "label": "Dar nota a um parâmetro de saúde física geral",
+    "area": "Saúde",
+    "entity": "psfg",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_consolidado_list",
+    "label": "Ver o relatório da alimentação por mês ou ano no Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_delete",
+    "label": "Excluir um dia da alimentação no Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_get",
+    "label": "Abrir um dia da alimentação no Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_get_esporte_total_dia",
+    "label": "Ver o tempo de esporte de um dia, que vale ponto na alimentação",
+    "area": "Saúde",
+    "entity": "race_alimentacao_esporte_total_dia",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_init",
+    "label": "Ver minha posição no ranking e o lembrete da alimentação",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_list",
+    "label": "Listar os dias de alimentação registrados no Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_ranking_list",
+    "label": "Ver o ranking de alimentação do Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_alimentacao_save",
+    "label": "Registrar ou editar a alimentação de um dia no Race",
+    "area": "Saúde",
+    "entity": "race_alimentacao",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_atividade_excluir",
+    "label": "Excluir uma atividade de esporte do Race",
+    "area": "Saúde",
+    "entity": "race_atividade",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_atividade_obter",
+    "label": "Abrir uma atividade de esporte para editar",
+    "area": "Saúde",
+    "entity": "race_atividade",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_atividade_salvar",
+    "label": "Registrar ou editar uma atividade de esporte, como corrida, no Race",
+    "area": "Saúde",
+    "entity": "race_atividade",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_atividade_validar",
+    "label": "Checar se uma atividade de esporte pode ser registrada",
+    "area": "Saúde",
+    "entity": "race_atividade_validar",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_calendario_obter",
+    "label": "Ver o calendário de dias com esporte no ano",
+    "area": "Saúde",
+    "entity": "race_calendario",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_diversificacao_geral",
+    "label": "Ver a diversificação de esportes da comunidade",
+    "area": "Saúde",
+    "entity": "race_diversificacao_geral",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_divisao_list",
+    "label": "Listar os participantes de uma divisão do Race",
+    "area": "Saúde",
+    "entity": "race_divisao",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_divisao_list_historico",
+    "label": "Ver meu histórico de divisões no Race",
+    "area": "Saúde",
+    "entity": "race_divisao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_divisao_list_subiram",
+    "label": "Ver quem subiu de divisão no Race",
+    "area": "Saúde",
+    "entity": "race_divisao_subiram",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_fila_excluir",
+    "label": "Excluir uma atividade do Strava da fila de importação",
+    "area": "Saúde",
+    "entity": "race_fila",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_inspiracao_excluir",
+    "label": "Remover um participante das minhas inspirações",
+    "area": "Saúde",
+    "entity": "race_inspiracao",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_inspiracao_listar",
+    "label": "Listar os participantes que escolhi como inspiração",
+    "area": "Saúde",
+    "entity": "race_inspiracao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_inspiracao_rank_quem_adicionou",
+    "label": "Listar quem escolheu participantes para se inspirar",
+    "area": "Saúde",
+    "entity": "race_inspiracao_quem_adicionou",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_inspiracao_rank_top_adicionados",
+    "label": "Ver os participantes mais escolhidos como inspiração",
+    "area": "Saúde",
+    "entity": "race_inspiracao_top_adicionados",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_inspiracao_salvar",
+    "label": "Adicionar um participante às minhas inspirações",
+    "area": "Saúde",
+    "entity": "race_inspiracao",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_layout_obter",
+    "label": "Ver a arrumação dos painéis do Race",
+    "area": "Saúde",
+    "entity": "race_layout",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_layout_salvar",
+    "label": "Salvar ou restaurar a arrumação dos painéis do Race",
+    "area": "Saúde",
+    "entity": "race_layout",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_lembrete_auto_sugestao_salvar",
+    "label": "Ligar ou desligar a sugestão automática de esporte no lembrete",
+    "area": "Saúde",
+    "entity": "race_lembrete_auto_sugestao",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_lembrete_obter",
+    "label": "Ver o lembrete de esporte de hoje e de amanhã",
+    "area": "Saúde",
+    "entity": "race_lembrete",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_lembrete_salvar",
+    "label": "Escolher o esporte do lembrete diário",
+    "area": "Saúde",
+    "entity": "race_lembrete",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_listar_diario",
+    "label": "Listar o diário de atividades de esporte",
+    "area": "Saúde",
+    "entity": "race_diario",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_listar_dividendos",
+    "label": "Ver os dividendos ganhos no Race por data",
+    "area": "Saúde",
+    "entity": "race_dividendos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_listar_esporte",
+    "label": "Listar os esportes do Race",
+    "area": "Saúde",
+    "entity": "race_esporte",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_listar_mais_praticados",
+    "label": "Ver meus esportes mais praticados com tempo e distância",
+    "area": "Saúde",
+    "entity": "race_mais_praticados",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_listar_rank_dividendos",
+    "label": "Ver o ranking de dividendos do Race",
+    "area": "Saúde",
+    "entity": "race_dividendos",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_meta_excluir",
+    "label": "Excluir minhas metas de esporte",
+    "area": "Saúde",
+    "entity": "race_meta",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_meta_obter",
+    "label": "Ver minhas metas de pontos e tempo de esporte",
+    "area": "Saúde",
+    "entity": "race_meta",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_meta_salvar",
+    "label": "Salvar metas semanais, mensais e anuais de esporte",
+    "area": "Saúde",
+    "entity": "race_meta",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_atividades_diversificacao",
+    "label": "Ver a diversificação dos meus esportes",
+    "area": "Saúde",
+    "entity": "race_atividades_diversificacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_atividades_diversificacao_evolucao",
+    "label": "Ver a evolução da diversificação dos meus esportes",
+    "area": "Saúde",
+    "entity": "race_atividades_diversificacao_evolucao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_consolidado",
+    "label": "Ver o resumo do Race: pontos da semana, médias e ranking",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_consolidado_ano_ano",
+    "label": "Ver o gráfico mês a mês comparando os anos no Race",
+    "area": "Saúde",
+    "entity": "race_ano_ano",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_consolidado_ano_ano2",
+    "label": "Ver o total de pontos, tempo ou distância por ano no Race",
+    "area": "Saúde",
+    "entity": "race_ano_ano2",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_consolidado_esporte",
+    "label": "Ver pontos, tempo e distância por esporte",
+    "area": "Saúde",
+    "entity": "race_esporte",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_consolidado_periodo",
+    "label": "Ver o gráfico de pontos e tempo por semana ou por mês",
+    "area": "Saúde",
+    "entity": "race_periodo",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_medias",
+    "label": "Ver as médias de tempo por esporte na semana, no mês e no ano",
+    "area": "Saúde",
+    "entity": "race_medias",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_obter_semanal_consolidado",
+    "label": "Ver o detalhe de uma semana de esportes",
+    "area": "Saúde",
+    "entity": "race_semanal",
+    "operation_class": "read",
+    "verification": "observed",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_add_proximos10",
+    "label": "Incluir no Pega Um os próximos participantes do ranking",
+    "area": "Saúde",
+    "entity": "race_add_proximos10",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_excluir",
+    "label": "Remover um participante da meta Pega Um",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_pega_um_listar",
+    "label": "Listar os participantes da minha meta Pega Um",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_login_suggestion",
+    "label": "Buscar participantes do Race pelo login",
+    "area": "Saúde",
+    "entity": "race_login_suggestion",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_rank_quem_adicionou",
+    "label": "Listar quem escolheu participantes no Pega Um",
+    "area": "Saúde",
+    "entity": "race_quem_adicionou",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_rank_top_adicionados",
+    "label": "Ver os participantes mais escolhidos no Pega Um",
+    "area": "Saúde",
+    "entity": "race_top_adicionados",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_salvar",
+    "label": "Adicionar um participante à meta Pega Um",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_salvar_fixo",
+    "label": "Fixar ou soltar um participante no Pega Um",
+    "area": "Saúde",
+    "entity": "race_fixo",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_save_esporte_id",
+    "label": "Escolher o esporte da meta Pega Um",
+    "area": "Saúde",
+    "entity": "race_esporte_id",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pega_um_save_prox_automatico",
+    "label": "Definir o Pega Um automático por meta de posição no ranking",
+    "area": "Saúde",
+    "entity": "race_prox_automatico",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pendencia_excluir",
+    "label": "Excluir uma atividade pendente do Race",
+    "area": "Saúde",
+    "entity": "race_pendencia",
+    "operation_class": "delete",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_pendencia_listar",
+    "label": "Listar as atividades pendentes e a fila do Strava",
+    "area": "Saúde",
+    "entity": "race_pendencia",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_pendencia_salvar",
+    "label": "Corrigir e salvar uma atividade pendente do Race",
+    "area": "Saúde",
+    "entity": "race_pendencia",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_periodizacao_excluir",
+    "label": "Excluir a periodização de treino",
+    "area": "Saúde",
+    "entity": "race_periodizacao",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_periodizacao_obter",
+    "label": "Ver a periodização de treino: data inicial e ciclos",
+    "area": "Saúde",
+    "entity": "race_periodizacao",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_periodizacao_salvar",
+    "label": "Salvar a periodização de treino com data inicial e ciclos",
+    "area": "Saúde",
+    "entity": "race_periodizacao",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_peso_excluir",
+    "label": "Excluir um registro de peso",
+    "area": "Saúde",
+    "entity": "race_peso",
+    "operation_class": "delete",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_peso_listar",
+    "label": "Listar os registros de peso e medidas",
+    "area": "Saúde",
+    "entity": "race_peso",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_peso_salvar",
+    "label": "Registrar peso, gordura e medidas personalizadas",
+    "area": "Saúde",
+    "entity": "race_peso",
+    "operation_class": "update",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_rank",
+    "label": "Ver o ranking de atividades do Race por esporte e período",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_rank_detalhes",
+    "label": "Ver os últimos exercícios e o acumulado de um participante",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_rank_historico",
+    "label": "Ver minha posição no ranking do Race semana a semana",
+    "area": "Saúde",
+    "entity": "race",
+    "operation_class": "read",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_sequencia_meta_salvar",
+    "label": "Salvar a meta semanal de dias com esporte",
+    "area": "Saúde",
+    "entity": "race_sequencia_meta",
+    "operation_class": "update",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_strava_deauthorization",
+    "label": "Desconectar a conta do Strava",
+    "area": "Saúde",
+    "entity": "race_strava_deauthorization",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_strava_import_activities",
+    "label": "Importar atividades escolhidas do Strava",
+    "area": "Saúde",
+    "entity": "race_strava_import_activities",
+    "operation_class": "action",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_strava_update_workout_esporte_id",
+    "label": "Definir o esporte dos treinos importados do Strava",
+    "area": "Saúde",
+    "entity": "race_strava_workout_esporte_id",
+    "operation_class": "update",
+    "verification": "excluded",
+    "availability": "unknown",
+    "requires_confirmation": true
+  },
+  {
+    "id": "bastter.saude.race_tem_atividade_dia",
+    "label": "Verificar se há esporte registrado hoje",
+    "area": "Saúde",
+    "entity": "race_tem_atividade_dia",
+    "operation_class": "action",
+    "verification": "seen",
+    "availability": "unknown",
+    "requires_confirmation": false
+  },
+  {
+    "id": "bastter.saude.race_top5_semanas_listar",
+    "label": "Ver as 5 melhores semanas em pontos e tempo",
+    "area": "Saúde",
+    "entity": "race_top5_semanas",
+    "operation_class": "read",
+    "verification": "verified",
+    "availability": "unknown",
+    "requires_confirmation": false
+  }
+]

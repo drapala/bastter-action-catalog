@@ -1,0 +1,112 @@
+{
+  "id": "bastter.patrimonio.listar_diversificacao_percentual_geral",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "diversificacao_percentual_geral",
+  "operation_class": "read",
+  "label": "Ver a diversificação do patrimônio por classe de ativo",
+  "description": "WS_Carteira.ListarDiversificacaoPercentualGeral. Called from: Patrimônio - Diversificação.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {
+          "type": "array",
+          "examples": [
+            [
+              "todas",
+              "acao",
+              "bdr",
+              "bond",
+              "etf",
+              "europa",
+              "fii",
+              "imovel",
+              "moeda",
+              "outro",
+              "re",
+              "reit",
+              "rendafixa",
+              "stock"
+            ]
+          ]
+        },
+        "exibirFinanceiro": {
+          "type": "boolean",
+          "examples": [
+            true
+          ]
+        }
+      },
+      "required": [
+        "classes",
+        "exibirFinanceiro"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ListarDiversificacaoPercentualGeral",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body",
+        "exibirFinanceiro": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"exibirFinanceiro\": true, \"classes\": [\"todas\", \"acao\", \"bdr\", \"bond\", \"etf\", \"europa\", \"fii\", \"imovel\", \"moeda\", \"outro\", \"re\", \"reit\", \"rendafixa\", \"stock\"]}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/diversificacao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/patrimonio/diversificacao and it answered 200.",
+    "captured_keys": [
+      "classes",
+      "exibirFinanceiro"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture (found only in the browser capture)"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/diversificacao"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quanto tenho em cada classe de ativo",
+    "percentual do patrimônio por classe"
+  ]
+}

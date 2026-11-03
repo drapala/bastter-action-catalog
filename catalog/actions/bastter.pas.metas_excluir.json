@@ -1,0 +1,95 @@
+{
+  "id": "bastter.pas.metas_excluir",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas",
+  "operation_class": "delete",
+  "label": "Excluir uma meta",
+  "description": "WS_Carteira.MetasExcluir. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "metaID": {
+          "type": "integer",
+          "description": "ID of the meta.",
+          "examples": [
+            2930,
+            2931,
+            2932
+          ]
+        }
+      },
+      "required": [
+        "metaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "metaID",
+        "entity": "meta",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "metaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({metaID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.metas_listar",
+    "assert": "a meta saiu da lista de metas",
+    "from_scenario": "scenarios/pas_metas_ciclo.yaml#meta_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:37+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793737642",
+    "notes": "a meta saiu da lista de metas"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    }
+  ],
+  "intent_examples": [
+    "apaga a meta de academia",
+    "exclui essa meta"
+  ]
+}

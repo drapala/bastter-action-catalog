@@ -1,0 +1,95 @@
+{
+  "id": "bastter.saude.gym_delete_favorito_exercicio",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "gym_favorito_exercicio",
+  "operation_class": "delete",
+  "label": "Tirar um exercício dos favoritos",
+  "description": "WS_Carteira.GymDeleteFavoritoExercicio. Called from: Saúde - Videos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "exercicioID": {
+          "type": "integer",
+          "description": "ID of the exercicio.",
+          "examples": [
+            1355,
+            1356,
+            1357
+          ]
+        }
+      },
+      "required": [
+        "exercicioID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "exercicioID",
+        "entity": "exercicio",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GymDeleteFavoritoExercicio",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "exercicioID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({exercicioID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/videos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.gym_search_exercicio",
+    "assert": "the read shows the change (see scenarios/saude_gym.yaml, step favorito_sumiu)",
+    "from_scenario": "scenarios/saude_gym.yaml#favorito_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:59+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.videos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/videos"
+    }
+  ],
+  "intent_examples": [
+    "desfavorita o agachamento",
+    "tira esse exercício dos favoritos"
+  ]
+}

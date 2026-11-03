@@ -1,0 +1,82 @@
+name: rendafixa-ciclo
+description: Inclui um item ZZTESTE na aba Renda Fixa, lança uma aplicação, edita, lê de volta cada passo, lança, edita e apaga um cupom, apaga tudo e confirma que sumiu.
+vars:
+  itens_filtro: {"tipo": "rendafixa", "ordenacao": 1, "classificacao": "0", "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+steps:
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {"tipo": "rendafixa", "ativoID": 0, "classificacaoID": "", "quantidade": 0, "descricao": "${prefix} CDB ${ts}", "valor": "", "moedaAtivoID": 0, "tipoImovelID": 12, "destinoID": "2", "instituicao": "${prefix} banco ${ts}", "compraImovel": false, "descricaoImovel": null, "codIRPF": null, "naoPatrimonio": false, "descricaoIRPF": null, "paisID": 0, "origemID": null, "valorAux": 0, "dataAux": null, "cnpj": "", "controleSaldo": false, "dataDividendos": null, "tipoAtualizacaoCDI": 0, "percentualCDI": 0, "vencimento": null, "moradia": null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {"AtivoID": "${item}", "Descricao": "${prefix} CDB ${ts}", "Instituicao": "${prefix} banco ${ts}"}}}
+    proves: o item aparece na aba Renda Fixa com a descrição enviada
+  - name: lancar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": 0, "tipo": "rendafixa", "tipomov": "compra", "ativoID": "${item}", "quantidade": 0, "data": "11/03/2026", "totalOperacaoBruto": 10, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_gravada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} CDB ${ts}", tipo: rendafixa, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Operacao: 10.0, Quantidade: 0.0}}}
+    save: {mov: {path: Itens, where: {Operacao: 10.0}, field: MovimentacaoID}}
+    proves: a entrada tem o total e a quantidade enviados
+  - name: editar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": "${mov}", "tipo": "rendafixa", "tipomov": "compra", "ativoID": "${item}", "quantidade": 0, "data": "11/03/2026", "totalOperacaoBruto": 15, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_editada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} CDB ${ts}", tipo: rendafixa, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}", Operacao: 15.0, Quantidade: 0.0}}}
+    proves: a mesma movimentação passou a ter o total 15, sem criar outra
+  - name: lancar_cupom
+    action: bastter.ativos.renda_fixa_cupom_salvar
+    inputs: {cupomID: 0, ativoID: "${item}", data: "2026-11-01", valor: 2}
+    assert: {list_contains: {path: Items, where: {Valor: 2.0}}}
+    save: {cupom: {path: Items, where: {Valor: 2.0}, field: CupomID}}
+  - name: cupom_gravado
+    postcondition_of: bastter.ativos.renda_fixa_cupom_salvar
+    action: bastter.ativos.renda_fixa_cupom_listar
+    inputs: {ativoID: "${item}"}
+    assert: {list_contains: {path: "", where: {CupomID: "${cupom}", Valor: 2.0, Data: "2026-11-01T00:00:00"}}}
+    proves: o cupom aparece na lista do título com a data e o valor enviados
+  - name: editar_cupom
+    action: bastter.ativos.renda_fixa_cupom_salvar
+    inputs: {cupomID: "${cupom}", ativoID: "${item}", data: "2026-11-02", valor: 3}
+  - name: cupom_editado
+    postcondition_of: bastter.ativos.renda_fixa_cupom_salvar
+    action: bastter.ativos.renda_fixa_cupom_listar
+    inputs: {ativoID: "${item}"}
+    assert: {list_contains: {path: "", where: {CupomID: "${cupom}", Valor: 3.0, Data: "2026-11-02T00:00:00"}}}
+    proves: o mesmo cupom passou a ter valor 3 e data 02/11, sem criar outro
+  - name: excluir_cupom
+    action: bastter.ativos.renda_fixa_cupom_deletar
+    inputs: {cupomID: "${cupom}", ativoID: "${item}"}
+  - name: cupom_sumiu
+    postcondition_of: bastter.ativos.renda_fixa_cupom_deletar
+    action: bastter.ativos.renda_fixa_cupom_listar
+    inputs: {ativoID: "${item}"}
+    assert: {list_excludes: {path: "", where: {CupomID: "${cupom}"}}}
+  - name: excluir_entrada
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: rendafixa, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}
+  - name: entrada_sumiu
+    postcondition_of: bastter.ativos.excluir_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} CDB ${ts}", tipo: rendafixa, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: rendafixa, ativoID: "${item}", carteiraID: 0}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o item saiu da aba Renda Fixa

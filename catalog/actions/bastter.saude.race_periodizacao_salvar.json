@@ -1,0 +1,96 @@
+{
+  "id": "bastter.saude.race_periodizacao_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_periodizacao",
+  "operation_class": "update",
+  "label": "Salvar a periodização de treino com data inicial e ciclos",
+  "description": "WS_Carteira.RacePeriodizacaoSalvar. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "periodizacao": {
+          "examples": [
+            {
+              "DataInicial": "2026-11-02",
+              "Ciclo": 4
+            },
+            {
+              "DataInicial": "2026-11-02",
+              "Ciclo": 4
+            },
+            {
+              "DataInicial": "2026-11-02",
+              "Ciclo": 4
+            }
+          ],
+          "description": "Date format of DataInicial: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "periodizacao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RacePeriodizacaoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "periodizacao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({periodizacao:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_periodizacao_obter",
+    "assert": "a periodização volta com a data inicial e o ciclo enviados",
+    "from_scenario": "scenarios/saude_race_privado.yaml#periodizacao_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:08+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793737741",
+    "notes": "a periodização volta com a data inicial e o ciclo enviados"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "começa uma periodização em 01/12 com ciclos de 4 semanas",
+    "configura a periodização do treino"
+  ]
+}

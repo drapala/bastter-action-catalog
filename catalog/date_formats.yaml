@@ -1,0 +1,47 @@
+# Date format of each date field, merged by tools/build_catalog.py into the field's description.
+# A path with a dot is a field inside an object input (the description goes on the object).
+# `source` names the evidence. `confirmed: false` means the format follows the app's payload but no read-back
+# checked how the server read the date.
+
+bastter.ativos.salvar_movimentacao:
+  data: {format: mm/dd/yyyy, source: "UI capture showed 03/11/2026 on screen and sent 11/03/2026; the agent demo sent 03/11/2026 and the server stored 11 March"}
+bastter.ativos.save_movement:
+  data: {format: mm/dd/yyyy, source: docs/families/financeiro-e-ir.md}
+bastter.financeiro.financa_salvar:
+  data: {format: dd/mm/yyyy, source: "docs/families/financeiro-e-ir.md (15/11/2026 saved as 15 November)"}
+bastter.ativos.imovel_aluguel_salvar:
+  data: {format: dd/mm/yyyy, source: "docs/families/imovel-e-ajustes.md (03/11/2026 read as 3 November)"}
+bastter.ativos.imovel_benfeitoria_salvar:
+  data: {format: yyyy-mm-dd, source: docs/families/imovel-e-ajustes.md}
+bastter.ativos.imovel_despesa_salvar:
+  data: {format: yyyy-mm-dd, source: docs/families/imovel-e-ajustes.md}
+bastter.ativos.imovel_movimentacao_salvar:
+  movimentacao.AquisicaoData: {format: yyyy-mm-dd, source: docs/families/imovel-e-ajustes.md}
+bastter.imposto_de_renda.irdarf_salvar:
+  darf.periodo: {format: "yyyy-mm-01 (first day of the month)", source: docs/families/financeiro-e-ir.md}
+bastter.pas.doacao_salvar:
+  doacao.data: {format: yyyy-mm-dd, source: docs/families/financeiro-e-ir.md}
+bastter.ativos.bond_cupom_salvar:
+  data: {format: yyyy-mm-dd, source: scenarios/bond_ciclo.yaml}
+bastter.ativos.renda_fixa_cupom_salvar:
+  data: {format: yyyy-mm-dd, source: scenarios/rendafixa_ciclo.yaml}
+bastter.ativos.outro_provento_salvar:
+  provento.data: {format: yyyy-mm-dd, source: scenarios/outro_ciclo.yaml}
+bastter.ativos.provento_manual_salvar:
+  dataEx: {format: yyyy-mm-dd, source: scenarios/etf_ciclo.yaml}
+  dataPagamento: {format: yyyy-mm-dd, source: scenarios/etf_ciclo.yaml}
+  dataReferencia: {format: yyyy-mm-dd, source: scenarios/etf_ciclo.yaml}
+bastter.saude.diario_humor_salvar:
+  dia.data: {format: yyyy-mm-dd, source: scenarios/saude_diarios.yaml}
+bastter.saude.diario_saudavel_salvar:
+  dia.data: {format: yyyy-mm-dd, source: scenarios/saude_diarios.yaml}
+bastter.saude.race_periodizacao_salvar:
+  periodizacao.DataInicial: {format: yyyy-mm-dd, source: scenarios/saude_race_privado.yaml}
+bastter.saude.race_peso_salvar:
+  item.data: {format: yyyy-mm-dd, source: scenarios/saude_race_privado.yaml}
+bastter.pas.agradecer_salvar:
+  agradecimento.data: {format: yyyy-mm-dd, confirmed: false, source: "the app builds it with toDateServerM, which formats YYYY-MM-DD (.cache/discover/f5217f28*.txt). The scenario sent 11/03/2026 and it was accepted, but no read-back checked the date."}
+bastter.pas.diario_atividade_salvar:
+  atividade.data: {format: yyyy-mm-dd, source: "the app builds it with toDateServerM (YYYY-MM-DD). The archived scenario pas_diario_atividade_ciclo sent 11/03/2026 and read back Data 2026-11-03, so mm/dd/yyyy is also read as month first."}
+bastter.pas.diario_sardinhagem_salvar:
+  sardinhagem.data: {format: yyyy-mm-dd, confirmed: false, source: "the app builds it with toDateServerM (YYYY-MM-DD). The scenario sent 11/03/2026 and it was accepted, but no read-back checked the date."}

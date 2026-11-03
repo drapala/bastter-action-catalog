@@ -1,0 +1,86 @@
+{
+  "id": "bastter.ativos.modo_onde_aportar_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "modo_onde_aportar",
+  "operation_class": "update",
+  "label": "Alterar o modo da tela Onde Aportar",
+  "description": "WS_Carteira.ModoOndeAportarSalvar. Called from: Ativos - Onde Aportar.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "modo": {
+          "examples": [
+            "1",
+            0,
+            "1"
+          ]
+        }
+      },
+      "required": [
+        "modo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ModoOndeAportarSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "modo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({modo:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/onde-aportar"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "o modo do Onde Aportar passou a ser 1",
+    "from_scenario": "scenarios/config_modo_onde_aportar.yaml#modo_mudou"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:20+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-modo-onde-aportar-1793737215",
+    "notes": "o modo voltou ao valor antigo e nenhuma outra opção da carteira mudou"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.ondeaportar-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/onde-aportar"
+    }
+  ],
+  "intent_examples": [
+    "muda o modo do Onde Aportar",
+    "liga o modo alternado no Onde Aportar"
+  ]
+}

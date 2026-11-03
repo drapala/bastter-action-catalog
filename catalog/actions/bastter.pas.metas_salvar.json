@@ -1,0 +1,108 @@
+{
+  "id": "bastter.pas.metas_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas",
+  "operation_class": "update",
+  "label": "Criar ou editar uma meta",
+  "description": "WS_Carteira.MetasSalvar. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "examples": [
+            {
+              "metaID": 0,
+              "descricao": "ZZTESTE meta dev",
+              "periodo": "5",
+              "dias": 0,
+              "dataInicio": null,
+              "notificar": false
+            },
+            {
+              "metaID": 0,
+              "descricao": "ZZTESTE meta dev2",
+              "periodo": "5",
+              "dias": 0,
+              "dataInicio": null,
+              "notificar": false
+            },
+            {
+              "metaID": 0,
+              "descricao": "ZZTESTE meta 729732",
+              "periodo": "5",
+              "dias": 0,
+              "dataInicio": null,
+              "notificar": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "meta": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({meta:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.metas_listar",
+    "assert": "a meta aparece na lista com a descrição, o período \"uma vez\" e sem notificação",
+    "from_scenario": "scenarios/pas_metas_ciclo.yaml#meta_criada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:28+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793737642",
+    "notes": "a mesma meta passou a ter a descrição nova, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    }
+  ],
+  "intent_examples": [
+    "cria uma meta de ler 20 livros no ano",
+    "nova meta: treinar 3 vezes por semana",
+    "muda a descrição da meta de corrida"
+  ]
+}

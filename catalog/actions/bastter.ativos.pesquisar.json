@@ -1,0 +1,114 @@
+{
+  "id": "bastter.ativos.pesquisar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "pesquisar",
+  "operation_class": "action",
+  "label": "Buscar um ativo pelo código dentro de uma classe",
+  "description": "WS_Carteira.Pesquisar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativo": {
+          "type": "string",
+          "examples": [
+            "PETR4"
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "ativo",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/Pesquisar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativo": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"acao\", \"ativo\": \"PETR4\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-flows.jsonl",
+    "notes": "The app made this call on /bs2/ativos/acao and it answered 200.",
+    "captured_keys": [
+      "ativo",
+      "tipo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-flows.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "procura PETR4 nas ações",
+    "busca o FII HGLG11",
+    "acha o código do ETF IVVB11"
+  ]
+}

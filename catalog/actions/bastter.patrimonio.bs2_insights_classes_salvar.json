@@ -1,0 +1,86 @@
+{
+  "id": "bastter.patrimonio.bs2_insights_classes_salvar",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "insights_classes",
+  "operation_class": "update",
+  "label": "Escolher as classes de ativos usadas nos insights",
+  "description": "WS_Carteira.BS2InsightsClassesSalvar. Called from: Patrimônio - Insights.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {
+          "examples": [
+            null,
+            "acao,fii",
+            null
+          ]
+        }
+      },
+      "required": [
+        "classes"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2InsightsClassesSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({classes:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/insights"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "o filtro de classes dos Insights passou a ser acao,fii",
+    "from_scenario": "scenarios/config_insights_classes.yaml#classes_filtradas"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:15+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-insights-classes-1793737210",
+    "notes": "o filtro voltou ao valor antigo e nenhuma outra opção da carteira mudou"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.insights-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/insights"
+    }
+  ],
+  "intent_examples": [
+    "mostra insights só de ações e FIIs",
+    "inclui stocks nos insights"
+  ]
+}

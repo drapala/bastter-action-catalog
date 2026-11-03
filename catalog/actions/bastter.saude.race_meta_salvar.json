@@ -1,0 +1,107 @@
+{
+  "id": "bastter.saude.race_meta_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_meta",
+  "operation_class": "update",
+  "label": "Salvar metas semanais, mensais e anuais de esporte",
+  "description": "WS_Carteira.RaceMetaSalvar. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "examples": [
+            {
+              "SemanaPontos": 1,
+              "SemanaTempo": 2,
+              "MesPontos": 3,
+              "MesTempo": 4,
+              "AnoPontos": 5,
+              "AnoTempo": 6
+            },
+            {
+              "SemanaPontos": 1,
+              "SemanaTempo": 2,
+              "MesPontos": 3,
+              "MesTempo": 4,
+              "AnoPontos": 5,
+              "AnoTempo": 6
+            },
+            {
+              "SemanaPontos": 1,
+              "SemanaTempo": 2,
+              "MesPontos": 3,
+              "MesTempo": 4,
+              "AnoPontos": 5,
+              "AnoTempo": 6
+            }
+          ]
+        }
+      },
+      "required": [
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceMetaSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "meta": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({meta:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_meta_obter",
+    "assert": "as seis metas voltam com os valores enviados",
+    "from_scenario": "scenarios/saude_race_privado.yaml#meta_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:04+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793737741",
+    "notes": "as seis metas voltam com os valores enviados"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "minha meta é 5 horas de esporte por semana",
+    "define meta anual de pontos no Race"
+  ]
+}

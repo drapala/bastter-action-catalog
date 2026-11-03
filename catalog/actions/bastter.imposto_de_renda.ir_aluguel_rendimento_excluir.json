@@ -1,0 +1,99 @@
+{
+  "id": "bastter.imposto_de_renda.ir_aluguel_rendimento_excluir",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_aluguel_rendimento",
+  "operation_class": "delete",
+  "label": "Excluir o rendimento de aluguel de um ano no IR",
+  "description": "WS_Carteira.IRAluguelRendimentoExcluir. Called from: Imposto de Renda - Ganho de Capital, Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "itemID": {
+          "type": "integer",
+          "description": "ID of the item.",
+          "examples": [
+            1198,
+            1199,
+            1200
+          ]
+        }
+      },
+      "required": [
+        "itemID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "itemID",
+        "entity": "item",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRAluguelRendimentoExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "itemID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({itemID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.ir_aluguel_rendimento_listar",
+    "assert": "the read shows the change (see scenarios/ir_ciclo.yaml, step aluguel_sumiu)",
+    "from_scenario": "scenarios/ir_ciclo.yaml#aluguel_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:00+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.aluguel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "apaga o rendimento de aluguel de 2023 do IR",
+    "exclui esse valor de aluguel anual"
+  ]
+}

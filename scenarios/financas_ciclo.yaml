@@ -1,0 +1,200 @@
+name: financas-ciclo
+description: >
+  Liga e restaura uma opção de Aportes. Lança uma despesa com categoria nova, marca como paga, edita (valor e
+  despesa dedutível), lança uma receita mensal recorrente, marca como recebida, apaga a série inteira, apaga a
+  despesa, apaga a categoria e confirma que tudo sumiu em cada leitura.
+vars:
+  q_nov: {mes: "11/2026", tipo: "0", categoriaID: "0", ordenacao: 1, periodo: "0", status: "0"}
+  q_dez: {mes: "12/2026", tipo: "0", categoriaID: "0", ordenacao: 1, periodo: "0", status: "0"}
+  q_todos: {mes: null, tipo: "0", categoriaID: "0", ordenacao: 1, periodo: "0", status: "0"}
+  evolucao: {tipo: 2, ano: 0, categoriaID: 0, descricao: "", filtroStatus: "0"}
+steps:
+  # --- Opção de Aportes (setting): ler, mudar, ler, restaurar, ler ---
+  - name: opcoes_antes
+    action: bastter.ativos.bs2_init
+    inputs: {}
+    assert: {equals: {CarteiraOpcoes.FinanceiroAportesConsideraMoeda: false}}
+    save:
+      old_anual: CarteiraOpcoes.NaoExibirGraficoAportesAnual
+      old_juros: CarteiraOpcoes.NaoExibirGraficoAportesJuros
+      old_re: CarteiraOpcoes.FinanceiroAportesConsideraRE
+      old_imovel: CarteiraOpcoes.FinanceiroAportesConsideraImovel
+      old_moeda: CarteiraOpcoes.FinanceiroAportesConsideraMoeda
+  - name: ligar_considera_moeda
+    action: bastter.financeiro.salvar_opcoes_financeiro_aportes
+    inputs: {naoExibirGraficoAportesAnual: "${old_anual}", naoExibirGraficoAportesJuros: "${old_juros}", financeiroAportesConsideraRE: "${old_re}", financeiroAportesConsideraImovel: "${old_imovel}", financeiroAportesConsideraMoeda: true}
+    assert: {equals: {Return: OK}}
+  - name: considera_moeda_ligada
+    postcondition_of: bastter.financeiro.salvar_opcoes_financeiro_aportes
+    action: bastter.ativos.bs2_init
+    inputs: {}
+    assert: {equals: {CarteiraOpcoes.FinanceiroAportesConsideraMoeda: true, CarteiraOpcoes.NaoExibirGraficoAportesAnual: "${old_anual}", CarteiraOpcoes.FinanceiroAportesConsideraRE: "${old_re}"}}
+    proves: a opção mudou e as outras quatro ficaram como estavam
+    stop_on_fail: false
+  - name: restaurar_opcoes
+    undoes: ligar_considera_moeda
+    action: bastter.financeiro.salvar_opcoes_financeiro_aportes
+    inputs: {naoExibirGraficoAportesAnual: "${old_anual}", naoExibirGraficoAportesJuros: "${old_juros}", financeiroAportesConsideraRE: "${old_re}", financeiroAportesConsideraImovel: "${old_imovel}", financeiroAportesConsideraMoeda: "${old_moeda}"}
+    assert: {equals: {Return: OK}}
+  - name: opcoes_restauradas
+    postcondition_of: bastter.financeiro.salvar_opcoes_financeiro_aportes
+    action: bastter.ativos.bs2_init
+    inputs: {}
+    assert: {equals: {CarteiraOpcoes.NaoExibirGraficoAportesAnual: "${old_anual}", CarteiraOpcoes.NaoExibirGraficoAportesJuros: "${old_juros}", CarteiraOpcoes.FinanceiroAportesConsideraRE: "${old_re}", CarteiraOpcoes.FinanceiroAportesConsideraImovel: "${old_imovel}", CarteiraOpcoes.FinanceiroAportesConsideraMoeda: "${old_moeda}"}}
+    proves: as cinco opções de Aportes voltaram ao valor lido no início
+
+  # --- Despesa com categoria nova ---
+  - name: criar_despesa
+    action: bastter.financeiro.financa_salvar
+    inputs: {lancamentoID: 0, tipo: "2", categoriaID: 0, categoriaDescricao: "${prefix} cat ${ts}", data: "15/11/2026", descricao: "${prefix} gasto ${ts}", valor: "10,00", rendExterior: false, impostoExterior: false, moedaID: 0, isDespesaDedutivel: false, despesaDedutivel: null, tipoRecorrencia: "0"}
+    assert: {equals: {Return: "Item salvo com sucesso."}}
+  - name: despesa_criada
+    postcondition_of: bastter.financeiro.financa_salvar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_nov}"
+    assert: {list_contains: {path: Lancamentos, where: {Descricao: "${prefix} gasto ${ts}", Tipo: 2, Valor: 10.0, Pago: false, RecorrenciaID: null}}}
+    save:
+      gasto: {path: Lancamentos, where: {Descricao: "${prefix} gasto ${ts}"}, field: LancamentoID}
+      cat: {path: Categorias, where: {Descricao: "${prefix} cat ${ts}"}, field: CategoriaID}
+    proves: a despesa aparece no mês 11/2026 com tipo, valor e status enviados
+  - name: categoria_na_evolucao
+    postcondition_of: bastter.financeiro.financa_salvar
+    action: bastter.financeiro.financa_obter_evolucao_categoria
+    inputs: "${evolucao}"
+    assert: {list_contains: {path: Series, where: {CategoriaID: "${cat}", Categoria: "${prefix} cat ${ts}", Total: 10.0}}}
+    proves: a categoria nova foi criada pelo lançamento e soma 10 no gráfico de evolução
+  - name: graficos_tem_o_mes
+    action: bastter.financeiro.financa_obter_dados_graficos
+    inputs: {filtroPago: "0", filtroRecebido: "0"}
+    assert: {present: ["Mensal.11/2026", "Anual.2026"]}
+  - name: consolidado_tem_o_mes
+    action: bastter.financeiro.financa_obter_consolidado_data
+    inputs: {}
+    assert: {list_contains: {path: Mensal, where: {Key: "11/2026"}}}
+  - name: consolidado_categoria
+    action: bastter.financeiro.financa_obter_consolidado_categoria
+    inputs: {}
+    assert: {present: [dadosCategoriaAnoAtual.Despesas]}
+  - name: marcar_pago
+    action: bastter.financeiro.financa_save_pago
+    inputs: {lancamentoID: "${gasto}", pago: true}
+    assert: {equals: {Return: "Item salvo com sucesso."}}
+  - name: despesa_paga
+    postcondition_of: bastter.financeiro.financa_save_pago
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_nov}"
+    assert: {list_contains: {path: Lancamentos, where: {LancamentoID: "${gasto}", Pago: true}}}
+    proves: o checkbox Pago ficou gravado na despesa
+    stop_on_fail: false
+  - name: editar_despesa
+    action: bastter.financeiro.financa_salvar
+    inputs: {lancamentoID: "${gasto}", tipo: "2", categoriaID: "${cat}", categoriaDescricao: "", data: "15/11/2026", descricao: "${prefix} gasto ${ts}", valor: "12,00", rendExterior: false, impostoExterior: false, moedaID: 0, isDespesaDedutivel: true, despesaDedutivel: {Codigo: "10", RealizadaCom: "1", CPFCNPJ: "111.444.777-35", NomeBeneficiario: "${prefix} medico ${ts}", Descricao: "${prefix} gasto ${ts}", ValorNaoDedutivel: 0}, tipoRecorrencia: "0"}
+    assert: {equals: {Return: "Item salvo com sucesso."}}
+  - name: despesa_editada
+    postcondition_of: bastter.financeiro.financa_salvar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_nov}"
+    assert: {list_contains: {path: Lancamentos, where: {LancamentoID: "${gasto}", Valor: 12.0, DespesaDedutivel: true}}}
+    proves: o mesmo lançamento passou a valer 12 e a ser dedutível, sem criar outro
+    stop_on_fail: false
+  - name: despesa_dedutivel_gravada
+    action: bastter.financeiro.financa_obter_despesa_dedutivel
+    inputs: {lancamentoID: "${gasto}"}
+    assert: {equals: {ItemID: "${gasto}", Codigo: "10", RealizadaCom: 1, CPFCNPJ: "11144477735", NomeBeneficiario: "${prefix} medico ${ts}"}}
+    proves: o detalhe dedutível foi gravado e o CPF perdeu a máscara
+    stop_on_fail: false
+  - name: pagamentos_efetuados_ir
+    action: bastter.imposto_de_renda.financa_listar_despesa_dedutivel
+    inputs: {ano: 2026, filtroRealizadaCom: "0"}
+    assert: {list_contains: {path: "", where: {NomeBeneficiario: "${prefix} medico ${ts}", Codigo: "10", ValorPago: 12.0}}}
+    proves: a despesa dedutível aparece em IR > Pagamentos Efetuados de 2026
+    stop_on_fail: false
+  - name: sugestao_beneficiario
+    action: bastter.financeiro.financa_listar_sugestoes
+    inputs: {tipo: nome, termo: "${prefix} medico ${ts}"}
+    assert: {list_contains: {path: "", where: {Nome: "${prefix} medico ${ts}", CPFCNPJ: "11144477735"}}}
+    stop_on_fail: false
+
+  # --- Receita mensal recorrente ---
+  - name: criar_receita_mensal
+    action: bastter.financeiro.financa_salvar
+    inputs: {lancamentoID: 0, tipo: "1", categoriaID: "${cat}", categoriaDescricao: "", data: "16/11/2026", descricao: "${prefix} receita ${ts}", valor: "5,00", rendExterior: false, impostoExterior: false, moedaID: 0, isDespesaDedutivel: false, despesaDedutivel: null, tipoRecorrencia: "2"}
+    assert: {equals: {Return: "Item salvo com sucesso."}}
+  - name: receita_criada
+    postcondition_of: bastter.financeiro.financa_salvar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_nov}"
+    assert: {list_contains: {path: Lancamentos, where: {Descricao: "${prefix} receita ${ts}", Tipo: 1, Valor: 5.0, Recebido: false}}}
+    save:
+      receita: {path: Lancamentos, where: {Descricao: "${prefix} receita ${ts}"}, field: LancamentoID}
+      rec: {path: Lancamentos, where: {Descricao: "${prefix} receita ${ts}"}, field: RecorrenciaID}
+    proves: a receita de 11/2026 existe e tem uma série de recorrência
+  - name: recorrencia_no_mes_seguinte
+    postcondition_of: bastter.financeiro.financa_salvar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_dez}"
+    assert: {list_contains: {path: Lancamentos, where: {RecorrenciaID: "${rec}", Descricao: "${prefix} receita ${ts}"}}}
+    proves: a periodicidade Mensal gerou a mesma receita em 12/2026
+    stop_on_fail: false
+  - name: marcar_recebido
+    action: bastter.financeiro.financa_save_recebido
+    inputs: {lancamentoID: "${receita}", recebido: true}
+    assert: {equals: {Return: "Item salvo com sucesso."}}
+  - name: receita_recebida
+    postcondition_of: bastter.financeiro.financa_save_recebido
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_nov}"
+    assert: {list_contains: {path: Lancamentos, where: {LancamentoID: "${receita}", Recebido: true}}}
+    proves: o checkbox Recebido ficou gravado só na receita de 11/2026
+    stop_on_fail: false
+
+  # --- Limpeza ---
+  - name: excluir_serie_receita
+    action: bastter.financeiro.financa_deletar
+    inputs: {lancamentoID: "${receita}", excluirRecorrentes: true}
+    assert: {equals: {Return: "Item excluído com sucesso."}}
+  - name: serie_sumiu
+    postcondition_of: bastter.financeiro.financa_deletar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_todos}"
+    assert: {list_excludes: {path: Lancamentos, where: {RecorrenciaID: "${rec}"}}}
+    proves: excluirRecorrentes=true apagou todos os meses da série, em todos os meses
+    stop_on_fail: false
+  - name: excluir_despesa
+    action: bastter.financeiro.financa_deletar
+    inputs: {lancamentoID: "${gasto}", excluirRecorrentes: false}
+    assert: {equals: {Return: "Item excluído com sucesso."}}
+  - name: despesa_sumiu
+    postcondition_of: bastter.financeiro.financa_deletar
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_todos}"
+    assert:
+      list_excludes: {path: Lancamentos, where: {LancamentoID: "${gasto}"}}
+      list_contains: {path: Categorias, where: {CategoriaID: "${cat}"}}
+    proves: a despesa sumiu e a categoria continua (apagar lançamentos não apaga a categoria)
+    stop_on_fail: false
+  - name: dedutivel_sumiu
+    action: bastter.imposto_de_renda.financa_listar_despesa_dedutivel
+    inputs: {ano: 2026, filtroRealizadaCom: "0"}
+    assert: {list_excludes: {path: "", where: {NomeBeneficiario: "${prefix} medico ${ts}"}}}
+    stop_on_fail: false
+  - name: sugestao_sumiu
+    action: bastter.financeiro.financa_listar_sugestoes
+    inputs: {tipo: nome, termo: "${prefix} medico ${ts}"}
+    assert: {list_excludes: {path: "", where: {Nome: "${prefix} medico ${ts}"}}}
+    stop_on_fail: false
+  - name: excluir_categoria
+    action: bastter.financeiro.financa_excluir_categoria
+    inputs: {categoriaID: "${cat}"}
+    assert: {equals: {Return: true}}
+  - name: categoria_sumiu
+    postcondition_of: bastter.financeiro.financa_excluir_categoria
+    action: bastter.financeiro.financa_obter_itens
+    inputs: "${q_todos}"
+    assert: {list_excludes: {path: Categorias, where: {CategoriaID: "${cat}"}}}
+    proves: a categoria criada pelo cenário não está mais na lista
+    stop_on_fail: false
+  - name: evolucao_sem_categoria
+    action: bastter.financeiro.financa_obter_evolucao_categoria
+    inputs: "${evolucao}"
+    assert: {list_excludes: {path: Series, where: {CategoriaID: "${cat}"}}}

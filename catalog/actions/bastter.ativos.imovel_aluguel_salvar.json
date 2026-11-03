@@ -1,0 +1,163 @@
+{
+  "id": "bastter.ativos.imovel_aluguel_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_aluguel",
+  "operation_class": "update",
+  "label": "Lançar ou editar um aluguel recebido de um imóvel",
+  "description": "WS_Carteira.ImovelAluguelSalvar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "aluguelID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            99586
+          ]
+        },
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            41241,
+            41242,
+            41242
+          ]
+        },
+        "contrPrev": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "03/11/2026",
+            "03/11/2026",
+            "03/11/2026"
+          ],
+          "description": "Date format: dd/mm/yyyy."
+        },
+        "impostoRetido": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "moedaAtivoID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "valor": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            3
+          ]
+        },
+        "valorReal": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            3
+          ]
+        }
+      },
+      "required": [
+        "aluguelID",
+        "ativoID",
+        "contrPrev",
+        "data",
+        "impostoRetido",
+        "moedaAtivoID",
+        "valor",
+        "valorReal"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelAluguelSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "aluguelID": "body",
+        "ativoID": "body",
+        "contrPrev": "body",
+        "data": "body",
+        "impostoRetido": "body",
+        "moedaAtivoID": "body",
+        "valor": "body",
+        "valorReal": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(e)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_aluguel_listar",
+    "assert": "o aluguel aparece com o valor enviado e a data 03/11/2026 lida como 3 de novembro (dd/mm/yyyy)",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#aluguel_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:32+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "o mesmo aluguel passou a valer 3, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança o aluguel de 2500 do apartamento",
+    "registra o aluguel que recebi hoje",
+    "corrige o valor do aluguel de maio"
+  ]
+}

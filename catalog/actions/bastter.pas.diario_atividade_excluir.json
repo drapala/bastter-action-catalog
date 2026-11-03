@@ -1,0 +1,95 @@
+{
+  "id": "bastter.pas.diario_atividade_excluir",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "diario_atividade",
+  "operation_class": "delete",
+  "label": "Excluir uma atividade do diário #PAS",
+  "description": "WS_Carteira.DiarioAtividadeExcluir. Called from: #PAS - Diário.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "atividadeID": {
+          "type": "integer",
+          "description": "ID of the atividade.",
+          "examples": [
+            27033,
+            27035,
+            27036
+          ]
+        }
+      },
+      "required": [
+        "atividadeID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "atividadeID",
+        "entity": "atividade",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioAtividadeExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "atividadeID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({atividadeID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/diario"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.diario_atividade_listar",
+    "assert": "a atividade saiu do histórico do Diário",
+    "from_scenario": "scenarios/archive/pas_diario_atividade_ciclo.yaml#atividade_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:28:36+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-diario-atividade-ciclo-1793734109",
+    "notes": "a atividade saiu do histórico do Diário"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.diario-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/diario"
+    }
+  ],
+  "intent_examples": [
+    "apaga a atividade de ontem do diário",
+    "exclui esse registro de leitura"
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "id": "bastter.saude.race_peso_salvar",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_peso",
+  "operation_class": "update",
+  "label": "Registrar peso, gordura e medidas personalizadas",
+  "description": "WS_Carteira.RacePesoSalvar. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "examples": [
+            {
+              "data": "2026-11-03",
+              "peso": 3,
+              "percGordura": 2,
+              "anotacao": "ZZTESTE peso 729668",
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            },
+            {
+              "data": "2026-11-03",
+              "peso": 3,
+              "percGordura": 2,
+              "anotacao": "ZZTESTE peso 730171",
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            },
+            {
+              "data": "2026-11-03",
+              "peso": 3,
+              "percGordura": 2,
+              "anotacao": "ZZTESTE peso 731763",
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd."
+        },
+        "personalizado": {
+          "examples": [
+            {
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            },
+            {
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            },
+            {
+              "personalizado1": null,
+              "personalizado2": null,
+              "personalizado3": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "item",
+        "personalizado"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RacePesoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "item": "body",
+        "personalizado": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({item:r,personalizado:u})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_peso_listar",
+    "assert": "o registro aparece com data, peso e percentual de gordura enviados",
+    "from_scenario": "scenarios/saude_race_privado.yaml#peso_gravado"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "The first save on an account creates a custom-label row (RacePesoListar.Personalizado) that no method deletes. The user sees no change."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:13+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793737741",
+    "notes": "o registro aparece com data, peso e percentual de gordura enviados"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "anota meu peso de hoje 82 kg",
+    "registra 18% de gordura",
+    "lança minha medida de cintura"
+  ]
+}

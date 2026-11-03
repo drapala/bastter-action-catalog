@@ -1,0 +1,116 @@
+{
+  "id": "bastter.saude.gym_save_exercicio",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "gym_exercicio",
+  "operation_class": "update",
+  "label": "Criar ou editar um exercício no Bastter Gym",
+  "description": "WS_Carteira.GymSaveExercicio. Called from: Saúde - Bastter Gym.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "exercicio": {
+          "examples": [
+            {
+              "exercicioID": 0,
+              "nome": "ZZTESTE exercicio 729573",
+              "videoUrl": "",
+              "descricao": "",
+              "musculos": [
+                {
+                  "MusculoID": 7
+                }
+              ]
+            },
+            {
+              "exercicioID": 0,
+              "nome": "ZZTESTE exercicio 729731",
+              "videoUrl": "",
+              "descricao": "",
+              "musculos": [
+                {
+                  "MusculoID": 7
+                }
+              ]
+            },
+            {
+              "exercicioID": 1356,
+              "nome": "ZZTESTE exercicio 729731 v2",
+              "videoUrl": "",
+              "descricao": "",
+              "musculos": [
+                {
+                  "MusculoID": 7
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "exercicio"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GymSaveExercicio",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "exercicio": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({exercicio:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/gym"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.gym_list_exercicio",
+    "assert": "o exercício aparece na lista do usuário com o nome enviado",
+    "from_scenario": "scenarios/saude_gym.yaml#exercicio_criado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:45+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "notes": "o exercício aparece na lista do usuário com o nome enviado"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.gym-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/gym"
+    }
+  ],
+  "intent_examples": [
+    "cria o exercício remada unilateral",
+    "adiciona um exercício novo para costas"
+  ]
+}

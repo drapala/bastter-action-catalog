@@ -1,0 +1,78 @@
+{
+  "id": "bastter.saude.race_meta_excluir",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_meta",
+  "operation_class": "delete",
+  "label": "Excluir minhas metas de esporte",
+  "description": "WS_Carteira.RaceMetaExcluir. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceMetaExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: \"\""
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.race_meta_obter",
+    "assert": "o usuário volta a não ter metas, igual ao início",
+    "from_scenario": "scenarios/saude_race_privado.yaml#meta_restaurada"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:29:06+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-race-privado-1793737741",
+    "notes": "o usuário volta a não ter metas, igual ao início"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "apaga minhas metas do Race",
+    "exclui as metas de esporte"
+  ]
+}

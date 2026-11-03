@@ -1,0 +1,116 @@
+{
+  "id": "bastter.ativos.bond_cupom_deletar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "bond_cupom",
+  "operation_class": "delete",
+  "label": "Excluir um cupom recebido de um bond",
+  "description": "WS_Carteira.BondCupomDeletar. Called from: Ativos - Bonds.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            6758,
+            6759,
+            6761
+          ]
+        },
+        "cupomID": {
+          "type": "integer",
+          "description": "ID of the cupom.",
+          "examples": [
+            2561,
+            2562,
+            2565
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "cupomID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "cupomID",
+        "entity": "cupom",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BondCupomDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "cupomID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({cupomID:n,ativoID:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/bond"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bond_cupom_listar",
+    "assert": "the read shows the change (see scenarios/bond_ciclo.yaml, step cupom_sumiu)",
+    "from_scenario": "scenarios/bond_ciclo.yaml#cupom_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:19:48+00:00",
+    "evidence": "evidence/runs.jsonl#run=bond-ciclo-1793737174",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.bond-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond/graficos"
+    }
+  ],
+  "intent_examples": [
+    "apaga o cupom do bond de março",
+    "exclui esse cupom lançado errado"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "bastter.imposto_de_renda.ir_marcar_linha",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_linha",
+  "operation_class": "update",
+  "label": "Marcar linhas do IR como já copiadas para a declaração",
+  "description": "WS_Carteira.IRMarcarLinha. Called from: Imposto de Renda - Bens e Direitos, Imposto de Renda - CBE, Imposto de Renda - Doações, Imposto de Renda - Exterior, Imposto de Renda - Ganho de Capital, Imposto de Renda - Pagamentos Efetuados.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "hashs": {}
+      },
+      "required": [
+        "hashs"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRMarcarLinha",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "hashs": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({hashs:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/bens-e-direitos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.impostorenda.common-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/bens-e-direitos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/cbe"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/doacoes"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/exterior"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "intent_examples": [
+    "marca essa linha como já declarada",
+    "já copiei esse bem para o programa da Receita"
+  ]
+}

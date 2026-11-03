@@ -1,0 +1,124 @@
+{
+  "id": "bastter.pas.agradecer_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "agradecer",
+  "operation_class": "update",
+  "label": "Escrever ou editar um agradecimento no diário",
+  "description": "WS_Carteira.AgradecerSalvar. Called from: #PAS - Agradecer.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "agradecimento": {
+          "examples": [
+            {
+              "AgredecimentoID": 0,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE agradecimento 730125"
+            },
+            {
+              "AgredecimentoID": 37554,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE agradecimento editado 730125"
+            },
+            {
+              "AgredecimentoID": 0,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE agradecimento 731648"
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd. Not confirmed by a read-back of the date.",
+          "type": "object",
+          "required": [
+            "privado"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "AgredecimentoID": {
+              "type": "integer"
+            },
+            "data": {
+              "type": "string"
+            },
+            "privado": {
+              "const": true,
+              "description": "Must be true. A public entry can show to other users."
+            },
+            "Anotacoes": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "agradecimento"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AgradecerSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "agradecimento": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({agradecimento:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/agradecer"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.agradecer_listar",
+    "assert": "o agradecimento aparece na lista do dono com o texto enviado e marcado como privado",
+    "from_scenario": "scenarios/pas_agradecer_privado_ciclo.yaml#agradecimento_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false,
+    "notes": "Write it as private (the read-back shows Privado true). A public one can show to other users."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:20+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-agradecer-privado-ciclo-1793737634",
+    "notes": "o mesmo registro passou a ter o texto novo e continua privado"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.agradecer-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/agradecer"
+    }
+  ],
+  "intent_examples": [
+    "escreve no diário de agradecimento",
+    "agradeço hoje pela saúde da família",
+    "registra meu agradecimento do dia"
+  ]
+}

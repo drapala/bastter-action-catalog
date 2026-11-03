@@ -1,0 +1,153 @@
+{
+  "id": "bastter.ativos.imovel_despesa_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_despesa",
+  "operation_class": "update",
+  "label": "Lançar ou editar uma despesa de um imóvel",
+  "description": "WS_Carteira.ImovelDespesaSalvar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            41241,
+            41242,
+            41242
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "2026-11-03",
+            "2026-11-03",
+            "2026-11-03"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "dedutivelIR": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            true
+          ]
+        },
+        "descricao": {
+          "type": "string",
+          "examples": [
+            "ZZTESTE despesa dev",
+            "ZZTESTE despesa 730098",
+            "ZZTESTE despesa 730098"
+          ]
+        },
+        "despesaID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            258
+          ]
+        },
+        "valor": {
+          "type": "integer",
+          "examples": [
+            3,
+            3,
+            4
+          ]
+        },
+        "valorExterior": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "data",
+        "dedutivelIR",
+        "descricao",
+        "despesaID",
+        "valor",
+        "valorExterior"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelDespesaSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "data": "body",
+        "dedutivelIR": "body",
+        "descricao": "body",
+        "despesaID": "body",
+        "valor": "body",
+        "valorExterior": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_movimentacao_obter",
+    "assert": "a despesa aparece no imóvel com a descrição e o valor enviados",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#despesa_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:25+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "a mesma despesa passou a valer 4 e ficou dedutível, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança o IPTU de 1200 do apartamento",
+    "registra o condomínio da sala",
+    "marca essa despesa como dedutível no IR"
+  ]
+}

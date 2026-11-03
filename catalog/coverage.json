@@ -1,0 +1,67 @@
+{
+  "actions": 425,
+  "by_status": {
+    "excluded": 46,
+    "observed": 19,
+    "seen": 95,
+    "verified": 265
+  },
+  "by_area": {
+    "Ativos": {
+      "seen": 33,
+      "excluded": 24,
+      "verified": 81,
+      "observed": 4
+    },
+    "Configurações": {
+      "observed": 1,
+      "verified": 1
+    },
+    "Consolidado": {
+      "verified": 2
+    },
+    "FAQ": {
+      "excluded": 2,
+      "verified": 2,
+      "seen": 1
+    },
+    "Ferramentas": {
+      "excluded": 12
+    },
+    "Financeiro": {
+      "verified": 20,
+      "observed": 4,
+      "excluded": 1
+    },
+    "Home": {
+      "verified": 4,
+      "seen": 1,
+      "observed": 2
+    },
+    "Imposto de Renda": {
+      "verified": 26,
+      "seen": 6
+    },
+    "PAS": {
+      "verified": 39,
+      "excluded": 2,
+      "observed": 2,
+      "seen": 3
+    },
+    "Patrimônio": {
+      "verified": 23,
+      "observed": 5,
+      "seen": 9,
+      "excluded": 2
+    },
+    "Saúde": {
+      "verified": 67,
+      "seen": 42,
+      "observed": 1,
+      "excluded": 3
+    }
+  },
+  "screens_walked": 105,
+  "screens_with_captured_calls": 105,
+  "captured_calls": 606
+}

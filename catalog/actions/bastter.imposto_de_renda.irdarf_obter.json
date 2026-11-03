@@ -1,0 +1,101 @@
+{
+  "id": "bastter.imposto_de_renda.irdarf_obter",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "irdarf",
+  "operation_class": "read",
+  "label": "Ver o DARF de um mês com código de receita e valor",
+  "description": "WS_Carteira.IRDARFObter. Called from: Imposto de Renda - Ganho de Capital, Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "darf": {
+          "examples": [
+            {
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 10,
+              "detalhes": "consulta"
+            },
+            {
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 10,
+              "detalhes": "consulta"
+            },
+            {
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 10,
+              "detalhes": "consulta"
+            }
+          ]
+        }
+      },
+      "required": [
+        "darf"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRDARFObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "darf": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({darf:f})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:27:19+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793730438",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.darf-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "gera o DARF da venda de ações de outubro",
+    "qual o código e o valor do DARF deste mês"
+  ]
+}

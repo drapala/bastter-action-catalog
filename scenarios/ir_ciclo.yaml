@@ -1,0 +1,280 @@
+name: ir-ciclo
+description: >
+  Imposto de Renda. Para cada registro manual (DARF pago, rendimento manual, prejuízo de ano anterior, rendimento
+  de aluguel de ações/FIIs, dados de bens no exterior): grava, lê de volta, edita, lê, apaga e confirma que sumiu.
+  Os dados de bens no exterior precisam de um ativo no exterior com posição no ano, então o cenário inclui KFY
+  em Stocks com uma compra em 2025, e apaga a compra e o ativo no fim.
+vars:
+  darf_chave: {codigo: 6015, periodo: "2026-10-01", valor: 10, detalhes: "consulta"}
+  ano_prejuizo: 2001
+  ano_aluguel: 2019
+  stock: KFY
+  stock_itens: {tipo: stock, ordenacao: 1, classificacao: "0", categoria: 0, setor: "0", segmento: 0, country: 0, gestorID: 0, classificacao2: 0, exchange: null, mandatoID: 0}
+  bens_2025: {tipo: stock, destinoID: null, ano: 2025, ordenacao: "1"}
+steps:
+  # --- DARF pago ---
+  - name: darf_periodo_livre
+    action: bastter.imposto_de_renda.irdarf_obter
+    inputs: {darf: "${darf_chave}"}
+    assert: {equals: {DARFID: 0}}
+    proves: não existe DARF 6015 de 10/2026 antes do cenário
+  - name: darf_salvar
+    action: bastter.imposto_de_renda.irdarf_salvar
+    inputs: {darf: {darfID: 0, codigo: 6015, periodo: "2026-10-01", valor: 10, detalhes: "${prefix} darf ${ts}"}}
+    assert: {equals: {Return: true}}
+  - name: darf_listado
+    postcondition_of: bastter.imposto_de_renda.irdarf_salvar
+    action: bastter.imposto_de_renda.irdarf_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: "", where: {Detalhes: "${prefix} darf ${ts}", Codigo: 6015, Valor: 10.0, Periodo: "2026-10-01T00:00:00"}}}
+    save: {darf: {path: "", where: {Detalhes: "${prefix} darf ${ts}"}, field: DARFID}}
+    proves: o DARF aparece no Gerenciador de DARFs com código, período e valor enviados
+  - name: darf_marcado_pago
+    postcondition_of: bastter.imposto_de_renda.irdarf_salvar
+    action: bastter.imposto_de_renda.irdarf_obter
+    inputs: {darf: "${darf_chave}"}
+    assert: {equals: {DARFID: "${darf}"}}
+    proves: a tela de DARF passa a ver o período 10/2026 do código 6015 como pago
+    stop_on_fail: false
+  - name: darf_editar
+    action: bastter.imposto_de_renda.irdarf_salvar
+    inputs: {darf: {darfID: "${darf}", codigo: 6015, periodo: "2026-10-01", valor: 12, detalhes: "${prefix} darf ${ts} b"}}
+    assert: {equals: {Return: true}}
+  - name: darf_editado
+    postcondition_of: bastter.imposto_de_renda.irdarf_salvar
+    action: bastter.imposto_de_renda.irdarf_listar
+    inputs: {page: 1}
+    assert:
+      list_contains: {path: "", where: {DARFID: "${darf}", Valor: 12.0, Detalhes: "${prefix} darf ${ts} b"}}
+      list_excludes: {path: "", where: {Detalhes: "${prefix} darf ${ts}"}}
+    proves: o mesmo DARF mudou de valor, sem criar outro
+    stop_on_fail: false
+  - name: darf_excluir
+    action: bastter.imposto_de_renda.irdarf_excluir
+    inputs: {darfID: "${darf}"}
+    assert: {equals: {Return: true}}
+  - name: darf_sumiu
+    postcondition_of: bastter.imposto_de_renda.irdarf_excluir
+    action: bastter.imposto_de_renda.irdarf_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: "", where: {DARFID: "${darf}"}}}
+    stop_on_fail: false
+  - name: darf_periodo_livre_de_novo
+    postcondition_of: bastter.imposto_de_renda.irdarf_excluir
+    action: bastter.imposto_de_renda.irdarf_obter
+    inputs: {darf: "${darf_chave}"}
+    assert: {equals: {DARFID: 0}}
+    stop_on_fail: false
+
+  # --- Rendimento manual (IR > Rendimentos, ano 2025) ---
+  - name: rend_salvar
+    action: bastter.imposto_de_renda.salvar_ir_rendimento_manual
+    inputs: {rendimento: {ItemID: 0, Ano: "2025", TipoRendimento: "1", CodigoDescricao: "09 - Lucros e dividendos recebidos", Descricao: "${prefix} rendimento ${ts}", CNPJFontePagadora: "11222333000181", NomeFontePagadora: "${prefix} fonte ${ts}", Valor: 10}}
+    assert: {equals: {Return: true}}
+  - name: rend_listado
+    postcondition_of: bastter.imposto_de_renda.salvar_ir_rendimento_manual
+    action: bastter.imposto_de_renda.obter_posicao_anual_proventos
+    inputs: {ano: 2025}
+    assert: {list_contains: {path: Manual.Isentos, where: {Descricao: "${prefix} rendimento ${ts}", NomeFontePagadora: "${prefix} fonte ${ts}", Valor: 10.0}}}
+    save: {rend: {path: Manual.Isentos, where: {Descricao: "${prefix} rendimento ${ts}"}, field: ItemID}}
+    proves: o rendimento aparece em Rendimentos Isentos de 2025
+  - name: rend_obter
+    postcondition_of: bastter.imposto_de_renda.salvar_ir_rendimento_manual
+    action: bastter.imposto_de_renda.obter_ir_rendimento_manual
+    inputs: {itemID: "${rend}"}
+    assert: {equals: {ItemID: "${rend}", Ano: 2025, TipoRendimento: 1, CNPJFontePagadora: "11222333000181", Valor: 10.0}}
+    stop_on_fail: false
+  - name: rend_editar
+    action: bastter.imposto_de_renda.salvar_ir_rendimento_manual
+    inputs: {rendimento: {ItemID: "${rend}", Ano: "2025", TipoRendimento: "1", CodigoDescricao: "09 - Lucros e dividendos recebidos", Descricao: "${prefix} rendimento ${ts} b", CNPJFontePagadora: "11222333000181", NomeFontePagadora: "${prefix} fonte ${ts}", Valor: 12}}
+    assert: {equals: {Return: true}}
+  - name: rend_editado
+    postcondition_of: bastter.imposto_de_renda.salvar_ir_rendimento_manual
+    action: bastter.imposto_de_renda.obter_posicao_anual_proventos
+    inputs: {ano: 2025}
+    assert: {list_contains: {path: Manual.Isentos, where: {ItemID: "${rend}", Descricao: "${prefix} rendimento ${ts} b", Valor: 12.0}}}
+    proves: o mesmo item mudou de descrição e valor
+    stop_on_fail: false
+  - name: rend_excluir
+    action: bastter.imposto_de_renda.excluir_ir_rendimento_manual
+    inputs: {itemID: "${rend}"}
+    assert: {equals: {Return: true}}
+  - name: rend_sumiu
+    postcondition_of: bastter.imposto_de_renda.excluir_ir_rendimento_manual
+    action: bastter.imposto_de_renda.obter_posicao_anual_proventos
+    inputs: {ano: 2025}
+    assert: {list_excludes: {path: Manual.Isentos, where: {ItemID: "${rend}"}}}
+    stop_on_fail: false
+  - name: rend_obter_vazio
+    postcondition_of: bastter.imposto_de_renda.excluir_ir_rendimento_manual
+    action: bastter.imposto_de_renda.obter_ir_rendimento_manual
+    inputs: {itemID: "${rend}"}
+    assert: {equals: {"": "null"}}
+    stop_on_fail: false
+
+  # --- Prejuízo de anos anteriores (IR > Ganho de Capital) ---
+  - name: prej_ano_livre
+    action: bastter.imposto_de_renda.listar_prejuizo_ano_anterior
+    inputs: {}
+    assert: {list_excludes: {path: "", where: {Ano: "${ano_prejuizo}"}}}
+    proves: o dono não tem prejuízo lançado para 2001, então o item de 2001 é só do cenário
+  - name: prej_salvar
+    action: bastter.imposto_de_renda.salvar_prejuizo_ano_anterior
+    inputs: {item: {ItemID: 0, Ano: "2001", AcaoValor: 5, FIIValor: 3}}
+    assert: {equals: {Return: true}}
+  - name: prej_listado
+    postcondition_of: bastter.imposto_de_renda.salvar_prejuizo_ano_anterior
+    action: bastter.imposto_de_renda.listar_prejuizo_ano_anterior
+    inputs: {}
+    assert: {list_contains: {path: "", where: {Ano: "${ano_prejuizo}", AcaoValor: 5.0, FIIValor: 3.0}}}
+    save: {prej: {path: "", where: {Ano: "${ano_prejuizo}"}, field: ItemID}}
+  - name: prej_editar
+    action: bastter.imposto_de_renda.salvar_prejuizo_ano_anterior
+    inputs: {item: {ItemID: "${prej}", Ano: "2001", AcaoValor: 7, FIIValor: 2}}
+    assert: {equals: {Return: true}}
+  - name: prej_editado
+    postcondition_of: bastter.imposto_de_renda.salvar_prejuizo_ano_anterior
+    action: bastter.imposto_de_renda.listar_prejuizo_ano_anterior
+    inputs: {}
+    assert: {list_contains: {path: "", where: {ItemID: "${prej}", AcaoValor: 7.0, FIIValor: 2.0}}}
+    stop_on_fail: false
+  - name: prej_excluir
+    action: bastter.imposto_de_renda.excluir_prejuizo_ano_anterior
+    inputs: {itemID: "${prej}"}
+    assert: {equals: {Return: true}}
+  - name: prej_sumiu
+    postcondition_of: bastter.imposto_de_renda.excluir_prejuizo_ano_anterior
+    action: bastter.imposto_de_renda.listar_prejuizo_ano_anterior
+    inputs: {}
+    assert: {list_excludes: {path: "", where: {ItemID: "${prej}"}}}
+    stop_on_fail: false
+
+  # --- Rendimento de aluguel de ações/FIIs ---
+  - name: aluguel_ano_livre
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: "", where: {Ano: "${ano_aluguel}"}}}
+    proves: o dono não tem rendimento de aluguel em 2019, então o item de 2019 é só do cenário
+  - name: aluguel_salvar
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_salvar
+    inputs: {rendimento: {itemID: 0, ano: "2019", valor: 5}}
+    assert: {equals: {Return: true}}
+  - name: aluguel_listado
+    postcondition_of: bastter.imposto_de_renda.ir_aluguel_rendimento_salvar
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: "", where: {Ano: "${ano_aluguel}", Valor: 5.0}}}
+    save: {aluguel: {path: "", where: {Ano: "${ano_aluguel}"}, field: ItemID}}
+  - name: aluguel_editar
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_salvar
+    inputs: {rendimento: {itemID: "${aluguel}", ano: "2019", valor: 7}}
+    assert: {equals: {Return: true}}
+  - name: aluguel_editado
+    postcondition_of: bastter.imposto_de_renda.ir_aluguel_rendimento_salvar
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: "", where: {ItemID: "${aluguel}", Valor: 7.0}}}
+    stop_on_fail: false
+  - name: aluguel_excluir
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_excluir
+    inputs: {itemID: "${aluguel}"}
+    assert: {equals: {Return: true}}
+  - name: aluguel_sumiu
+    postcondition_of: bastter.imposto_de_renda.ir_aluguel_rendimento_excluir
+    action: bastter.imposto_de_renda.ir_aluguel_rendimento_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: "", where: {ItemID: "${aluguel}"}}}
+    stop_on_fail: false
+
+  # --- Dados de bens no exterior (IR > Bens e Direitos), sobre um ativo criado aqui ---
+  - name: stock_livre
+    guard: true
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_2025}"
+    assert: {list_excludes: {path: "", where: {Symbol: "${stock}"}}}
+    proves: o dono não tem KFY em Bens e Direitos 2025
+  - name: stock_pesquisar
+    action: bastter.ativos.pesquisar
+    inputs: {tipo: stock, ativo: "${stock}"}
+    assert: {list_contains: {path: "", where: {Codigo: "${stock}"}}}
+  - name: stock_fora_da_aba
+    guard: true
+    action: bastter.ativos.obter_itens
+    inputs: "${stock_itens}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${stock}"}}}
+    proves: a aba Stocks não mostra o ativo, então ele não é uma posição visível do usuário
+  - name: stock_incluir
+    action: bastter.ativos.salvar
+    inputs: {tipo: stock, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${stock}", valor: "", moedaAtivoID: 0, tipoImovelID: 12, destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 0, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: null}
+    assert: {present: [AtivoID]}
+    save: {kfy: AtivoID}
+  - name: stock_sem_movimentacao
+    guard: true
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${stock}", tipo: stock, ativoID: "${kfy}"}
+    assert: {empty: [Itens]}
+    proves: o item que o salvar devolveu não tem movimentação, então nenhuma operação do usuário fica em risco
+  - name: stock_compra_2025
+    action: bastter.ativos.save_movement
+    inputs: {movimentacaoID: 0, tipo: stock, ativoID: "${kfy}", quantidade: 1, data: "06/16/2025", totalOperacao: 5, totalOperacaoEstrangeiro: 1, corretagem: 0}
+    assert: {equals: {Return: true}}
+  - name: stock_compra_gravada
+    postcondition_of: bastter.ativos.save_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${stock}", tipo: stock, ativoID: "${kfy}"}
+    assert: {list_contains: {path: Itens, where: {Tipo: Buy, Quantidade: 1.0}}}
+    save: {mov: {path: Itens, where: {Tipo: Buy}, field: MovimentacaoID}}
+  - name: bens_com_stock
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_2025}"
+    assert: {list_contains: {path: "", where: {AtivoID: "${kfy}", Symbol: "${stock}", QtdAtual: 1.0, AtualizacaoUsuario: false}}}
+    proves: KFY aparece em Bens e Direitos 2025 com valores calculados pelo sistema
+    stop_on_fail: false
+  - name: exterior_salvar
+    action: bastter.imposto_de_renda.ir_save_bens_direitos_exterior
+    inputs: {tipo: stock, ativoID: "${kfy}", ano: 2025, aplFinLucroPrejuizo: 2, aplFinImpostoPagoExterior: 1, lucDivValorRecebido: 0, lucDivImpostoPagoExterior: 0}
+    assert: {equals: {Return: true}}
+  - name: exterior_gravado
+    postcondition_of: bastter.imposto_de_renda.ir_save_bens_direitos_exterior
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_2025}"
+    assert: {list_contains: {path: "", where: {AtivoID: "${kfy}", AplFinLucroPrejuizo: 2.0, AplFinImpostoPagoExterior: 1.0, AtualizacaoUsuario: true}}}
+    proves: os valores digitados substituem o cálculo automático e ficam marcados como do usuário
+    stop_on_fail: false
+  - name: exterior_excluir
+    action: bastter.imposto_de_renda.ir_delete_bens_direitos_exterior
+    inputs: {tipo: stock, ativoID: "${kfy}", ano: 2025}
+    assert: {equals: {Return: true}}
+  - name: exterior_voltou_ao_automatico
+    postcondition_of: bastter.imposto_de_renda.ir_delete_bens_direitos_exterior
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_2025}"
+    assert:
+      list_contains: {path: "", where: {AtivoID: "${kfy}", AtualizacaoUsuario: false}}
+      list_excludes: {path: "", where: {AtivoID: "${kfy}", AplFinLucroPrejuizo: 2.0}}
+    proves: o valor do usuário sumiu e o sistema voltou a calcular
+    stop_on_fail: false
+  - name: stock_excluir_compra
+    action: bastter.ativos.delete_movement
+    inputs: {tipo: stock, movimentacaoID: "${mov}"}
+    assert: {equals: {Return: OK}}
+  - name: stock_sem_compra
+    postcondition_of: bastter.ativos.delete_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${stock}", tipo: stock, ativoID: "${kfy}"}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+    stop_on_fail: false
+  - name: stock_excluir
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: stock, ativoID: "${kfy}", carteiraID: 0}
+    assert: {equals: {Return: "Item excluído com sucesso."}}
+  - name: stock_sumiu
+    action: bastter.ativos.obter_itens
+    inputs: "${stock_itens}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${kfy}"}}}
+    stop_on_fail: false
+  - name: bens_sem_stock
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: "${bens_2025}"
+    assert: {list_excludes: {path: "", where: {AtivoID: "${kfy}"}}}
+    proves: KFY não aparece mais em Bens e Direitos 2025, nem como ativo excluído

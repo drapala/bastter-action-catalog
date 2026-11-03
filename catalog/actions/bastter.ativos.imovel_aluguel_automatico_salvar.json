@@ -1,0 +1,131 @@
+{
+  "id": "bastter.ativos.imovel_aluguel_automatico_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_aluguel_automatico",
+  "operation_class": "update",
+  "label": "Configurar o lançamento automático do aluguel de um imóvel",
+  "description": "WS_Carteira.ImovelAluguelAutomaticoSalvar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            41241,
+            41241,
+            41242
+          ]
+        },
+        "automatico": {
+          "examples": [
+            {
+              "Ativo": true,
+              "Dia": "28",
+              "Mes": "",
+              "Periodo": "1",
+              "Valor": 2,
+              "MoedaAtivoID": "0",
+              "ContrPrev": 0,
+              "ImpostoRetido": 0
+            },
+            {
+              "Ativo": false,
+              "Dia": null,
+              "Mes": null,
+              "Periodo": null,
+              "Valor": null,
+              "MoedaAtivoID": 0,
+              "ContrPrev": 0,
+              "ImpostoRetido": 0
+            },
+            {
+              "Ativo": true,
+              "Dia": "28",
+              "Mes": "",
+              "Periodo": "1",
+              "Valor": 2,
+              "MoedaAtivoID": "0",
+              "ContrPrev": 0,
+              "ImpostoRetido": 0
+            }
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "automatico"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelAluguelAutomaticoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "automatico": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({ativoID:n,automatico:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_aluguel_listar",
+    "assert": "o aluguel automático ficou ligado (mensal, dia 28, valor 2) e não lançou nenhum aluguel na hora",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#automatico_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:42+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "o aluguel automático voltou a desligado, como antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    }
+  ],
+  "intent_examples": [
+    "lança o aluguel do apartamento todo dia 5 automático",
+    "desliga o aluguel automático do imóvel"
+  ]
+}

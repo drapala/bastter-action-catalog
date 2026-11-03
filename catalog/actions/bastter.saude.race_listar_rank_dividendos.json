@@ -1,0 +1,84 @@
+{
+  "id": "bastter.saude.race_listar_rank_dividendos",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_dividendos",
+  "operation_class": "read",
+  "label": "Ver o ranking de dividendos do Race",
+  "description": "WS_Carteira.RaceListarRankDividendos. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            1
+          ]
+        }
+      },
+      "required": [
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceListarRankDividendos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "page": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({page:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:15:02+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "quem tem mais dividendos no Race",
+    "minha posição no ranking de dividendos"
+  ]
+}

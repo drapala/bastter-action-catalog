@@ -1,0 +1,105 @@
+name: etf-ciclo
+description: Inclui VOO na aba ETFs, lança uma compra pelo formulário do exterior, lança, edita e apaga um provento manual, edita, lê de volta cada passo, apaga tudo e confirma que sumiu.
+vars:
+  ticker: "VOO"
+  itens_filtro: {"tipo": "etf", "ordenacao": 1, "classificacao": "0", "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+steps:
+  - name: pesquisar
+    action: bastter.ativos.pesquisar
+    inputs: {tipo: etf, ativo: "VOO"}
+    assert: {list_contains: {path: "", where: {Codigo: "${ticker}"}}}
+  - name: ativo_ausente
+    guard: true
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${ticker}"}}}
+    proves: a aba não mostra o ativo, então ele não é uma posição visível do usuário
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {tipo: etf, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${ticker}", valor: "", moedaAtivoID: 0, tipoImovelID: 12, destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 29, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: ativo_sem_movimentacao
+    guard: true
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: etf, ativoID: "${item}"}
+    assert: {empty: [Itens]}
+    proves: o item que o salvar devolveu não tem movimentação, então nenhuma operação do usuário fica em risco
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}"}}}
+    proves: o ativo aparece na aba ETFs com o código da busca
+  - name: lancar_compra
+    action: bastter.ativos.save_movement
+    inputs: {movimentacaoID: 0, tipo: etf, ativoID: "${item}", quantidade: 1, data: "11/03/2026", totalOperacao: 10, totalOperacaoEstrangeiro: 2, corretagem: 0}
+    assert: {equals: {Return: true}}
+  - name: compra_gravada
+    postcondition_of: bastter.ativos.save_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: etf, ativoID: "${item}"}
+    assert: {list_contains: {path: Itens, where: {Tipo: Buy, Quantidade: 1.0, OperacaoReal: 10.0, OperacaoEstrangeiro: 2.0}}}
+    save: {mov: {path: Itens, where: {Tipo: Buy}, field: MovimentacaoID}}
+    proves: a compra tem a quantidade e os dois totais enviados
+  - name: editar_compra
+    action: bastter.ativos.save_movement
+    inputs: {movimentacaoID: "${mov}", tipo: etf, ativoID: "${item}", quantidade: 2, data: "11/03/2026", totalOperacao: 20, totalOperacaoEstrangeiro: 4, corretagem: 0}
+    assert: {equals: {Return: true}}
+  - name: compra_editada
+    postcondition_of: bastter.ativos.save_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: etf, ativoID: "${item}"}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}", Quantidade: 2.0, OperacaoReal: 20.0, OperacaoEstrangeiro: 4.0}}}
+    proves: a mesma movimentação passou a ter quantidade 2, sem criar outra
+  - name: posicao_no_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Quantidade: 2.0}}}
+    proves: a posição do ativo soma 2 unidades
+  - name: lancar_provento
+    action: bastter.ativos.provento_manual_salvar
+    inputs: {earningID: 0, ativoID: "${item}", tipoClasse: etf, dataReferencia: "2026-10-01", dataEx: "2026-10-01", dataPagamento: "2026-10-15", valor: 1.5, imposto: 0.45}
+    assert: {list_contains: {path: Items, where: {Valor: 1.5, Imposto: 0.45}}}
+    save: {prov: {path: Items, where: {Valor: 1.5}, field: EarningID}}
+  - name: provento_gravado
+    postcondition_of: bastter.ativos.provento_manual_salvar
+    action: bastter.ativos.provento_manual_listar
+    inputs: {ativoID: "${item}", tipoClasse: etf}
+    assert: {list_contains: {path: "", where: {EarningID: "${prov}", Valor: 1.5, Imposto: 0.45, DataPagamento: "2026-10-15T00:00:00"}}}
+    proves: o provento manual aparece na lista do ativo com valor, imposto e data de pagamento enviados
+  - name: editar_provento
+    action: bastter.ativos.provento_manual_salvar
+    inputs: {earningID: "${prov}", ativoID: "${item}", tipoClasse: etf, dataReferencia: "2026-10-01", dataEx: "2026-10-01", dataPagamento: "2026-10-16", valor: 2.5, imposto: 0.75}
+  - name: provento_editado
+    postcondition_of: bastter.ativos.provento_manual_salvar
+    action: bastter.ativos.provento_manual_listar
+    inputs: {ativoID: "${item}", tipoClasse: etf}
+    assert: {list_contains: {path: "", where: {EarningID: "${prov}", Valor: 2.5, Imposto: 0.75, DataPagamento: "2026-10-16T00:00:00"}}}
+    proves: o mesmo provento passou a ter valor 2.5, sem criar outro
+  - name: excluir_provento
+    action: bastter.ativos.provento_manual_deletar
+    inputs: {earningID: "${prov}", ativoID: "${item}", tipoClasse: etf}
+  - name: provento_sumiu
+    postcondition_of: bastter.ativos.provento_manual_deletar
+    action: bastter.ativos.provento_manual_listar
+    inputs: {ativoID: "${item}", tipoClasse: etf}
+    assert: {list_excludes: {path: "", where: {EarningID: "${prov}"}}}
+  - name: excluir_compra
+    action: bastter.ativos.delete_movement
+    inputs: {tipo: etf, movimentacaoID: "${mov}"}
+    assert: {equals: {Return: OK}}
+  - name: compra_sumiu
+    postcondition_of: bastter.ativos.delete_movement
+    action: bastter.ativos.get_movement
+    inputs: {symbol: "${ticker}", tipo: etf, ativoID: "${item}"}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: etf, ativoID: "${item}", carteiraID: 0}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o ativo saiu da aba ETFs

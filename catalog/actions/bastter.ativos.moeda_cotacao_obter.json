@@ -1,0 +1,92 @@
+{
+  "id": "bastter.ativos.moeda_cotacao_obter",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "moeda_cotacao",
+  "operation_class": "read",
+  "label": "Ver a cotação de uma moeda em uma data",
+  "description": "WS_Carteira.MoedaCotacaoObter. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "compra": {},
+        "data": {},
+        "moedaID": {
+          "type": "integer",
+          "description": "ID of the moeda."
+        }
+      },
+      "required": [
+        "compra",
+        "data",
+        "moedaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "moedaID",
+        "entity": "moeda",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MoedaCotacaoObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "compra": "body",
+        "data": "body",
+        "moedaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({moedaID:n,data:f,compra:!1})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.ativos.imovel-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    }
+  ],
+  "intent_examples": [
+    "qual era o dólar em 10/03/2020",
+    "cotação do euro na data da venda"
+  ]
+}

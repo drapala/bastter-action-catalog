@@ -1,0 +1,113 @@
+{
+  "id": "bastter.pas.diario_atividade_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "diario_atividade",
+  "operation_class": "update",
+  "label": "Registrar ou editar uma atividade no diário #PAS",
+  "description": "WS_Carteira.DiarioAtividadeSalvar. Called from: #PAS - Diário.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "atividade": {
+          "examples": [
+            {
+              "atividadeID": 0,
+              "tipoAtividade": {
+                "tipoAtividadeID": 9
+              },
+              "data": "11/03/2026",
+              "quantidade": 1,
+              "anotacao": "ZZTESTE atividade dev"
+            },
+            {
+              "atividadeID": 27033,
+              "tipoAtividade": {
+                "tipoAtividadeID": 9
+              },
+              "data": "11/03/2026",
+              "quantidade": 2,
+              "anotacao": "ZZTESTE atividade dev editada"
+            },
+            {
+              "atividadeID": 0,
+              "tipoAtividade": {
+                "tipoAtividadeID": 9
+              },
+              "data": "11/03/2026",
+              "quantidade": 1,
+              "anotacao": "ZZTESTE atividade 729934"
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "atividade"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioAtividadeSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "atividade": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({atividade:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/diario"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.diario_atividade_listar",
+    "assert": "a atividade aparece no histórico com a data, a quantidade e a anotação enviadas",
+    "from_scenario": "scenarios/archive/pas_diario_atividade_ciclo.yaml#atividade_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "publishes",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Activity amounts feed a public top 50 per activity type (diario_atividade_rank_listar). A large amount shows the user in it. The MCP server does not run it. The scenario wrote 1 and 2 minutes, below the lowest ranked 104."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:28:35+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-diario-atividade-ciclo-1793734109",
+    "notes": "a mesma atividade passou a ter quantidade 2 e a anotação nova, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.diario-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/diario"
+    }
+  ],
+  "intent_examples": [
+    "registra que li 30 páginas hoje",
+    "anota no diário que meditei",
+    "lança uma atividade de ontem"
+  ]
+}

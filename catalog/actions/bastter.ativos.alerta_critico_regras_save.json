@@ -1,0 +1,72 @@
+{
+  "id": "bastter.ativos.alerta_critico_regras_save",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "alerta_critico_regras",
+  "operation_class": "update",
+  "label": "Salvar alerta critico regras",
+  "description": "WSWorks.AlertaCriticoRegrasSave. Called from: Ativos - Ações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "regraUsuario": {}
+      },
+      "required": [
+        "regraUsuario"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WSWorks.asmx/AlertaCriticoRegrasSave",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "regraUsuario": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({regraUsuario:r})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "admin-only method (edits content for every user)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.alertacritico-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    }
+  ]
+}

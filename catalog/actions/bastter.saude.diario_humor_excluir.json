@@ -1,0 +1,95 @@
+{
+  "id": "bastter.saude.diario_humor_excluir",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "diario_humor",
+  "operation_class": "delete",
+  "label": "Excluir um dia do diário de humor",
+  "description": "WS_Carteira.DiarioHumorExcluir. Called from: Saúde - Diário Humor.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "diaID": {
+          "type": "integer",
+          "description": "ID of the dia.",
+          "examples": [
+            13437,
+            13438,
+            13439
+          ]
+        }
+      },
+      "required": [
+        "diaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "diaID",
+        "entity": "dia",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioHumorExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "diaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({diaID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/diario-humor"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.saude.diario_humor_listar",
+    "assert": "the read shows the change (see scenarios/saude_diarios.yaml, step humor_sumiu)",
+    "from_scenario": "scenarios/saude_diarios.yaml#humor_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:35+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793737708",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.diariohumor-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/diario-humor"
+    }
+  ],
+  "intent_examples": [
+    "apaga o humor de ontem",
+    "exclui esse dia do diário de humor"
+  ]
+}

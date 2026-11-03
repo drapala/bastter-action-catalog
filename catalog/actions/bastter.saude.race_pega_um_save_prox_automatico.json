@@ -1,0 +1,79 @@
+{
+  "id": "bastter.saude.race_pega_um_save_prox_automatico",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_prox_automatico",
+  "operation_class": "update",
+  "label": "Definir o Pega Um automático por meta de posição no ranking",
+  "description": "WS_Carteira.RacePegaUmSaveProxAutomatico. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "automatico": {},
+        "pontos": {}
+      },
+      "required": [
+        "automatico",
+        "pontos"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RacePegaUmSaveProxAutomatico",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "automatico": "body",
+        "pontos": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({automatico:2,pontos:t.value})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "quero chegar ao top 50, monta o Pega Um sozinho",
+    "liga o Pega Um automático para a posição 100"
+  ]
+}

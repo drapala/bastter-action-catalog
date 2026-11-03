@@ -1,0 +1,54 @@
+name: pas-sardinhagem-privado-ciclo
+description: Grava uma sardinhagem ZZTESTE no Diário da Sardinhagem, marcada como privada (o app diz "Privado, só você pode ver"), confirma que está privada e fora da lista de outros usuários, edita, exclui e confirma que sumiu. Os passos de leitura não param a execução, para a exclusão rodar sempre.
+vars:
+  data: "11/03/2026"
+steps:
+  - name: sardinhagem_antes
+    action: bastter.pas.diariosardinhagem_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {Anotacoes: "${prefix} sardinhagem ${ts}"}}}
+  - name: gravar_sardinhagem
+    action: bastter.pas.diario_sardinhagem_salvar
+    inputs: {sardinhagem: {ItemID: 0, data: "${data}", privado: true, Anotacoes: "${prefix} sardinhagem ${ts}"}}
+    assert: {equals: {Return: true}}
+    stop_on_fail: false
+  - name: sardinhagem_gravada
+    postcondition_of: bastter.pas.diario_sardinhagem_salvar
+    action: bastter.pas.diariosardinhagem_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: Items, where: {Anotacoes: "${prefix} sardinhagem ${ts}", Privado: true}}}
+    save: {item: {path: Items, where: {Anotacoes: "${prefix} sardinhagem ${ts}"}, field: ItemID}}
+    stop_on_fail: false
+    proves: a sardinhagem aparece na lista do dono com o texto enviado e marcada como privada
+  - name: obter_sardinhagem
+    action: bastter.pas.diariosardinhagem_obter
+    inputs: {itemID: "${item}"}
+    assert: {equals: {ItemID: "${item}", Privado: true, Anotacoes: "${prefix} sardinhagem ${ts}"}}
+    stop_on_fail: false
+  - name: fora_da_lista_de_outros
+    action: bastter.pas.diariosardinhagem_outros_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {ItemID: "${item}"}}}
+    stop_on_fail: false
+  - name: editar_sardinhagem
+    action: bastter.pas.diario_sardinhagem_salvar
+    inputs: {sardinhagem: {ItemID: "${item}", data: "${data}", privado: true, Anotacoes: "${prefix} sardinhagem editada ${ts}"}}
+    assert: {equals: {Return: true}}
+    stop_on_fail: false
+  - name: sardinhagem_editada
+    postcondition_of: bastter.pas.diario_sardinhagem_salvar
+    action: bastter.pas.diariosardinhagem_obter
+    inputs: {itemID: "${item}"}
+    assert: {equals: {ItemID: "${item}", Privado: true, Anotacoes: "${prefix} sardinhagem editada ${ts}"}}
+    stop_on_fail: false
+    proves: o mesmo registro passou a ter o texto novo e continua privado
+  - name: excluir_sardinhagem
+    action: bastter.pas.diariosardinhagem_excluir
+    inputs: {itemID: "${item}"}
+    assert: {equals: {Return: true}}
+  - name: sardinhagem_sumiu
+    postcondition_of: bastter.pas.diariosardinhagem_excluir
+    action: bastter.pas.diariosardinhagem_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {ItemID: "${item}"}}}
+    proves: a sardinhagem saiu da lista do dono

@@ -1,0 +1,69 @@
+{
+  "id": "bastter.pas.agradecer_salvar_notificacao",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "agradecer_notificacao",
+  "operation_class": "update",
+  "label": "Definir de quantos em quantos dias lembrar de agradecer",
+  "description": "WS_Carteira.AgradecerSalvarNotificacao. Called from: #PAS - Agradecer.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AgradecerSalvarNotificacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/agradecer"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "notifies_people",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'Notificacao' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.agradecer-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/agradecer"
+    }
+  ],
+  "intent_examples": [
+    "me lembra de agradecer a cada 3 dias",
+    "desliga o lembrete de agradecimento"
+  ]
+}

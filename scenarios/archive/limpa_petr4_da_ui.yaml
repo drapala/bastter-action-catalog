@@ -1,0 +1,28 @@
+name: limpa-petr4-da-ui
+description: Apaga a compra e o ativo PETR4 que a captura pela UI criou, lendo de volta depois de cada exclusão.
+vars:
+  item: 1755458
+  mov: 5289464
+steps:
+  - name: mov_antes
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: PETR4, tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_mov
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: acao, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}
+  - name: mov_depois
+    postcondition_of: bastter.ativos.excluir_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: PETR4, tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+    proves: a compra sumiu da lista de movimentações do ativo
+  - name: excluir_item
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+  - name: itens_depois
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: {tipo: acao, ordenacao: 1, classificacao: "0", categoria: 0, setor: "0", segmento: 0, country: 0, gestorID: 0, classificacao2: 0, exchange: null, mandatoID: 0}
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o ativo saiu da aba Ações

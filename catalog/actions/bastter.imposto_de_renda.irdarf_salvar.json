@@ -1,0 +1,110 @@
+{
+  "id": "bastter.imposto_de_renda.irdarf_salvar",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "irdarf",
+  "operation_class": "update",
+  "label": "Lançar ou editar um DARF com código, período e valor",
+  "description": "WS_Carteira.IRDARFSalvar. Called from: Imposto de Renda - Ganho de Capital, Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "darf": {
+          "examples": [
+            {
+              "darfID": 0,
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 10,
+              "detalhes": "ZZTESTE darf 730438"
+            },
+            {
+              "darfID": 6877,
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 12,
+              "detalhes": "ZZTESTE darf 730438 b"
+            },
+            {
+              "darfID": 0,
+              "codigo": 6015,
+              "periodo": "2026-10-01",
+              "valor": 10,
+              "detalhes": "ZZTESTE darf 731549"
+            }
+          ],
+          "description": "Date format of periodo: yyyy-mm-01 (first day of the month)."
+        }
+      },
+      "required": [
+        "darf"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRDARFSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "darf": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({darf:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.irdarf_listar",
+    "assert": "o DARF aparece no Gerenciador de DARFs com código, período e valor enviados",
+    "from_scenario": "scenarios/ir_ciclo.yaml#darf_listado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:37+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "o mesmo DARF mudou de valor, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.darf-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "registra o DARF de 6015 de agosto no valor de 230",
+    "lança o DARF que paguei",
+    "corrige o valor desse DARF"
+  ]
+}

@@ -1,0 +1,586 @@
+{
+  "WSWorks.AlertaCriticoRegrasList": [
+    "ativoReferenciaID",
+    "tipoClasse"
+  ],
+  "WS_Carteira.AgradecerListar": [
+    "page"
+  ],
+  "WS_Carteira.AgradecerObter": [
+    "itemID"
+  ],
+  "WS_Carteira.AgradecerOutrosListar": [
+    "page"
+  ],
+  "WS_Carteira.AnoAnoObter": [
+    "loadAportes",
+    "loadEsportes"
+  ],
+  "WS_Carteira.AnoAnoObterEsporte": [
+    "usuarioID"
+  ],
+  "WS_Carteira.BS2ConcentracaoRetornoCarregar": [
+    "classes",
+    "incluirExcluidas",
+    "incluirZeradas"
+  ],
+  "WS_Carteira.BS2DiversificacaoIndice": [],
+  "WS_Carteira.BS2HomeCarregar": [],
+  "WS_Carteira.BS2HomeIndiceSuperPAS": [],
+  "WS_Carteira.BS2HomeResumo": [],
+  "WS_Carteira.BS2Init": [],
+  "WS_Carteira.BS2InsightsEventos": [
+    "top"
+  ],
+  "WS_Carteira.BS2InsightsPercentuais": [
+    "classes",
+    "top"
+  ],
+  "WS_Carteira.BS2InsightsPostagens": [
+    "page",
+    "pageSize"
+  ],
+  "WS_Carteira.BS2InsightsVariacao": [
+    "classes",
+    "top"
+  ],
+  "WS_Carteira.BS2ListAtivos": [
+    "classes",
+    "classificacoes",
+    "ordenacao",
+    "pas",
+    "posicao"
+  ],
+  "WS_Carteira.BS2NavegacaoCarregar": [],
+  "WS_Carteira.BS2OndeRetirarCarregar": [],
+  "WS_Carteira.BS2PossuiAnalises": [],
+  "WS_Carteira.BS2QualidadeCarteiraCarregar": [
+    "classes"
+  ],
+  "WS_Carteira.BS2VisaoGeralResumo": [],
+  "WS_Carteira.BondCupomListar": [
+    "ativoID"
+  ],
+  "WS_Carteira.CarteiraCarregar": [
+    "carteiraID"
+  ],
+  "WS_Carteira.CarteiraListarConsolidado": [
+    "carteirasID"
+  ],
+  "WS_Carteira.CleitometroObter": [],
+  "WS_Carteira.CleitometroRank": [
+    "page"
+  ],
+  "WS_Carteira.ConfigList": [
+    "referencias"
+  ],
+  "WS_Carteira.ConsolidadoObterEventos": [
+    "ano",
+    "ativo",
+    "mes",
+    "naoLidos",
+    "ordenacao",
+    "page",
+    "pageSize",
+    "tipo"
+  ],
+  "WS_Carteira.ConsolidadoObterProventos": [
+    "ano",
+    "ativo",
+    "dataFim",
+    "dataIni",
+    "mes",
+    "ordenacao",
+    "origem",
+    "pagamento",
+    "tipoativo",
+    "tipoprov"
+  ],
+  "WS_Carteira.DiarioAtividadeConsolidadoListar": [],
+  "WS_Carteira.DiarioAtividadeListar": [
+    "tipoAtividadeID"
+  ],
+  "WS_Carteira.DiarioAtividadeObter": [
+    "atividadeID"
+  ],
+  "WS_Carteira.DiarioAtividadeRankListar": [
+    "tipoAtividadeID"
+  ],
+  "WS_Carteira.DiarioHumorListar": [],
+  "WS_Carteira.DiarioHumorObter": [
+    "diaID"
+  ],
+  "WS_Carteira.DiarioHumorRelatorioListar": [
+    "periodo"
+  ],
+  "WS_Carteira.DiarioObter": [],
+  "WS_Carteira.DiarioPesoRankListar": [],
+  "WS_Carteira.DiarioSaudavelListar": [],
+  "WS_Carteira.DiarioSaudavelObter": [
+    "diaID"
+  ],
+  "WS_Carteira.DiarioTipoAtividadeListar": [],
+  "WS_Carteira.DiariosardinhagemListar": [
+    "page"
+  ],
+  "WS_Carteira.DiariosardinhagemObter": [
+    "itemID"
+  ],
+  "WS_Carteira.DoacaoInstituicaoListar": [],
+  "WS_Carteira.DoacaoInstituicaoObter": [
+    "instituicaoID"
+  ],
+  "WS_Carteira.DoacaoListar": [
+    "page"
+  ],
+  "WS_Carteira.DoacaoListarConsolidado": [
+    "ordenacao"
+  ],
+  "WS_Carteira.DoacaoListarIR": [
+    "ano"
+  ],
+  "WS_Carteira.DoacaoObter": [
+    "doacaoID"
+  ],
+  "WS_Carteira.FAQListar": [
+    "pesquisa"
+  ],
+  "WS_Carteira.FAQListarTop": [],
+  "WS_Carteira.FAQObter": [
+    "faqID"
+  ],
+  "WS_Carteira.FiltrarPAS": [
+    "naoTemBS",
+    "ordenacao",
+    "page",
+    "paisID",
+    "pasTotal",
+    "rating",
+    "segmentoID",
+    "setorID",
+    "superPAS",
+    "tipoClasse"
+  ],
+  "WS_Carteira.FinancaListarDespesaDedutivel": [
+    "ano",
+    "filtroRealizadaCom"
+  ],
+  "WS_Carteira.FinancaListarSugestoes": [
+    "termo",
+    "tipo"
+  ],
+  "WS_Carteira.FinancaObterConsolidadoCategoria": [],
+  "WS_Carteira.FinancaObterConsolidadoData": [],
+  "WS_Carteira.FinancaObterDadosGraficos": [
+    "filtroPago",
+    "filtroRecebido"
+  ],
+  "WS_Carteira.FinancaObterDespesaDedutivel": [
+    "lancamentoID"
+  ],
+  "WS_Carteira.FinancaObterEvolucaoCategoria": [
+    "ano",
+    "categoriaID",
+    "descricao",
+    "filtroStatus",
+    "tipo"
+  ],
+  "WS_Carteira.FinancaObterItens": [
+    "categoriaID",
+    "mes",
+    "ordenacao",
+    "periodo",
+    "status",
+    "tipo"
+  ],
+  "WS_Carteira.GetAportesHistorico": [],
+  "WS_Carteira.GetMovement": [
+    "ativoID",
+    "symbol",
+    "tipo"
+  ],
+  "WS_Carteira.GymGetExercicio": [
+    "exercicioID"
+  ],
+  "WS_Carteira.GymGetLastTreino": [],
+  "WS_Carteira.GymGetSerie": [
+    "serieID"
+  ],
+  "WS_Carteira.GymGetTreino": [
+    "treinoID"
+  ],
+  "WS_Carteira.GymGetTreinoExercicios": [
+    "treinoID"
+  ],
+  "WS_Carteira.GymListExercicio": [],
+  "WS_Carteira.GymListHistoricoExercicio": [],
+  "WS_Carteira.GymListHistoricoSerie": [],
+  "WS_Carteira.GymListMusculo": [],
+  "WS_Carteira.GymListSerie": [],
+  "WS_Carteira.GymListTreino": [
+    "page"
+  ],
+  "WS_Carteira.GymRank": [],
+  "WS_Carteira.GymRankGrafico": [
+    "nomeExercicio"
+  ],
+  "WS_Carteira.GymSearchExercicio": [
+    "categoria",
+    "favorito",
+    "filtro",
+    "pesquisa"
+  ],
+  "WS_Carteira.IRAluguelRendimentoListar": [
+    "page"
+  ],
+  "WS_Carteira.IRDARFListar": [
+    "page"
+  ],
+  "WS_Carteira.IRDARFObter": [
+    "darf"
+  ],
+  "WS_Carteira.ImovelAluguelCotar": [
+    "data",
+    "moedaAtivoID",
+    "valor"
+  ],
+  "WS_Carteira.ImovelAluguelListar": [
+    "ano",
+    "ativoID",
+    "mes"
+  ],
+  "WS_Carteira.ImovelMovimentacaoObter": [
+    "ativoID"
+  ],
+  "WS_Carteira.IntegracaoB3Init": [],
+  "WS_Carteira.ListarAlertas": [],
+  "WS_Carteira.ListarAnotacaoClasse": [
+    "tipo"
+  ],
+  "WS_Carteira.ListarClassificacao": [],
+  "WS_Carteira.ListarComunicadoComentarios": [
+    "hasAudio"
+  ],
+  "WS_Carteira.ListarCuriosidades": [
+    "classes"
+  ],
+  "WS_Carteira.ListarFIISegmento": [],
+  "WS_Carteira.ListarGanhoCapital2024": [
+    "ano"
+  ],
+  "WS_Carteira.ListarGlobalDetalhes": [
+    "moedaID",
+    "paisID"
+  ],
+  "WS_Carteira.ListarGlobalPais": [
+    "moedaID"
+  ],
+  "WS_Carteira.ListarIndustry": [
+    "sectorID"
+  ],
+  "WS_Carteira.ListarMovimentacao": [
+    "ativo",
+    "data",
+    "mes",
+    "page",
+    "pageSize",
+    "tipo",
+    "tipomov"
+  ],
+  "WS_Carteira.ListarPAS": [
+    "tipoClasse"
+  ],
+  "WS_Carteira.ListarPASPercentual": [],
+  "WS_Carteira.ListarPrejuizoAnoAnterior": [],
+  "WS_Carteira.ListarRapidinhasAudio": [
+    "tipo"
+  ],
+  "WS_Carteira.ListarRapidinhasTexto": [
+    "tipo"
+  ],
+  "WS_Carteira.ListarSector": [],
+  "WS_Carteira.ListarSectorREIT": [],
+  "WS_Carteira.ListarSegmento": [
+    "setorID"
+  ],
+  "WS_Carteira.ListarSegmentoFII": [],
+  "WS_Carteira.ListarSetor": [],
+  "WS_Carteira.MetasAnotacoesConsolidado": [],
+  "WS_Carteira.MetasListar": [],
+  "WS_Carteira.MetasObter": [
+    "metaID"
+  ],
+  "WS_Carteira.MeuBSListPanels": [],
+  "WS_Carteira.MeuBSProventosDetalhes": [
+    "periodo"
+  ],
+  "WS_Carteira.MeuBSVariacaoAtivos": [],
+  "WS_Carteira.MoedaCotacaoObter": [
+    "compra",
+    "data",
+    "moedaID"
+  ],
+  "WS_Carteira.ObterAnotacaoClasse": [
+    "classe"
+  ],
+  "WS_Carteira.ObterAnotacoes": [
+    "ativoID",
+    "carteiraID",
+    "tipo"
+  ],
+  "WS_Carteira.ObterAtivosMenorPercentual": [],
+  "WS_Carteira.ObterCBE": [
+    "ano"
+  ],
+  "WS_Carteira.ObterCategorias": [],
+  "WS_Carteira.ObterClasses": [
+    "ordenacao"
+  ],
+  "WS_Carteira.ObterClassesPAS": [],
+  "WS_Carteira.ObterConsolidadoProventosDadosGraficos": [
+    "tipoativo"
+  ],
+  "WS_Carteira.ObterDadosGraficos": [
+    "tipo"
+  ],
+  "WS_Carteira.ObterDetalhesAtivo": [
+    "ativoID",
+    "tipo"
+  ],
+  "WS_Carteira.ObterDividasDadosGraficos": [],
+  "WS_Carteira.ObterExibirFinanceiroRank": [
+    "page"
+  ],
+  "WS_Carteira.ObterIRImovelAluguel": [
+    "ano"
+  ],
+  "WS_Carteira.ObterIRRendimentoManual": [
+    "itemID"
+  ],
+  "WS_Carteira.ObterIRRendimentoPJ": [
+    "ano"
+  ],
+  "WS_Carteira.ObterIRVenda": [
+    "ano",
+    "tipo"
+  ],
+  "WS_Carteira.ObterImoveisDadosGraficos": [],
+  "WS_Carteira.ObterItens": [
+    "categoria",
+    "classificacao",
+    "classificacao2",
+    "country",
+    "exchange",
+    "gestorID",
+    "mandatoID",
+    "ordenacao",
+    "segmento",
+    "setor",
+    "tipo"
+  ],
+  "WS_Carteira.ObterItensRendaFixa": [
+    "ordenacao"
+  ],
+  "WS_Carteira.ObterMinhaHoldingMaiores": [
+    "tipo",
+    "tipoDado"
+  ],
+  "WS_Carteira.ObterMovimentacao": [
+    "ano",
+    "ativoID",
+    "codigo",
+    "mes",
+    "tipo"
+  ],
+  "WS_Carteira.ObterOQueFazer": [],
+  "WS_Carteira.ObterPosicaoAnualAtivos": [
+    "ano",
+    "destinoID",
+    "ordenacao",
+    "tipo"
+  ],
+  "WS_Carteira.ObterPosicaoAnualProventos": [
+    "ano"
+  ],
+  "WS_Carteira.ObterPosicaoAnualProventosStock": [
+    "ano"
+  ],
+  "WS_Carteira.ObterPosicaoHistorico": [
+    "periodo",
+    "tipo"
+  ],
+  "WS_Carteira.OndeAportarConsolidadoObter": [
+    "carteirasID"
+  ],
+  "WS_Carteira.OutroProventoListar": [
+    "ano",
+    "ativoID",
+    "mes"
+  ],
+  "WS_Carteira.PatrimonioFuturoListar": [
+    "anos",
+    "aportes",
+    "dj",
+    "dolar",
+    "ibovespa",
+    "pasTipo",
+    "tipoVariacao"
+  ],
+  "WS_Carteira.PosicaoListarAtivo": [],
+  "WS_Carteira.ProventoManualListar": [],
+  "WS_Carteira.RaceAtividadeObter": [
+    "atividadeID"
+  ],
+  "WS_Carteira.RaceCalendarioObter": [
+    "ano"
+  ],
+  "WS_Carteira.RaceInspiracaoListar": [
+    "usuarioID"
+  ],
+  "WS_Carteira.RaceInspiracaoRankQuemAdicionou": [],
+  "WS_Carteira.RaceInspiracaoRankTopAdicionados": [],
+  "WS_Carteira.RaceLayoutObter": [],
+  "WS_Carteira.RaceLembreteObter": [],
+  "WS_Carteira.RaceListarDiario": [],
+  "WS_Carteira.RaceListarDividendos": [],
+  "WS_Carteira.RaceListarEsporte": [],
+  "WS_Carteira.RaceListarMaisPraticados": [
+    "tipo"
+  ],
+  "WS_Carteira.RaceListarRankDividendos": [
+    "page"
+  ],
+  "WS_Carteira.RaceMetaObter": [],
+  "WS_Carteira.RaceObterAtividadesDiversificacao": [
+    "ano",
+    "tipo",
+    "usuarioID"
+  ],
+  "WS_Carteira.RaceObterAtividadesDiversificacaoEvolucao": [],
+  "WS_Carteira.RaceObterConsolidado": [],
+  "WS_Carteira.RaceObterConsolidadoAnoAno": [],
+  "WS_Carteira.RaceObterConsolidadoAnoAno2": [],
+  "WS_Carteira.RaceObterConsolidadoEsporte": [],
+  "WS_Carteira.RaceObterConsolidadoPeriodo": [],
+  "WS_Carteira.RaceObterMedias": [],
+  "WS_Carteira.RaceObterSemanalConsolidado": [
+    "ano",
+    "esporteID",
+    "semanaID"
+  ],
+  "WS_Carteira.RacePegaUmAddProximos10": [
+    "qtdproximos"
+  ],
+  "WS_Carteira.RacePegaUmListar": [
+    "usuarioID"
+  ],
+  "WS_Carteira.RacePegaUmLoginSuggestion": [
+    "login"
+  ],
+  "WS_Carteira.RacePegaUmRankQuemAdicionou": [],
+  "WS_Carteira.RacePegaUmRankTopAdicionados": [],
+  "WS_Carteira.RacePendenciaListar": [],
+  "WS_Carteira.RacePeriodizacaoObter": [],
+  "WS_Carteira.RacePesoListar": [
+    "filtroMeses",
+    "ordenacao",
+    "page",
+    "pageSize"
+  ],
+  "WS_Carteira.RaceTop5SemanasListar": [],
+  "WS_Carteira.RemessaOnlineGetAuthorization": [],
+  "WS_Carteira.RendaFixaCupomListar": [
+    "ativoID"
+  ],
+  "WS_Carteira.RendaFixaVencimentosListar": [],
+  "WS_Carteira.RoubeiObterAtivo": [],
+  "WS_Carteira.SorteioAtivosList": [],
+  "WS_Carteira.SuperPesquisaAtivos": [
+    "termo"
+  ],
+  "WS_Carteira.TempoSemVenderObter": [],
+  "WS_Carteira.TempoSemVenderRank": [
+    "page"
+  ],
+  "WS_Carteira.diariosardinhagemOutrosListar": [
+    "page"
+  ],
+  "WS_Empresa.ListAcoes": [
+    "codigo"
+  ],
+  "WS_Esporte.ParouBeberGetStats": [],
+  "WS_Esporte.ParouBeberList": [],
+  "WS_Esporte.RaceRank": [],
+  "WS_Esporte.RaceRankDetalhes": [],
+  "WS_Esporte.RaceRankHistorico": [
+    "ano",
+    "desafioDiarioID",
+    "usuarioID"
+  ],
+  "WS_Esporte_Race.PSFGList": [],
+  "WS_Esporte_Race.RaceAlimentacaoConsolidadoList": [
+    "periodo"
+  ],
+  "WS_Esporte_Race.RaceAlimentacaoGet": [
+    "itemID"
+  ],
+  "WS_Esporte_Race.RaceAlimentacaoGetEsporteTotalDia": [
+    "data"
+  ],
+  "WS_Esporte_Race.RaceAlimentacaoInit": [],
+  "WS_Esporte_Race.RaceAlimentacaoList": [
+    "page"
+  ],
+  "WS_Esporte_Race.RaceAlimentacaoRankingList": [
+    "page",
+    "periodo"
+  ],
+  "WS_Esporte_Race.RaceDivisaoList": [
+    "divisao",
+    "page",
+    "pageSize"
+  ],
+  "WS_Esporte_Race.RaceDivisaoListHistorico": [],
+  "WS_Esporte_Race.RaceDivisaoListSubiram": [
+    "divisao"
+  ],
+  "WS_FII.GetComunicado": [
+    "comunicadoID"
+  ],
+  "WS_Livro.GetLivrosCategorias": [],
+  "WS_Livro.ListLivro": [],
+  "WS_Musica.DomainList": [],
+  "WS_Musica.MusicaList": [],
+  "WS_Perfil.ConfigObterEspecifica": [
+    "configName"
+  ],
+  "WsFilme.GetFilmeSerieCategorias": [],
+  "WsFilme.GetFilmeSerieOndeAssistir": [],
+  "WsFilme.ListFilmeSerie": [
+    "assistido",
+    "categoria",
+    "exibir",
+    "ondeAssistir",
+    "ordenar",
+    "pagina",
+    "tipo",
+    "titulo",
+    "usuarioID",
+    "usuarioIndicacaoID"
+  ],
+  "WsWorks.CalcJurosGet": [
+    "simulacaoID"
+  ],
+  "WsWorks.CalcJurosList": [
+    "simulacaoID"
+  ],
+  "WsWorks.ExterminadorDividaGet": [
+    "simulacaoID"
+  ],
+  "WsWorks.ExterminadorDividaList": [
+    "simulacaoID"
+  ],
+  "WsWorks.GetWorksInfoWeb": [
+    "worksID"
+  ]
+}

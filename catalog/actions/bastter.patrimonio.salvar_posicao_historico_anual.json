@@ -1,0 +1,76 @@
+{
+  "id": "bastter.patrimonio.salvar_posicao_historico_anual",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "posicao_anual",
+  "operation_class": "update",
+  "label": "Editar o histórico anual do patrimônio por classe",
+  "description": "WS_Carteira.SalvarPosicaoHistoricoAnual. Called from: Patrimônio - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {}
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarPosicaoHistoricoAnual",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "items": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({items:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/consolidado"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.common.patrimonio.consolidado-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.common.patrimonio.consolidado-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/consolidado"
+    }
+  ],
+  "intent_examples": [
+    "corrige meu patrimônio em ações de 2019",
+    "lança os valores históricos do patrimônio por ano"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "id": "bastter.ferramentas.auth_app_desabilitar",
+  "product": "bastter",
+  "area": "Ferramentas",
+  "entity": "auth_app",
+  "operation_class": "update",
+  "label": "Desativar a autorização de acesso pelo app do Bastter",
+  "description": "WS_Carteira.AuthAppDesabilitar. Called from: Ferramentas - Autorização pelo App.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The scripts build this payload elsewhere. See `routes[0].notes` for the JS expression."
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AuthAppDesabilitar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: \"\""
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ferramentas/autorizacao-app"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "changes_account",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'AuthApp' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.auth-app-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/autorizacao-app"
+    }
+  ],
+  "intent_examples": [
+    "desliga a autorização pelo app",
+    "não quero mais aprovar o acesso pelo celular"
+  ]
+}

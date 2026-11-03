@@ -1,0 +1,74 @@
+{
+  "id": "bastter.ativos.remessa_online_get_authorization",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "remessa_online_authorization",
+  "operation_class": "read",
+  "label": "Ver se a conta da Remessa Online está conectada",
+  "description": "WS_Carteira.RemessaOnlineGetAuthorization. Called from: Ativos - Reserva de Valor.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RemessaOnlineGetAuthorization",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: \"\""
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/reserva-valor"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'RemessaOnline' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.remessaonline-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/reserva-valor"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "minha Remessa Online está integrada?",
+    "checa a conexão com a Remessa Online"
+  ]
+}

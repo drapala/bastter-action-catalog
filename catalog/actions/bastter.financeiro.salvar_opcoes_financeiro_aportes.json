@@ -1,0 +1,131 @@
+{
+  "id": "bastter.financeiro.salvar_opcoes_financeiro_aportes",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "opcoes_financeiro_aportes",
+  "operation_class": "update",
+  "label": "Salvar as opções da tela de aportes",
+  "description": "WS_Carteira.SalvarOpcoesFinanceiroAportes. Called from: Financeiro - Aportes.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "financeiroAportesConsideraImovel": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "financeiroAportesConsideraMoeda": {
+          "type": "boolean",
+          "examples": [
+            true,
+            false,
+            true
+          ]
+        },
+        "financeiroAportesConsideraRE": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "naoExibirGraficoAportesAnual": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "naoExibirGraficoAportesJuros": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "required": [
+        "financeiroAportesConsideraImovel",
+        "financeiroAportesConsideraMoeda",
+        "financeiroAportesConsideraRE",
+        "naoExibirGraficoAportesAnual",
+        "naoExibirGraficoAportesJuros"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarOpcoesFinanceiroAportes",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "financeiroAportesConsideraImovel": "body",
+        "financeiroAportesConsideraMoeda": "body",
+        "financeiroAportesConsideraRE": "body",
+        "naoExibirGraficoAportesAnual": "body",
+        "naoExibirGraficoAportesJuros": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(n)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/aportes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "a opção mudou e as outras quatro ficaram como estavam",
+    "from_scenario": "scenarios/financas_ciclo.yaml#considera_moeda_ligada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:24:56+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "notes": "as cinco opções de Aportes voltaram ao valor lido no início"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.aportes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/aportes"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "considera os imóveis nos aportes",
+    "esconde o gráfico anual de aportes"
+  ]
+}

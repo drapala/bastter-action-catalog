@@ -1,0 +1,95 @@
+{
+  "id": "bastter.pas.doacao_excluir",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "doacao",
+  "operation_class": "delete",
+  "label": "Excluir uma doação",
+  "description": "WS_Carteira.DoacaoExcluir. Called from: #PAS - Doações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "doacaoID": {
+          "type": "integer",
+          "description": "ID of the doacao.",
+          "examples": [
+            2080,
+            2081,
+            2082
+          ]
+        }
+      },
+      "required": [
+        "doacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "doacaoID",
+        "entity": "doacao",
+        "find_with": "bastter.pas.doacao_listar",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DoacaoExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "doacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({doacaoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/doacoes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.doacao_listar",
+    "assert": "the read shows the change (see scenarios/doacoes_ciclo.yaml, step doacao_sumiu)",
+    "from_scenario": "scenarios/doacoes_ciclo.yaml#doacao_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:21:12+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793737259",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.doacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/doacoes"
+    }
+  ],
+  "intent_examples": [
+    "apaga a doação de março",
+    "exclui essa doação lançada errado"
+  ]
+}

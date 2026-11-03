@@ -1,0 +1,24 @@
+name: config-ocultar-financeiro
+description: Liga o "esconder valores" (olho no topo do BS), lê de volta, desliga de novo e confirma que o estado e todas as opções da carteira ficaram iguais aos de antes.
+steps:
+  - name: oculto_antes
+    action: bastter.ativos.bs2_init
+    assert: {equals: {FinanceiroOcultoSessao: false, CarteiraOpcoes.ExibirFinanceiro: true}}
+    save: {antes: FinanceiroOcultoSessao, opcoes_antes: CarteiraOpcoes}
+  - name: ocultar
+    action: bastter.ativos.bs2_ocultar_financeiro
+    inputs: {ocultar: true}
+  - name: ficou_oculto
+    postcondition_of: bastter.ativos.bs2_ocultar_financeiro
+    action: bastter.ativos.bs2_init
+    assert: {equals: {FinanceiroOcultoSessao: true}}
+    proves: o BS passou a esconder os valores
+  - name: restaurar
+    undoes: ocultar
+    action: bastter.ativos.bs2_ocultar_financeiro
+    inputs: {ocultar: "${antes}"}
+  - name: restaurado
+    postcondition_of: bastter.ativos.bs2_ocultar_financeiro
+    action: bastter.ativos.bs2_init
+    assert: {equals: {FinanceiroOcultoSessao: "${antes}", CarteiraOpcoes: "${opcoes_antes}"}}
+    proves: os valores voltaram a aparecer e nenhuma opção da carteira mudou

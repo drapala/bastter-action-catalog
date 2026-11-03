@@ -1,0 +1,95 @@
+{
+  "id": "bastter.pas.doacao_instituicao_excluir",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "doacao_instituicao",
+  "operation_class": "delete",
+  "label": "Excluir uma instituição ou pessoa das doações",
+  "description": "WS_Carteira.DoacaoInstituicaoExcluir. Called from: #PAS - Doações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "instituicaoID": {
+          "type": "integer",
+          "description": "ID of the instituicao.",
+          "examples": [
+            751,
+            752,
+            753
+          ]
+        }
+      },
+      "required": [
+        "instituicaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "instituicaoID",
+        "entity": "instituicao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DoacaoInstituicaoExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "instituicaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({instituicaoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/doacoes"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.doacao_instituicao_listar",
+    "assert": "a instituição criada não está mais no seletor",
+    "from_scenario": "scenarios/doacoes_ciclo.yaml#inst_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:21:14+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793737259",
+    "notes": "a instituição criada não está mais no seletor"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.doacoes-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/doacoes"
+    }
+  ],
+  "intent_examples": [
+    "remove o hospital da lista de doações",
+    "apaga essa instituição"
+  ]
+}

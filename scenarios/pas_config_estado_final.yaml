@@ -1,0 +1,44 @@
+name: pas-config-estado-final
+description: Leitura final da família PAS e configurações. Confirma que não sobrou meta, atividade, agradecimento nem sardinhagem, que o Diário de peso continua vazio, que a carteira se chama Principal e que as configurações tocadas têm o valor de antes. Só leitura.
+steps:
+  - name: metas_vazias
+    action: bastter.pas.metas_listar
+    assert: {equals: {Items: []}}
+  - name: metas_consolidado_vazio
+    action: bastter.pas.metas_anotacoes_consolidado
+    assert: {equals: {Metas: [], Anotacoes: []}}
+  - name: atividades_vazias
+    action: bastter.pas.diario_atividade_listar
+    inputs: {tipoAtividadeID: 0}
+    assert: {equals: {"": []}}
+  - name: diario_peso_vazio
+    action: bastter.pas.diario_obter
+    assert: {equals: {"": "null"}}
+  - name: agradecimentos_vazios
+    action: bastter.pas.agradecer_listar
+    inputs: {page: 1}
+    assert: {equals: {Items: [], ItemsLembrancas: [], NotificacaoDias: 0}}
+  - name: sardinhagens_vazias
+    action: bastter.pas.diariosardinhagem_listar
+    inputs: {page: 1}
+    assert: {equals: {Items: [], NotificacaoDias: 0}}
+  - name: opcoes_e_carteira
+    action: bastter.ativos.bs2_init
+    assert:
+      equals: {CarteiraOpcoes.UltimosProventos: "1", CarteiraOpcoes.ExibirLogo: true, CarteiraOpcoes.Modo: 2, CarteiraOpcoes.ModoOndeAportar: 0, CarteiraOpcoes.ModoOndeAportarAlternado: false, CarteiraOpcoes.InsightsClasses: null, CarteiraOpcoes.TipoExibicao: 1, CarteiraOpcoes.ExibirFinanceiro: true, CarteiraOpcoes.ExibirFinanceiroRank: false, FinanceiroOcultoSessao: false, Ordenacao: [{Aba: consolidadoproventos, OrdenacaoID: 1}], AbasAtivosExcluidas: [], AbasFinanceiroExcluidas: []}
+      list_contains: {path: Carteiras, where: {Nome: Principal}}
+  - name: objetivos_e_colunas
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert:
+      equals: {ColunasExcluidas: ["% Mês", "% Ano"]}
+      list_contains: {path: Items, where: {Tipo: acao, Objetivo: 0.0}}
+  - name: onde_retirar_nulo
+    action: bastter.patrimonio.bs2_onde_retirar_carregar
+    assert: {equals: {Config: {ValorNecessario: null, SaldoConta: null, Salario: null, SalarioExibir: false, OutrasRendas: null, CustosMensais: null}}}
+  - name: home_nula
+    action: bastter.home.bs2_home_carregar
+    assert: {equals: {Config: null}}
+  - name: layout_vazio
+    action: bastter.patrimonio.bs2_visao_geral_resumo
+    assert: {equals: {Layout: {Ordem: [], Fechados: []}}}

@@ -1,0 +1,126 @@
+{
+  "id": "bastter.ativos.colunas_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "colunas",
+  "operation_class": "update",
+  "label": "Escolher quais colunas aparecem na tabela de ativos",
+  "description": "WS_Carteira.ColunasSalvar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "colunas": {
+          "examples": [
+            [
+              "% Mês",
+              "% Ano",
+              "Objetivo"
+            ],
+            [
+              "% Mês",
+              "% Ano"
+            ],
+            [
+              "% Mês",
+              "% Ano",
+              "Objetivo"
+            ]
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "consolidado",
+            "consolidado",
+            "consolidado"
+          ]
+        }
+      },
+      "required": [
+        "colunas",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ColunasSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "colunas": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:n,colunas:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.patrimonio.obter_classes",
+    "assert": "a coluna Objetivo entrou na lista de colunas escondidas do Consolidado",
+    "from_scenario": "scenarios/config_colunas_salvar.yaml#coluna_escondida"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:09+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-colunas-salvar-1793737204",
+    "notes": "a lista de colunas escondidas voltou a ser a de antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "esconde a coluna de dividend yield",
+    "mostra só algumas colunas na tabela de ações"
+  ]
+}

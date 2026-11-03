@@ -1,0 +1,81 @@
+name: outro-ciclo
+description: Inclui um item ZZTESTE na aba Outros, lança uma compra, edita, lê de volta cada passo, lança, edita e apaga um provento, apaga tudo e confirma que sumiu.
+vars:
+  itens_filtro: {"tipo": "outro", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+steps:
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {"tipo": "outro", "ativoID": 0, "classificacaoID": "", "quantidade": 0, "descricao": "${prefix} outro ${ts}", "valor": "0", "moedaAtivoID": "0", "tipoImovelID": 12, "destinoID": null, "instituicao": null, "compraImovel": false, "descricaoImovel": null, "codIRPF": "0", "naoPatrimonio": false, "descricaoIRPF": "", "paisID": 0, "origemID": null, "valorAux": 0, "dataAux": null, "cnpj": null, "controleSaldo": false, "dataDividendos": null, "tipoAtualizacaoCDI": 0, "percentualCDI": 0, "vencimento": null, "moradia": null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {"AtivoID": "${item}", "Descricao": "${prefix} outro ${ts}"}}}
+    proves: o item aparece na aba Outros com a descrição enviada
+  - name: lancar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": 0, "tipo": "outro", "tipomov": "compra", "ativoID": "${item}", "quantidade": 1, "data": "11/03/2026", "totalOperacaoBruto": 10, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_gravada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} outro ${ts}", tipo: outro, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Operacao: 10.0, Quantidade: 1.0}}}
+    save: {mov: {path: Itens, where: {Operacao: 10.0}, field: MovimentacaoID}}
+    proves: a entrada tem o total e a quantidade enviados
+  - name: editar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": "${mov}", "tipo": "outro", "tipomov": "compra", "ativoID": "${item}", "quantidade": 2, "data": "11/03/2026", "totalOperacaoBruto": 15, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_editada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} outro ${ts}", tipo: outro, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}", Operacao: 15.0, Quantidade: 2.0}}}
+    proves: a mesma movimentação passou a ter o total 15, sem criar outra
+  - name: lancar_provento
+    action: bastter.ativos.outro_provento_salvar
+    inputs: {provento: {proventoID: 0, ativoID: "${item}", data: "2026-11-01", valor: 2, moedaAtivoID: 0, valorReal: 2}}
+  - name: provento_gravado
+    postcondition_of: bastter.ativos.outro_provento_salvar
+    action: bastter.ativos.outro_provento_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Valor: 2.0}}}
+    save: {prov: {path: Itens, where: {Valor: 2.0}, field: ProventoID}}
+    proves: o provento aparece na lista do item com o valor enviado
+  - name: editar_provento
+    action: bastter.ativos.outro_provento_salvar
+    inputs: {provento: {proventoID: "${prov}", ativoID: "${item}", data: "2026-11-02", valor: 3, moedaAtivoID: 0, valorReal: 3}}
+  - name: provento_editado
+    postcondition_of: bastter.ativos.outro_provento_salvar
+    action: bastter.ativos.outro_provento_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {ProventoID: "${prov}", Valor: 3.0}}}
+    proves: o mesmo provento passou a ter valor 3, sem criar outro
+  - name: excluir_provento
+    action: bastter.ativos.outro_provento_deletar
+    inputs: {proventoID: "${prov}", ativoID: "${item}"}
+  - name: provento_sumiu
+    postcondition_of: bastter.ativos.outro_provento_deletar
+    action: bastter.ativos.outro_provento_listar
+    inputs: {ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {ProventoID: "${prov}"}}}
+  - name: excluir_entrada
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: outro, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}
+  - name: entrada_sumiu
+    postcondition_of: bastter.ativos.excluir_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} outro ${ts}", tipo: outro, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: outro, ativoID: "${item}", carteiraID: 0}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o item saiu da aba Outros

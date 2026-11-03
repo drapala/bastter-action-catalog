@@ -1,0 +1,116 @@
+{
+  "id": "bastter.ativos.renda_fixa_cupom_deletar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "renda_fixa_cupom",
+  "operation_class": "delete",
+  "label": "Excluir um cupom ou juros de um título de renda fixa",
+  "description": "WS_Carteira.RendaFixaCupomDeletar. Called from: Ativos - Renda Fixa.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            309408,
+            309409,
+            309411
+          ]
+        },
+        "cupomID": {
+          "type": "integer",
+          "description": "ID of the cupom.",
+          "examples": [
+            1484,
+            1485,
+            1486
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "cupomID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "cupomID",
+        "entity": "cupom",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RendaFixaCupomDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "cupomID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({cupomID:n,ativoID:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/renda-fixa"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.renda_fixa_cupom_listar",
+    "assert": "the read shows the change (see scenarios/rendafixa_ciclo.yaml, step cupom_sumiu)",
+    "from_scenario": "scenarios/rendafixa_ciclo.yaml#cupom_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:23+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.rendafixa-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/renda-fixa"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/renda-fixa/graficos"
+    }
+  ],
+  "intent_examples": [
+    "apaga o cupom do Tesouro IPCA de maio",
+    "exclui esse juros lançado errado"
+  ]
+}

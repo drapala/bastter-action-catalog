@@ -1,0 +1,151 @@
+{
+  "id": "bastter.imposto_de_renda.ir_save_bens_direitos_exterior",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_bens_direitos_exterior",
+  "operation_class": "update",
+  "label": "Salvar lucro, dividendos e imposto pago de um bem no exterior",
+  "description": "WS_Carteira.IRSaveBensDireitosExterior. Called from: Imposto de Renda - Bens e Direitos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ano": {
+          "type": "integer",
+          "examples": [
+            2025,
+            2025,
+            2025
+          ]
+        },
+        "aplFinImpostoPagoExterior": {
+          "type": "integer",
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        },
+        "aplFinLucroPrejuizo": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        },
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            746017,
+            746022,
+            746032
+          ]
+        },
+        "lucDivImpostoPagoExterior": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "lucDivValorRecebido": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "stock",
+            "stock",
+            "stock"
+          ]
+        }
+      },
+      "required": [
+        "ano",
+        "aplFinImpostoPagoExterior",
+        "aplFinLucroPrejuizo",
+        "ativoID",
+        "lucDivImpostoPagoExterior",
+        "lucDivValorRecebido",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/IRSaveBensDireitosExterior",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ano": "body",
+        "aplFinImpostoPagoExterior": "body",
+        "aplFinLucroPrejuizo": "body",
+        "ativoID": "body",
+        "lucDivImpostoPagoExterior": "body",
+        "lucDivValorRecebido": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(s)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/bens-e-direitos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.obter_posicao_anual_ativos",
+    "assert": "os valores digitados substituem o cálculo automático e ficam marcados como do usuário",
+    "from_scenario": "scenarios/ir_ciclo.yaml#exterior_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:09+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "os valores digitados substituem o cálculo automático e ficam marcados como do usuário"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.bensdireitos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/bens-e-direitos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "informa o imposto pago nos EUA dessa stock",
+    "salva o lucro da aplicação no exterior para o IR"
+  ]
+}

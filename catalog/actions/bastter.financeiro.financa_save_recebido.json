@@ -1,0 +1,116 @@
+{
+  "id": "bastter.financeiro.financa_save_recebido",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa_recebido",
+  "operation_class": "update",
+  "label": "Marcar uma receita como recebida ou não recebida",
+  "description": "WS_Carteira.FinancaSaveRecebido. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "lancamentoID": {
+          "type": "integer",
+          "description": "ID of the lancamento.",
+          "examples": [
+            280337,
+            280352,
+            280368
+          ]
+        },
+        "recebido": {
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "required": [
+        "lancamentoID",
+        "recebido"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "lancamentoID",
+        "entity": "lancamento",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaSaveRecebido",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "lancamentoID": "body",
+        "recebido": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({lancamentoID:n,recebido:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.financa_obter_itens",
+    "assert": "o checkbox Recebido ficou gravado só na receita de 11/2026",
+    "from_scenario": "scenarios/financas_ciclo.yaml#receita_recebida"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:12+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "notes": "o checkbox Recebido ficou gravado só na receita de 11/2026"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    }
+  ],
+  "intent_examples": [
+    "marca o salário como recebido",
+    "o aluguel ainda não caiu, desmarca"
+  ]
+}

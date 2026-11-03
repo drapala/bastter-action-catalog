@@ -1,0 +1,112 @@
+{
+  "id": "bastter.ativos.imovel_aluguel_deletar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_aluguel",
+  "operation_class": "delete",
+  "label": "Excluir um aluguel lançado de um imóvel",
+  "description": "WS_Carteira.ImovelAluguelDeletar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "aluguelID": {
+          "type": "integer",
+          "description": "ID of the aluguel.",
+          "examples": [
+            99586,
+            99587,
+            99591
+          ]
+        },
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            41242,
+            41243,
+            41244
+          ]
+        }
+      },
+      "required": [
+        "aluguelID",
+        "ativoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "aluguelID",
+        "entity": "aluguel",
+        "find_with": null,
+        "create_with": null
+      },
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelAluguelDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "aluguelID": "body",
+        "ativoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({aluguelID:n,ativoID:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_aluguel_listar",
+    "assert": "the read shows the change (see scenarios/archive/imovel_ciclo.yaml, step aluguel_sumiu)",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#aluguel_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:34+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    }
+  ],
+  "intent_examples": [
+    "apaga o aluguel de março do apartamento",
+    "exclui esse aluguel lançado errado"
+  ]
+}

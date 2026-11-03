@@ -1,0 +1,704 @@
+{
+  "id": "bastter.ativos.salvar_opcoes",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "opcoes",
+  "operation_class": "update",
+  "label": "Salvar as configurações gerais do sistema",
+  "description": "WS_Carteira.SalvarOpcoes. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "AlertaTrimestral": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ConsolidaETFsETPs": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ConsolidaStocksEuropa": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "ConsolidadoEvolucaoPeriodo": {
+          "type": "integer",
+          "examples": [
+            4,
+            4,
+            4
+          ]
+        },
+        "ConsolidadoEvolucaoTipo": {
+          "type": "string",
+          "examples": [
+            "financeiro",
+            "financeiro",
+            "financeiro"
+          ]
+        },
+        "ExibirAlertaDiversificacao": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirCleitometro": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirFinanceiro": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirFinanceiroData": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "ExibirFinanceiroDataBadge": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "ExibirFinanceiroRank": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ExibirFinanceiroRecorde": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "ExibirFinanceiroTempo": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "ExibirFluxoOqFazer": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirLogo": {
+          "type": "boolean",
+          "examples": [
+            false,
+            true,
+            true
+          ]
+        },
+        "ExibirPainelCotacao": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ExibirProventosHoje": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirQuantoFaltaPositivo": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ExibirQuarentena": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirRoubei": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ExibirRoubeiPopup": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "FinanceiroAportesConsideraImovel": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "FinanceiroAportesConsideraMoeda": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "FinanceiroAportesConsideraRE": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "FreioAutomatico": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "FreioAutomaticoMeses": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        },
+        "FreioAutomaticoTempo": {
+          "type": "integer",
+          "examples": [
+            6,
+            6,
+            6
+          ]
+        },
+        "HomeNova": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "HomePadrao": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "IRCopiarMarcar": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "InsightsClasses": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "IsentoRendimentoExterior": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "MenuLateralAberto": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "Modo": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        },
+        "ModoOndeAportar": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "ModoOndeAportarAlternado": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "ModoPASTempo": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "MoedaIDPadrao": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "NaoExibirAlertaInvestidorQualificado": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "NaoExibirGraficoAportesAnual": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "NaoExibirGraficoAportesJuros": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "NotificarProventosApp": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "OrdenaPorAporte": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "OrdenacaoMov": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "PasVermelhoQuarentena": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "PatrimonioSomaImovel": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "PatrimonioSomaRE": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "PatrimonioSomaRV": {
+          "type": "boolean",
+          "examples": [
+            true,
+            true,
+            true
+          ]
+        },
+        "ProventosPizzaItem": {
+          "examples": [
+            1,
+            1,
+            "1"
+          ]
+        },
+        "ProventosPizzaTipo": {
+          "examples": [
+            1,
+            1,
+            "1"
+          ]
+        },
+        "RoubeiVezes": {
+          "type": "integer",
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        },
+        "SorteioAtivoAtivoID": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "SorteioAtivoCodigo": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "SorteioAtivoData": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "SorteioAtivoPopup": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "SorteioAtivoTipo": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "TemBDR": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "TemETF": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "TipoExibicao": {
+          "type": "integer",
+          "examples": [
+            1,
+            1,
+            1
+          ]
+        },
+        "UltimaAba": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        },
+        "UltimosProventos": {
+          "type": "string",
+          "examples": [
+            "1",
+            "1",
+            "1"
+          ]
+        },
+        "VarPatrimonialPeriodos": {
+          "examples": [
+            null,
+            null,
+            null
+          ]
+        }
+      },
+      "required": [
+        "AlertaTrimestral",
+        "ConsolidaETFsETPs",
+        "ConsolidaStocksEuropa",
+        "ConsolidadoEvolucaoPeriodo",
+        "ConsolidadoEvolucaoTipo",
+        "ExibirAlertaDiversificacao",
+        "ExibirCleitometro",
+        "ExibirFinanceiro",
+        "ExibirFinanceiroData",
+        "ExibirFinanceiroDataBadge",
+        "ExibirFinanceiroRank",
+        "ExibirFinanceiroRecorde",
+        "ExibirFinanceiroTempo",
+        "ExibirFluxoOqFazer",
+        "ExibirLogo",
+        "ExibirPainelCotacao",
+        "ExibirProventosHoje",
+        "ExibirQuantoFaltaPositivo",
+        "ExibirQuarentena",
+        "ExibirRoubei",
+        "ExibirRoubeiPopup",
+        "FinanceiroAportesConsideraImovel",
+        "FinanceiroAportesConsideraMoeda",
+        "FinanceiroAportesConsideraRE",
+        "FreioAutomatico",
+        "FreioAutomaticoMeses",
+        "FreioAutomaticoTempo",
+        "HomeNova",
+        "HomePadrao",
+        "IRCopiarMarcar",
+        "InsightsClasses",
+        "IsentoRendimentoExterior",
+        "MenuLateralAberto",
+        "Modo",
+        "ModoOndeAportar",
+        "ModoOndeAportarAlternado",
+        "ModoPASTempo",
+        "MoedaIDPadrao",
+        "NaoExibirAlertaInvestidorQualificado",
+        "NaoExibirGraficoAportesAnual",
+        "NaoExibirGraficoAportesJuros",
+        "NotificarProventosApp",
+        "OrdenaPorAporte",
+        "OrdenacaoMov",
+        "PasVermelhoQuarentena",
+        "PatrimonioSomaImovel",
+        "PatrimonioSomaRE",
+        "PatrimonioSomaRV",
+        "ProventosPizzaItem",
+        "ProventosPizzaTipo",
+        "RoubeiVezes",
+        "SorteioAtivoAtivoID",
+        "SorteioAtivoCodigo",
+        "SorteioAtivoData",
+        "SorteioAtivoPopup",
+        "SorteioAtivoTipo",
+        "TemBDR",
+        "TemETF",
+        "TipoExibicao",
+        "UltimaAba",
+        "UltimosProventos",
+        "VarPatrimonialPeriodos"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarOpcoes",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "AlertaTrimestral": "body",
+        "ConsolidaETFsETPs": "body",
+        "ConsolidaStocksEuropa": "body",
+        "ConsolidadoEvolucaoPeriodo": "body",
+        "ConsolidadoEvolucaoTipo": "body",
+        "ExibirAlertaDiversificacao": "body",
+        "ExibirCleitometro": "body",
+        "ExibirFinanceiro": "body",
+        "ExibirFinanceiroData": "body",
+        "ExibirFinanceiroDataBadge": "body",
+        "ExibirFinanceiroRank": "body",
+        "ExibirFinanceiroRecorde": "body",
+        "ExibirFinanceiroTempo": "body",
+        "ExibirFluxoOqFazer": "body",
+        "ExibirLogo": "body",
+        "ExibirPainelCotacao": "body",
+        "ExibirProventosHoje": "body",
+        "ExibirQuantoFaltaPositivo": "body",
+        "ExibirQuarentena": "body",
+        "ExibirRoubei": "body",
+        "ExibirRoubeiPopup": "body",
+        "FinanceiroAportesConsideraImovel": "body",
+        "FinanceiroAportesConsideraMoeda": "body",
+        "FinanceiroAportesConsideraRE": "body",
+        "FreioAutomatico": "body",
+        "FreioAutomaticoMeses": "body",
+        "FreioAutomaticoTempo": "body",
+        "HomeNova": "body",
+        "HomePadrao": "body",
+        "IRCopiarMarcar": "body",
+        "InsightsClasses": "body",
+        "IsentoRendimentoExterior": "body",
+        "MenuLateralAberto": "body",
+        "Modo": "body",
+        "ModoOndeAportar": "body",
+        "ModoOndeAportarAlternado": "body",
+        "ModoPASTempo": "body",
+        "MoedaIDPadrao": "body",
+        "NaoExibirAlertaInvestidorQualificado": "body",
+        "NaoExibirGraficoAportesAnual": "body",
+        "NaoExibirGraficoAportesJuros": "body",
+        "NotificarProventosApp": "body",
+        "OrdenaPorAporte": "body",
+        "OrdenacaoMov": "body",
+        "PasVermelhoQuarentena": "body",
+        "PatrimonioSomaImovel": "body",
+        "PatrimonioSomaRE": "body",
+        "PatrimonioSomaRV": "body",
+        "ProventosPizzaItem": "body",
+        "ProventosPizzaTipo": "body",
+        "RoubeiVezes": "body",
+        "SorteioAtivoAtivoID": "body",
+        "SorteioAtivoCodigo": "body",
+        "SorteioAtivoData": "body",
+        "SorteioAtivoPopup": "body",
+        "SorteioAtivoTipo": "body",
+        "TemBDR": "body",
+        "TemETF": "body",
+        "TipoExibicao": "body",
+        "UltimaAba": "body",
+        "UltimosProventos": "body",
+        "VarPatrimonialPeriodos": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(bs.opcoes)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "ExibirLogo passou a false e todas as outras opções ficaram iguais",
+    "from_scenario": "scenarios/config_salvar_opcoes.yaml#logo_desligado"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "The server writes 0 to ProventosPizzaTipo and ProventosPizzaItem on every call, whatever the body holds. The app's own Configurações save does the same."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:53+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-salvar-opcoes-1793737248",
+    "notes": "o objeto de opções inteiro voltou a ser o de antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "salva minhas configurações",
+    "esconde os ativos em quarentena e salva",
+    "muda a moeda padrão do BS"
+  ]
+}

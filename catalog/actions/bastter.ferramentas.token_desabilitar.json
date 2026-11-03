@@ -1,0 +1,76 @@
+{
+  "id": "bastter.ferramentas.token_desabilitar",
+  "product": "bastter",
+  "area": "Ferramentas",
+  "entity": "token",
+  "operation_class": "update",
+  "label": "Desativar o acesso por token, informando o código",
+  "description": "WS_Carteira.TokenDesabilitar. Called from: Ferramentas - Token.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "token": {}
+      },
+      "required": [
+        "token"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/TokenDesabilitar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "token": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({token:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ferramentas/token"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "changes_account",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'Token' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ferramentas.token-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ferramentas/token"
+    }
+  ],
+  "intent_examples": [
+    "desliga o token, o código é 123456",
+    "tira a proteção por token"
+  ]
+}

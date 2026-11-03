@@ -1,0 +1,216 @@
+{
+  "id": "bastter.ativos.salvar_movimentacao",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movimentacao",
+  "operation_class": "update",
+  "label": "Lançar ou editar uma compra ou venda de um ativo",
+  "description": "WS_Carteira.SalvarMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            1755458
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "11/03/2026"
+          ],
+          "description": "Date format: mm/dd/yyyy."
+        },
+        "gasto": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "ignoraIsencao": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "ignorair": {
+          "type": "boolean",
+          "examples": [
+            false
+          ]
+        },
+        "movimentacaoID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "observacao": {
+          "examples": [
+            null
+          ]
+        },
+        "quantidade": {
+          "type": "integer",
+          "examples": [
+            1
+          ]
+        },
+        "subscricaoID": {
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao"
+          ]
+        },
+        "tipomov": {
+          "type": "string",
+          "examples": [
+            "compra"
+          ]
+        },
+        "totalOperacaoBruto": {
+          "type": "integer",
+          "examples": [
+            1
+          ]
+        },
+        "totalOperacaoLiq": {
+          "examples": [
+            null
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "data",
+        "gasto",
+        "ignoraIsencao",
+        "ignorair",
+        "movimentacaoID",
+        "observacao",
+        "quantidade",
+        "subscricaoID",
+        "tipo",
+        "tipomov",
+        "totalOperacaoBruto",
+        "totalOperacaoLiq"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarMovimentacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "data": "body",
+        "gasto": "body",
+        "ignoraIsencao": "body",
+        "ignorair": "body",
+        "movimentacaoID": "body",
+        "observacao": "body",
+        "quantidade": "body",
+        "subscricaoID": "body",
+        "tipo": "body",
+        "tipomov": "body",
+        "totalOperacaoBruto": "body",
+        "totalOperacaoLiq": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"movimentacaoID\": 0, \"tipo\": \"acao\", \"tipomov\": \"compra\", \"ativoID\": 1755458, \"quantidade\": 1, \"data\": \"11/03/2026\", \"totalOperacaoBruto\": 1, \"totalOperacaoLiq\": null, \"ignorair\": false, \"ignoraIsencao\": false, \"subscricaoID\": 0, \"gasto\": false, \"observacao\": null}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_movimentacao",
+    "assert": "a compra tem a quantidade enviada",
+    "from_scenario": "scenarios/acao_ciclo_completo.yaml#compra_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:18+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "notes": "a mesma movimentação passou a ter o total 15, sem criar outra",
+    "captured_keys": [
+      "ativoID",
+      "data",
+      "gasto",
+      "ignoraIsencao",
+      "ignorair",
+      "movimentacaoID",
+      "observacao",
+      "quantidade",
+      "subscricaoID",
+      "tipo",
+      "tipomov",
+      "totalOperacaoBruto",
+      "totalOperacaoLiq"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-flows.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "lança uma compra de 100 PETR4",
+    "registra a venda de VALE3 de ontem",
+    "corrige a quantidade da minha compra de ITUB4"
+  ]
+}

@@ -1,0 +1,52 @@
+name: juros-ciclo
+description: >
+  Salva uma simulação na calculadora de juros compostos, lê de volta, edita no mesmo ID, apaga e confirma que
+  sumiu da lista e do get. Não usa calculadora_juros_save_topico (cria tópico público no fórum).
+vars:
+  params_v1: "10-1-1-12-12-12-0"
+  params_v2: "20-2-1-12-12-12-0"
+steps:
+  - name: salvar
+    action: bastter.financeiro.calc_juros_save
+    inputs: {simulacao: {simulacaoID: 0, titulo: "${prefix} juros ${ts}", parametros: "${params_v1}"}}
+    assert: {present: [simulacaoID]}
+    save: {sim: simulacaoID}
+  - name: na_lista
+    postcondition_of: bastter.financeiro.calc_juros_save
+    action: bastter.financeiro.calc_juros_list
+    inputs: {simulacaoID: 0}
+    assert: {list_contains: {path: "", where: {SimulacaoID: "${sim}", Titulo: "${prefix} juros ${ts}", Parametros: "${params_v1}"}}}
+    proves: a simulação aparece em Minhas simulações com título e parâmetros enviados
+    stop_on_fail: false
+  - name: editar
+    action: bastter.financeiro.calc_juros_save
+    inputs: {simulacao: {simulacaoID: "${sim}", titulo: "${prefix} juros ${ts} b", parametros: "${params_v2}"}}
+    assert: {equals: {simulacaoID: "${sim}"}}
+  - name: editada
+    postcondition_of: bastter.financeiro.calc_juros_save
+    action: bastter.financeiro.calc_juros_get
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {SimulacaoID: "${sim}", Titulo: "${prefix} juros ${ts} b", Parametros: "${params_v2}"}}
+    proves: o mesmo ID passou a ter o título e os parâmetros novos
+    stop_on_fail: false
+  - name: sem_copia_antiga
+    action: bastter.financeiro.calc_juros_list
+    inputs: {simulacaoID: 0}
+    assert: {list_excludes: {path: "", where: {Titulo: "${prefix} juros ${ts}"}}}
+    stop_on_fail: false
+  - name: excluir
+    action: bastter.financeiro.calc_juros_delete
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {Return: true}}
+  - name: sumiu
+    postcondition_of: bastter.financeiro.calc_juros_delete
+    action: bastter.financeiro.calc_juros_list
+    inputs: {simulacaoID: 0}
+    assert: {list_excludes: {path: "", where: {SimulacaoID: "${sim}"}}}
+    stop_on_fail: false
+  - name: get_vazio
+    postcondition_of: bastter.financeiro.calc_juros_delete
+    action: bastter.financeiro.calc_juros_get
+    inputs: {simulacaoID: "${sim}"}
+    assert: {equals: {"": "null"}}
+    proves: o get do ID apagado devolve null

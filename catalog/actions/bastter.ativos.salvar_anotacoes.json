@@ -1,0 +1,150 @@
+{
+  "id": "bastter.ativos.salvar_anotacoes",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "anotacoes",
+  "operation_class": "update",
+  "label": "Salvar a anotação de um ativo",
+  "description": "WS_Carteira.SalvarAnotacoes. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "anotacoes": {
+          "examples": [
+            "ZZTESTE nota dev",
+            "",
+            "ZZTESTE nota 730162"
+          ]
+        },
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            1755463,
+            1755463,
+            1755466
+          ]
+        },
+        "carteiraID": {
+          "type": "integer",
+          "description": "ID of the carteira.",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "acao",
+            "acao",
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "anotacoes",
+        "ativoID",
+        "carteiraID",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "carteiraID",
+        "entity": "carteira",
+        "find_with": "bastter.ativos.bs2_init",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarAnotacoes",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "anotacoes": "body",
+        "ativoID": "body",
+        "carteiraID": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:n,ativoID:t,anotacoes:i,carteiraID:0})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_anotacoes",
+    "assert": "a anotação do item tem o texto enviado",
+    "from_scenario": "scenarios/item_ajustes.yaml#anotacoes_gravadas"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:26+00:00",
+    "evidence": "evidence/runs.jsonl#run=item-ajustes-1793737577",
+    "notes": "a anotação voltou a vazia, como antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "anota na PETR4 que comprei pelo dividendo",
+    "salva uma nota na VALE3"
+  ]
+}

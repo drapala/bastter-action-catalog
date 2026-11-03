@@ -1,0 +1,115 @@
+{
+  "id": "bastter.ativos.imovel_movimentacao_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_movimentacao",
+  "operation_class": "update",
+  "label": "Salvar os dados de compra ou de venda de um imóvel",
+  "description": "WS_Carteira.ImovelMovimentacaoSalvar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "movimentacao": {
+          "examples": [
+            {
+              "ativoID": 41241,
+              "AquisicaoData": "2026-11-03",
+              "AquisicaoValor": 10,
+              "AquisicaoValorExterior": 0,
+              "AlienacaoData": "",
+              "AlienacaoValor": 0,
+              "AlienacaoCorretagem": 0,
+              "AlienacaoValorAplicacao": 0
+            },
+            {
+              "ativoID": 41241,
+              "AquisicaoData": "",
+              "AquisicaoValor": 0,
+              "AquisicaoValorExterior": 0,
+              "AlienacaoData": "",
+              "AlienacaoValor": 0,
+              "AlienacaoCorretagem": 0,
+              "AlienacaoValorAplicacao": 0
+            },
+            {
+              "ativoID": 41242,
+              "AquisicaoData": "2026-11-03",
+              "AquisicaoValor": 10,
+              "AquisicaoValorExterior": 0,
+              "AlienacaoData": "",
+              "AlienacaoValor": 0,
+              "AlienacaoCorretagem": 0,
+              "AlienacaoValorAplicacao": 0
+            }
+          ],
+          "description": "Date format of AquisicaoData: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "movimentacao"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelMovimentacaoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "movimentacao": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({movimentacao:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_movimentacao_obter",
+    "assert": "a aquisição tem a data e o valor enviados e o imóvel não ficou vendido",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#aquisicao_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:44+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "a aquisição foi apagada e o imóvel não tem mais benfeitoria nem despesa"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    }
+  ],
+  "intent_examples": [
+    "registra que vendi o apartamento por 800 mil",
+    "atualiza o valor de compra da casa",
+    "lança a venda do terreno"
+  ]
+}

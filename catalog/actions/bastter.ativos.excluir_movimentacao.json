@@ -1,0 +1,137 @@
+{
+  "id": "bastter.ativos.excluir_movimentacao",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "movimentacao",
+  "operation_class": "delete",
+  "label": "Excluir uma compra ou venda de um ativo",
+  "description": "WS_Carteira.ExcluirMovimentacao. Called from: Ativos - Ações, Ativos - BDRs, Ativos - Bonds, Ativos - Consolidado, Ativos - Curiosidades, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            1755458,
+            1755460,
+            722627
+          ]
+        },
+        "movimentacaoID": {
+          "type": "integer",
+          "examples": [
+            5289464,
+            5289468,
+            2469204
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "acao",
+            "acao",
+            "fii"
+          ]
+        },
+        "tipomov": {
+          "type": "string",
+          "examples": [
+            "compra",
+            "compra",
+            "compra"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "movimentacaoID",
+        "tipo",
+        "tipomov"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ExcluirMovimentacao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "movimentacaoID": "body",
+        "tipo": "body",
+        "tipomov": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(r)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_movimentacao",
+    "assert": "the read shows the change (see scenarios/acao_ciclo_completo.yaml, step compra_sumiu)",
+    "from_scenario": "scenarios/acao_ciclo_completo.yaml#compra_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:28:25+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.movimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bond"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/curiosidades"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "apaga a compra de PETR4 que lancei errado",
+    "exclui a venda de VALE3 de ontem"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "id": "bastter.faq.faq_obter",
+  "product": "bastter",
+  "area": "FAQ",
+  "entity": "faq",
+  "operation_class": "read",
+  "label": "Ver o título e o texto de uma pergunta do FAQ",
+  "description": "WS_Carteira.FAQObter. Called from: FAQ.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "faqID": {
+          "type": "integer",
+          "description": "ID of the faq."
+        }
+      },
+      "required": [
+        "faqID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "faqID",
+        "entity": "faq",
+        "find_with": "bastter.faq.faq_listar",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FAQObter",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "faqID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({faqID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/faq"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.faq-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.faq-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/faq"
+    }
+  ],
+  "intent_examples": [
+    "abre essa pergunta do FAQ",
+    "mostra o texto desse FAQ"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "bastter.pas.metas_arquivar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "metas_arquivar",
+  "operation_class": "action",
+  "label": "Arquivar ou desarquivar uma meta",
+  "description": "WS_Carteira.MetasArquivar. Called from: #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "arquivar": {
+          "examples": [
+            true,
+            false,
+            true
+          ]
+        },
+        "metaID": {
+          "type": "integer",
+          "description": "ID of the meta.",
+          "examples": [
+            2930,
+            2930,
+            2931
+          ]
+        }
+      },
+      "required": [
+        "arquivar",
+        "metaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "metaID",
+        "entity": "meta",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MetasArquivar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "arquivar": "body",
+        "metaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({metaID:n,arquivar:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/metas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.metas_listar",
+    "assert": "a meta continua na lista com data de arquivamento",
+    "from_scenario": "scenarios/pas_metas_ciclo.yaml#meta_arquivada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:35+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793737642",
+    "notes": "arquivar false limpa a data de arquivamento"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.metas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/metas"
+    }
+  ],
+  "intent_examples": [
+    "arquiva a meta de correr",
+    "volta a meta de leitura para as ativas"
+  ]
+}

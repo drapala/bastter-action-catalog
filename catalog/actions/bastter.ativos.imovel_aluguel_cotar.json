@@ -1,0 +1,104 @@
+{
+  "id": "bastter.ativos.imovel_aluguel_cotar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_aluguel",
+  "operation_class": "read",
+  "label": "Converter para reais um aluguel em moeda estrangeira",
+  "description": "WS_Carteira.ImovelAluguelCotar. Called from: Ativos - Imóveis, Ativos - Outros.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "moedaAtivoID": {
+          "type": "integer",
+          "description": "ID of the moedaAtivo."
+        },
+        "valor": {}
+      },
+      "required": [
+        "data",
+        "moedaAtivoID",
+        "valor"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "moedaAtivoID",
+        "entity": "moedaativo",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelAluguelCotar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "data": "body",
+        "moedaAtivoID": "body",
+        "valor": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({moedaAtivoID:t,data:r,valor:i})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.ativos.imovel-min.js, /mercado/js/site.bs2.ativos.outro-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.outro-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/outro"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/outro/graficos"
+    }
+  ],
+  "intent_examples": [
+    "quanto dá em reais esse aluguel de 1000 dólares",
+    "converte o aluguel em euro para real"
+  ]
+}

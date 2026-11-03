@@ -1,0 +1,93 @@
+name: saude-race-privado
+description: >
+  Bastter Race, só a parte privada do painel: metas pessoais, periodização e registro de peso.
+  Metas e periodização são configurações únicas por usuário. O cenário só escreve se o valor
+  atual for vazio ("null"), e restaura apagando, com leitura de volta "null".
+  O peso é um registro ZZTESTE criado e apagado. Os rótulos personalizados do peso são
+  lidos antes (devem estar vazios) e reenviados vazios.
+  Não roda atividade, alimentação, inspiração, pendência, Pega Um, Strava, fila, layout nem lembrete:
+  essas ações aparecem para outras pessoas ou mexem em integração.
+vars:
+  data: "2026-11-03"
+  peso_filtro: {page: 1, pageSize: 10, ordenacao: DataDESC, filtroMeses: 0}
+  sem_rotulos: {personalizado1: null, personalizado2: null, personalizado3: null}
+steps:
+  - name: meta_antes
+    guard: true
+    action: bastter.saude.race_meta_obter
+    assert: {equals: {"": "null"}}
+    proves: o usuário não tem metas, então o valor a restaurar é "sem metas"
+  - name: salvar_meta
+    action: bastter.saude.race_meta_salvar
+    inputs: {meta: {SemanaPontos: 1, SemanaTempo: 2, MesPontos: 3, MesTempo: 4, AnoPontos: 5, AnoTempo: 6}}
+    assert: {equals: {Return: true}}
+  - name: meta_gravada
+    postcondition_of: bastter.saude.race_meta_salvar
+    action: bastter.saude.race_meta_obter
+    assert: {equals: {SemanaPontos: 1, SemanaTempo: 2, MesPontos: 3, MesTempo: 4, AnoPontos: 5, AnoTempo: 6}}
+    proves: as seis metas voltam com os valores enviados
+  - name: excluir_meta
+    undoes: salvar_meta
+    action: bastter.saude.race_meta_excluir
+    assert: {equals: {Return: true}}
+  - name: meta_restaurada
+    postcondition_of: bastter.saude.race_meta_excluir
+    action: bastter.saude.race_meta_obter
+    assert: {equals: {"": "null"}}
+    proves: o usuário volta a não ter metas, igual ao início
+  - name: periodizacao_antes
+    guard: true
+    action: bastter.saude.race_periodizacao_obter
+    assert: {equals: {"": "null"}}
+    proves: o usuário não tem periodização, então o valor a restaurar é "sem periodização"
+  - name: salvar_periodizacao
+    action: bastter.saude.race_periodizacao_salvar
+    inputs: {periodizacao: {DataInicial: "2026-11-02", Ciclo: 4}}
+    assert: {equals: {Return: true}}
+  - name: periodizacao_gravada
+    postcondition_of: bastter.saude.race_periodizacao_salvar
+    action: bastter.saude.race_periodizacao_obter
+    assert: {equals: {DataInicial: "2026-11-02T00:00:00", Ciclo: 4}}
+    proves: a periodização volta com a data inicial e o ciclo enviados
+  - name: excluir_periodizacao
+    undoes: salvar_periodizacao
+    action: bastter.saude.race_periodizacao_excluir
+    assert: {equals: {Return: true}}
+  - name: periodizacao_restaurada
+    postcondition_of: bastter.saude.race_periodizacao_excluir
+    action: bastter.saude.race_periodizacao_obter
+    assert: {equals: {"": "null"}}
+    proves: o usuário volta a não ter periodização, igual ao início
+  - name: peso_antes
+    guard: true
+    action: bastter.saude.race_peso_listar
+    inputs: "${peso_filtro}"
+    assert:
+      equals: {Personalizado.Personalizado1: null, Personalizado.Personalizado2: null, Personalizado.Personalizado3: null}
+      list_excludes: {path: Items, where: {Data: "2026-11-03T00:00:00"}}
+    proves: não há rótulos personalizados nem registro de peso na data usada
+  - name: salvar_peso
+    action: bastter.saude.race_peso_salvar
+    inputs: {item: {data: "${data}", peso: 3, percGordura: 2, anotacao: "${prefix} peso ${ts}", personalizado1: null, personalizado2: null, personalizado3: null}, personalizado: "${sem_rotulos}"}
+    assert: {equals: {Return: true}}
+  - name: peso_gravado
+    postcondition_of: bastter.saude.race_peso_salvar
+    action: bastter.saude.race_peso_listar
+    inputs: "${peso_filtro}"
+    retry: {times: 6, every: 10}
+    assert: {list_contains: {path: Items, where: {Anotacao: "${prefix} peso ${ts}", Data: "2026-11-03T00:00:00", Peso: 3.0, PercGordura: 2.0}}}
+    save: {peso: {path: Items, where: {Anotacao: "${prefix} peso ${ts}"}, field: ItemID}}
+    proves: o registro aparece com data, peso e percentual de gordura enviados
+  - name: excluir_peso
+    action: bastter.saude.race_peso_excluir
+    inputs: {itemID: "${peso}"}
+    assert: {equals: {Return: true}}
+  - name: peso_sumiu
+    postcondition_of: bastter.saude.race_peso_excluir
+    action: bastter.saude.race_peso_listar
+    inputs: "${peso_filtro}"
+    retry: {times: 6, every: 10}
+    assert:
+      list_excludes: {path: Items, where: {ItemID: "${peso}"}}
+      equals: {Personalizado.Personalizado1: null, Personalizado.Personalizado2: null, Personalizado.Personalizado3: null}
+    proves: o registro sumiu e os rótulos personalizados continuam vazios

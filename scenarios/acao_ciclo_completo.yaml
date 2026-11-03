@@ -1,0 +1,75 @@
+name: acao-ciclo-completo
+description: Inclui VALE3 na aba Ações, lança uma compra, edita, lê de volta cada passo, apaga tudo e confirma que sumiu.
+vars:
+  ticker: VALE3
+  itens_filtro: {tipo: acao, ordenacao: 1, classificacao: "0", categoria: 0, setor: "0", segmento: 0, country: 0, gestorID: 0, classificacao2: 0, exchange: null, mandatoID: 0}
+steps:
+  - name: pesquisar
+    action: bastter.ativos.pesquisar
+    inputs: {tipo: acao, ativo: "${ticker}"}
+    assert: {list_contains: {path: "", where: {Codigo: "${ticker}"}}}
+    save: {referencia: "0.AtivoID"}
+  - name: ativo_ausente
+    guard: true
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {Descricao: "${ticker}"}}}
+    proves: a aba não mostra o ativo, então ele não é uma posição visível do usuário
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {tipo: acao, ativoID: 0, classificacaoID: "", quantidade: 0, descricao: "${ticker}", valor: "", moedaAtivoID: 0, tipoImovelID: 12, destinoID: null, instituicao: null, compraImovel: false, descricaoImovel: null, codIRPF: null, naoPatrimonio: false, descricaoIRPF: null, paisID: 0, origemID: null, valorAux: 0, dataAux: null, cnpj: null, controleSaldo: false, dataDividendos: null, tipoAtualizacaoCDI: 0, percentualCDI: 0, vencimento: null, moradia: null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: ativo_sem_movimentacao
+    guard: true
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {empty: [Itens]}
+    proves: o item que o salvar devolveu não tem movimentação, então nenhuma operação do usuário fica em risco
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Descricao: "${ticker}", ReferenciaID: "${referencia}"}}}
+    proves: o ativo aparece na aba Ações com o código e a referência da busca
+  - name: lancar_compra
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {movimentacaoID: 0, tipo: acao, tipomov: compra, ativoID: "${item}", quantidade: 2, data: "11/03/2026", totalOperacaoBruto: 10, totalOperacaoLiq: null, ignorair: false, ignoraIsencao: false, subscricaoID: 0, gasto: false, observacao: null}
+    assert: {equals: {Return: true}}
+  - name: compra_gravada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Tipo: Compra, Quantidade: 2.0}}}
+    save: {mov: {path: Itens, where: {Tipo: Compra}, field: MovimentacaoID}}
+    proves: a compra tem a quantidade enviada
+  - name: editar_compra
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {movimentacaoID: "${mov}", tipo: acao, tipomov: compra, ativoID: "${item}", quantidade: 3, data: "11/03/2026", totalOperacaoBruto: 15, totalOperacaoLiq: null, ignorair: false, ignoraIsencao: false, subscricaoID: 0, gasto: false, observacao: null}
+    assert: {equals: {Return: true}}
+  - name: compra_editada
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}", Quantidade: 3.0}}}
+    proves: a mesma movimentação passou a ter quantidade 3, sem criar outra
+  - name: posicao_no_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Quantidade: 3.0, PrecoMedio: 5.0}}}
+    proves: a posição do ativo soma 3 ações a preço médio 5
+  - name: excluir_compra
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: acao, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}
+  - name: compra_sumiu
+    postcondition_of: bastter.ativos.excluir_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: acao, ativoID: "${item}", carteiraID: 0}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}

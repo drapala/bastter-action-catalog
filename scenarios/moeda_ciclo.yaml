@@ -1,0 +1,54 @@
+name: moeda-ciclo
+description: Inclui um item ZZTESTE na aba Reserva de Valor, lança uma compra, edita, lê de volta cada passo, apaga tudo e confirma que sumiu.
+vars:
+  itens_filtro: {"tipo": "moeda", "ordenacao": 1, "classificacao": "0", "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": "0", "exchange": null, "mandatoID": 0}
+steps:
+  - name: incluir_ativo
+    action: bastter.ativos.salvar
+    inputs: {"tipo": "moeda", "ativoID": 0, "classificacaoID": "", "quantidade": 0, "descricao": "${prefix} moeda ${ts}", "valor": "", "moedaAtivoID": 0, "tipoImovelID": 12, "destinoID": null, "instituicao": null, "compraImovel": false, "descricaoImovel": null, "codIRPF": null, "naoPatrimonio": false, "descricaoIRPF": null, "paisID": 0, "origemID": null, "valorAux": 0, "dataAux": null, "cnpj": null, "controleSaldo": false, "dataDividendos": null, "tipoAtualizacaoCDI": 0, "percentualCDI": 0, "vencimento": null, "moradia": null}
+    assert: {present: [AtivoID]}
+    save: {item: AtivoID}
+  - name: itens_com_ativo
+    postcondition_of: bastter.ativos.salvar
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_contains: {path: Items, where: {"AtivoID": "${item}", "Descricao": "${prefix} moeda ${ts}"}}}
+    proves: o item aparece na aba Reserva de Valor com a descrição enviada
+  - name: lancar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": 0, "tipo": "moeda", "tipomov": "compra", "ativoID": "${item}", "quantidade": 10, "data": "11/03/2026", "totalOperacaoBruto": 10, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_gravada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} moeda ${ts}", tipo: moeda, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Operacao: 10.0, Quantidade: 10.0}}}
+    save: {mov: {path: Itens, where: {Operacao: 10.0}, field: MovimentacaoID}}
+    proves: a entrada tem o total e a quantidade enviados
+  - name: editar_entrada
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {"movimentacaoID": "${mov}", "tipo": "moeda", "tipomov": "compra", "ativoID": "${item}", "quantidade": 15, "data": "11/03/2026", "totalOperacaoBruto": 15, "totalOperacaoLiq": null, "ignorair": false, "ignoraIsencao": false, "subscricaoID": 0, "gasto": false, "observacao": null}
+    assert: {equals: {Return: true}}
+  - name: entrada_editada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} moeda ${ts}", tipo: moeda, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {MovimentacaoID: "${mov}", Operacao: 15.0, Quantidade: 15.0}}}
+    proves: a mesma movimentação passou a ter o total 15, sem criar outra
+  - name: excluir_entrada
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: moeda, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}
+  - name: entrada_sumiu
+    postcondition_of: bastter.ativos.excluir_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${prefix} moeda ${ts}", tipo: moeda, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov}"}}}
+  - name: excluir_ativo
+    action: bastter.ativos.excluir_item
+    inputs: {tipo: moeda, ativoID: "${item}", carteiraID: 0}
+  - name: ativo_sumiu
+    postcondition_of: bastter.ativos.excluir_item
+    action: bastter.ativos.obter_itens
+    inputs: "${itens_filtro}"
+    assert: {list_excludes: {path: Items, where: {AtivoID: "${item}"}}}
+    proves: o item saiu da aba Reserva de Valor

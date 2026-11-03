@@ -1,0 +1,26 @@
+name: config-onde-retirar
+description: Grava valor necessário 10 e saldo em conta 5 na tela Onde Retirar, lê de volta, restaura os valores antigos (todos nulos) e confirma.
+steps:
+  - name: config_antes
+    action: bastter.patrimonio.bs2_onde_retirar_carregar
+    assert: {equals: {Config: {ValorNecessario: null, SaldoConta: null, Salario: null, SalarioExibir: false, OutrasRendas: null, CustosMensais: null}}}
+    save: {antes: Config}
+  - name: gravar_config
+    action: bastter.patrimonio.bs2_onde_retirar_salvar
+    inputs: {valorNecessario: 10, saldoConta: 5, salario: null, salarioExibir: false, outrasRendas: null, custosMensais: null}
+    assert: {equals: {Sucesso: true}}
+  - name: config_gravada
+    postcondition_of: bastter.patrimonio.bs2_onde_retirar_salvar
+    action: bastter.patrimonio.bs2_onde_retirar_carregar
+    assert: {equals: {Config.ValorNecessario: 10.0, Config.SaldoConta: 5.0}}
+    proves: a tela Onde Retirar passou a ter valor necessário 10 e saldo em conta 5
+  - name: restaurar_config
+    undoes: gravar_config
+    action: bastter.patrimonio.bs2_onde_retirar_salvar
+    inputs: {valorNecessario: "${antes.ValorNecessario}", saldoConta: "${antes.SaldoConta}", salario: "${antes.Salario}", salarioExibir: "${antes.SalarioExibir}", outrasRendas: "${antes.OutrasRendas}", custosMensais: "${antes.CustosMensais}"}
+    assert: {equals: {Sucesso: true}}
+  - name: config_restaurada
+    postcondition_of: bastter.patrimonio.bs2_onde_retirar_salvar
+    action: bastter.patrimonio.bs2_onde_retirar_carregar
+    assert: {equals: {Config: "${antes}"}}
+    proves: todos os campos voltaram aos valores antigos

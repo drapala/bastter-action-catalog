@@ -1,0 +1,107 @@
+{
+  "id": "bastter.financeiro.financa_excluir_categoria",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa_categoria",
+  "operation_class": "delete",
+  "label": "Excluir uma categoria de finanças",
+  "description": "WS_Carteira.FinancaExcluirCategoria. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "categoriaID": {
+          "type": "integer",
+          "description": "ID of the categoria.",
+          "examples": [
+            25632,
+            25633,
+            25634
+          ]
+        }
+      },
+      "required": [
+        "categoriaID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "categoriaID",
+        "entity": "categoria",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaExcluirCategoria",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "categoriaID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({categoriaID:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.financeiro.financa_obter_itens",
+    "assert": "a categoria criada pelo cenário não está mais na lista",
+    "from_scenario": "scenarios/financas_ciclo.yaml#categoria_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:20+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "notes": "a categoria criada pelo cenário não está mais na lista"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    }
+  ],
+  "intent_examples": [
+    "apaga a categoria Lazer",
+    "remove essa categoria de despesas"
+  ]
+}

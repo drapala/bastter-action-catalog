@@ -1,0 +1,134 @@
+{
+  "id": "bastter.ativos.gerar_minha_holding",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "gerar_minha_holding",
+  "operation_class": "action",
+  "label": "Ver a Minha Holding: resultado proporcional da carteira por ano",
+  "description": "WS_Carteira.GerarMinhaHolding. Called from: Ativos - Ações - Minha Holding, Ativos - FIIs - Minha Holding, Ativos - REITs - Minha Holding, Ativos - Stocks - Minha Holding, Patrimônio - Minha Holding.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "isDolar": {
+          "type": "boolean",
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "tipo": {
+          "type": "string",
+          "examples": [
+            "consolidado",
+            "acao",
+            "fii"
+          ]
+        }
+      },
+      "required": [
+        "isDolar",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/GerarMinhaHolding",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "isDolar": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipo\": \"consolidado\", \"isDolar\": false}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao/minha-holding"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/ativos/acao/minha-holding, /bs2/ativos/fii/minha-holding, /bs2/ativos/reit/minha-holding, /bs2/ativos/stock/minha-holding and it answered 200.",
+    "captured_keys": [
+      "isDolar",
+      "tipo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.acao.minhaholding-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.fii.minhaholding-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.reit.minhaholding-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.stock.minhaholding-min.js"
+    },
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.minhaholding-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/fii/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/reit/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/stock/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/minha-holding"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "mostra minha holding de ações",
+    "como está a minha holding de FIIs",
+    "gera a minha holding consolidada"
+  ]
+}

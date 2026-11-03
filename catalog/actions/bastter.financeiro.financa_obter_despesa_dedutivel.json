@@ -1,0 +1,103 @@
+{
+  "id": "bastter.financeiro.financa_obter_despesa_dedutivel",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "financa_despesa_dedutivel",
+  "operation_class": "read",
+  "label": "Ver os dados de despesa dedutível de um lançamento",
+  "description": "WS_Carteira.FinancaObterDespesaDedutivel. Called from: Financeiro - Finanças, Financeiro - Finanças - Gráficos, Imposto de Renda - Pagamentos Efetuados, Meu Financeiro - Finanças - Consolidado.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "lancamentoID": {
+          "type": "integer",
+          "description": "ID of the lancamento.",
+          "examples": [
+            280336,
+            280351,
+            280367
+          ]
+        }
+      },
+      "required": [
+        "lancamentoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "lancamentoID",
+        "entity": "lancamento",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FinancaObterDespesaDedutivel",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "lancamentoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({lancamentoID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/financas"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:25:22+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793730307",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.financas-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/consolidado"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/financas/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/pagamentos-efetuados"
+    }
+  ],
+  "intent_examples": [
+    "mostra os dados do recibo dessa consulta médica",
+    "qual CNPJ está nessa despesa dedutível"
+  ]
+}

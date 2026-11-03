@@ -1,0 +1,86 @@
+{
+  "id": "bastter.saude.race_fila_excluir",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_fila",
+  "operation_class": "delete",
+  "label": "Excluir uma atividade do Strava da fila de importação",
+  "description": "WS_Carteira.RaceFilaExcluir. Called from: Saúde - Bastter Race.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "stravaActivityID": {
+          "type": "integer",
+          "description": "ID of the stravaActivity."
+        }
+      },
+      "required": [
+        "stravaActivityID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "stravaActivityID",
+        "entity": "stravaactivity",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/RaceFilaExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "stravaActivityID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({stravaActivityID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.saude.race-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race"
+    }
+  ],
+  "intent_examples": [
+    "tira essa atividade do Strava da fila",
+    "não importa essa corrida do Strava"
+  ]
+}

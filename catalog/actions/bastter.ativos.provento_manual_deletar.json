@@ -1,0 +1,129 @@
+{
+  "id": "bastter.ativos.provento_manual_deletar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "provento_manual",
+  "operation_class": "delete",
+  "label": "Excluir um provento lançado à mão",
+  "description": "WS_Carteira.ProventoManualDeletar. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            55738,
+            55749,
+            55751
+          ]
+        },
+        "earningID": {
+          "type": "integer",
+          "examples": [
+            1059,
+            1060,
+            1061
+          ]
+        },
+        "tipoClasse": {
+          "type": "string",
+          "examples": [
+            "etf",
+            "etf",
+            "etf"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "earningID",
+        "tipoClasse"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ProventoManualDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "earningID": "body",
+        "tipoClasse": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)",
+      "timeout_s": 300
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.provento_manual_listar",
+    "assert": "the read shows the change (see scenarios/etf_ciclo.yaml, step provento_sumiu)",
+    "from_scenario": "scenarios/etf_ciclo.yaml#provento_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "The server takes about 145 s to answer. The route sets timeout_s 300."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:23:58+00:00",
+    "evidence": "evidence/runs.jsonl#run=etf-ciclo-1793737275",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "apaga o dividendo que lancei à mão",
+    "exclui esse provento manual"
+  ]
+}

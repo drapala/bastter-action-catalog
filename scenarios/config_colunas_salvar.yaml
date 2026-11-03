@@ -1,0 +1,27 @@
+name: config-colunas-salvar
+description: Esconde também a coluna Objetivo na tabela do Consolidado, lê de volta, restaura a lista antiga de colunas escondidas e confirma.
+steps:
+  - name: colunas_antes
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert: {equals: {ColunasExcluidas: ["% Mês", "% Ano"]}}
+    save: {antes: ColunasExcluidas}
+  - name: esconder_coluna
+    action: bastter.ativos.colunas_salvar
+    inputs: {tipo: consolidado, colunas: ["% Mês", "% Ano", Objetivo]}
+  - name: coluna_escondida
+    postcondition_of: bastter.ativos.colunas_salvar
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert: {equals: {ColunasExcluidas: ["% Mês", "% Ano", Objetivo]}}
+    proves: a coluna Objetivo entrou na lista de colunas escondidas do Consolidado
+  - name: restaurar_colunas
+    undoes: esconder_coluna
+    action: bastter.ativos.colunas_salvar
+    inputs: {tipo: consolidado, colunas: "${antes}"}
+  - name: colunas_restauradas
+    postcondition_of: bastter.ativos.colunas_salvar
+    action: bastter.patrimonio.obter_classes
+    inputs: {ordenacao: 0}
+    assert: {equals: {ColunasExcluidas: "${antes}"}}
+    proves: a lista de colunas escondidas voltou a ser a de antes

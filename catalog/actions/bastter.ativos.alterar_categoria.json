@@ -1,0 +1,151 @@
+{
+  "id": "bastter.ativos.alterar_categoria",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "categoria",
+  "operation_class": "update",
+  "label": "Alterar a classificação de um ativo, como quarentena",
+  "description": "WS_Carteira.AlterarCategoria. Called from: Ativos - Ações, Ativos - Ações - Gráficos, Ativos - Ações - Minha Holding, Ativos - BDRs, Ativos - Bonds, Ativos - ETFs.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "description": "ID of the ativo.",
+          "examples": [
+            1755463,
+            1755463,
+            1755463
+          ]
+        },
+        "classificacaoID": {
+          "type": "integer",
+          "description": "ID of the classificacao.",
+          "examples": [
+            7,
+            2,
+            2
+          ]
+        },
+        "superCleiton": {
+          "examples": [
+            false,
+            false,
+            false
+          ]
+        },
+        "tipo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            "acao",
+            "acao",
+            "acao"
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "classificacaoID",
+        "superCleiton",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoID",
+        "entity": "ativo",
+        "find_with": "bastter.ativos.bs2_list_ativos",
+        "create_with": null
+      },
+      {
+        "input": "classificacaoID",
+        "entity": "classificacao",
+        "find_with": "bastter.ativos.listar_classificacao",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AlterarCategoria",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "classificacaoID": "body",
+        "superCleiton": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipo:n,ativoID:t,classificacaoID:i,superCleiton:r==!0})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.obter_itens",
+    "assert": "o item passou de Comprar para Estudo (e o objetivo dele foi a 0)",
+    "from_scenario": "scenarios/item_ajustes.yaml#categoria_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:26:30+00:00",
+    "evidence": "evidence/runs.jsonl#run=item-ajustes-1793737577",
+    "notes": "o item voltou a Comprar, como antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.common-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "coloca PETR4 em quarentena",
+    "muda a classificação da TAEE11",
+    "tira a MGLU3 da quarentena"
+  ]
+}

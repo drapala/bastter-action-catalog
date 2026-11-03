@@ -1,0 +1,104 @@
+{
+  "id": "bastter.ativos.obter_consolidado_proventos_dados_graficos",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "proventos",
+  "operation_class": "read",
+  "label": "Ver os gráficos de proventos por ano e por mês",
+  "description": "WS_Carteira.ObterConsolidadoProventosDadosGraficos. Called from: Ativos - Imóveis - Minha Imobiliária, Ativos - Proventos, Ativos - Proventos - Calendário e Gráficos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tipoativo": {
+          "type": "string",
+          "examples": [
+            "consolidado"
+          ]
+        }
+      },
+      "required": [
+        "tipoativo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ObterConsolidadoProventosDadosGraficos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "tipoativo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"tipoativo\": \"consolidado\"}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel/minha-imobiliaria"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T17:56:11+00:00",
+    "evidence": "evidence/runs.jsonl#run=replay-reads-1793728560",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error.",
+    "captured_keys": [
+      "tipoativo"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.proventos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel/minha-imobiliaria"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/etf"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/europa"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "mostra o gráfico de proventos por ano",
+    "como evoluíram meus dividendos mês a mês"
+  ]
+}

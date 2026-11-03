@@ -1,0 +1,26 @@
+name: config-insights-classes
+description: Filtra a tela Insights para as classes acao e fii, lê de volta, restaura o valor antigo (nulo, que quer dizer todas as classes) e confirma que todas as opções da carteira ficaram iguais às de antes.
+steps:
+  - name: insights_antes
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.InsightsClasses: null}}
+    save: {antes: {path: CarteiraOpcoes.InsightsClasses, nullable: true}, opcoes_antes: CarteiraOpcoes}
+  - name: filtrar_classes
+    action: bastter.patrimonio.bs2_insights_classes_salvar
+    inputs: {classes: "acao,fii"}
+    assert: {equals: {Return: OK}}
+  - name: classes_filtradas
+    postcondition_of: bastter.patrimonio.bs2_insights_classes_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.InsightsClasses: "acao,fii"}}
+    proves: o filtro de classes dos Insights passou a ser acao,fii
+  - name: restaurar_classes
+    undoes: filtrar_classes
+    action: bastter.patrimonio.bs2_insights_classes_salvar
+    inputs: {classes: "${antes}"}
+    assert: {equals: {Return: OK}}
+  - name: classes_restauradas
+    postcondition_of: bastter.patrimonio.bs2_insights_classes_salvar
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.InsightsClasses: "${antes}", CarteiraOpcoes: "${opcoes_antes}"}}
+    proves: o filtro voltou ao valor antigo e nenhuma outra opção da carteira mudou

@@ -1,0 +1,123 @@
+{
+  "id": "bastter.ativos.abas_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "abas",
+  "operation_class": "update",
+  "label": "Escolher quais abas aparecem em cada área do sistema",
+  "description": "WS_Carteira.AbasSalvar. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "abas": {
+          "type": "array",
+          "examples": [
+            [
+              "meu-futuro-patrimonio"
+            ],
+            [],
+            [
+              "meu-futuro-patrimonio"
+            ]
+          ]
+        },
+        "tipo": {
+          "type": "integer",
+          "examples": [
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "required": [
+        "abas",
+        "tipo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/AbasSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "abas": "body",
+        "tipo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(r)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "a aba aparece na lista de abas escondidas do menu Patrimônio",
+    "from_scenario": "scenarios/config_abas_salvar.yaml#aba_escondida"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "An empty list is stored as [\"\"] and null is refused, so the original [] cannot come back. No tab is hidden by [\"\"]."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:19:57+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-abas-salvar-1793737193",
+    "notes": "as listas de abas escondidas voltaram a ser as de antes"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "esconde a aba Eventos em Ativos",
+    "mostra de novo a aba Onde Aportar",
+    "configura as abas visíveis do Patrimônio"
+  ]
+}

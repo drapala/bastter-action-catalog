@@ -1,0 +1,95 @@
+{
+  "id": "bastter.patrimonio.bs2_insights_postagens",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "insights",
+  "operation_class": "read",
+  "label": "Ver as últimas postagens sobre os ativos da carteira",
+  "description": "WS_Carteira.BS2InsightsPostagens. Called from: Patrimônio - Insights.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            1
+          ]
+        },
+        "pageSize": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            10
+          ]
+        }
+      },
+      "required": [
+        "page",
+        "pageSize"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2InsightsPostagens",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "page": "body",
+        "pageSize": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({page:n,pageSize:bsInsights.pageSizePostagens})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/insights"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:32+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.insights-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/insights"
+    }
+  ],
+  "intent_examples": [
+    "o que postaram sobre minhas ações",
+    "últimas postagens dos meus ativos"
+  ]
+}

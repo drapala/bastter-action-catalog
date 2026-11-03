@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/drapala/bastter-action-catalog/catalog/schema/business_action.schema.json",
+  "title": "Bastter System business action",
+  "description": "One thing a user can do in a product, described so an AI agent can choose it, fill it, run it, and check that it worked.",
+  "type": "object",
+  "required": [
+    "id",
+    "product",
+    "area",
+    "entity",
+    "operation_class",
+    "label",
+    "description",
+    "inputs",
+    "routes",
+    "side_effects",
+    "availability",
+    "verification",
+    "sources"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^bastter\\.[a-z0-9_]+\\.[a-z0-9_]+$",
+      "description": "Stable identifier: product.area.entity.verb"
+    },
+    "product": {
+      "const": "bastter"
+    },
+    "area": {
+      "type": "string",
+      "description": "Product area as a user sees it, for example Contacts or Email campaigns."
+    },
+    "entity": {
+      "type": "string",
+      "description": "The object the action works on, singular, snake_case."
+    },
+    "operation_class": {
+      "enum": [
+        "read",
+        "create",
+        "update",
+        "delete",
+        "action"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "description": "Short imperative name, for example 'Add a contact to a list'."
+    },
+    "description": {
+      "type": "string",
+      "description": "When an agent should use this action and what it changes."
+    },
+    "intent_examples": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User requests this action answers."
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "schema"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "type": "object",
+          "description": "JSON Schema of the inputs the agent must provide."
+        },
+        "entity_refs": {
+          "type": "array",
+          "description": "Inputs that are IDs of other entities, and the actions that list or create them.",
+          "items": {
+            "type": "object",
+            "required": [
+              "input",
+              "entity"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "input": {
+                "type": "string"
+              },
+              "entity": {
+                "type": "string"
+              },
+              "find_with": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Action id that lists or gets this entity."
+              },
+              "create_with": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Action id that creates this entity."
+              }
+            }
+          }
+        },
+        "credential_ref": {
+          "type": "string",
+          "description": "Name of the credential the action runs under. Never the secret itself."
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "produces_entity": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "type": "string"
+            },
+            "id_field": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ways to perform the action, in preference order.",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "documented_api",
+              "undocumented_api",
+              "ui_path"
+            ]
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "description": "URL template with {placeholders}."
+          },
+          "auth": {
+            "type": "string",
+            "description": "How the credential is sent, for example 'header api-key' or 'web session cookie'."
+          },
+          "params": {
+            "type": "object",
+            "description": "Where each input goes: path, query, or body.",
+            "additionalProperties": {
+              "enum": [
+                "path",
+                "query",
+                "body",
+                "header"
+              ]
+            }
+          },
+          "success_status": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "ui_steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "For ui_path: steps a browser agent follows."
+          },
+          "start_url": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "timeout_s": {
+            "type": "number",
+            "description": "Seconds to wait for the answer when the server is known to be slow. Default 60."
+          }
+        }
+      }
+    },
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "postcondition": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "check_with": {
+          "type": "string",
+          "description": "Action id to read the state after the action."
+        },
+        "assert": {
+          "type": "string",
+          "description": "What must be true in the read result."
+        },
+        "from_scenario": {
+          "type": "string",
+          "description": "The scenario step that proved this read-back on the live account."
+        }
+      }
+    },
+    "side_effects": {
+      "type": "object",
+      "required": [
+        "reversible",
+        "external_effect",
+        "requires_confirmation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "reversible": {
+          "type": "boolean"
+        },
+        "undo_with": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_effect": {
+          "enum": [
+            "none",
+            "sends_email",
+            "sends_sms",
+            "sends_whatsapp",
+            "publishes",
+            "spends_credits",
+            "changes_account",
+            "notifies_people"
+          ]
+        },
+        "idempotent": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "requires_confirmation": {
+          "type": "boolean",
+          "description": "True when a mistake reaches people outside the account or cannot be undone."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "availability": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "available",
+            "gated",
+            "limited",
+            "unknown"
+          ],
+          "description": "Whether the action works on the account used for the checks (Bastter Blue subscriber)."
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Subscription, setup or permission needed, for example \"Bastter Blue\" or \"admin\"."
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "observed",
+            "gated",
+            "failed",
+            "seen",
+            "excluded"
+          ]
+        },
+        "route_kind": {
+          "enum": [
+            "documented_api",
+            "undocumented_api",
+            "ui_path",
+            null
+          ]
+        },
+        "checked_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "evidence": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Path to the evidence file."
+        },
+        "notes": {
+          "type": "string"
+        },
+        "captured_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields of the request body the app sent when the call was captured in the browser."
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "ref"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "js_bundle",
+              "ui_walk",
+              "network_capture",
+              "faq"
+            ]
+          },
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

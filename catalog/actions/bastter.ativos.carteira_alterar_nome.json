@@ -1,0 +1,120 @@
+{
+  "id": "bastter.ativos.carteira_alterar_nome",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "carteira_nome",
+  "operation_class": "update",
+  "label": "Renomear a carteira ativa",
+  "description": "WS_Carteira.CarteiraAlterarNome. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "carteiraID": {
+          "type": "integer",
+          "description": "ID of the carteira.",
+          "examples": [
+            2000002,
+            2000002,
+            2000002
+          ]
+        },
+        "nome": {
+          "examples": [
+            "ZZTESTE 730391",
+            "Principal",
+            "ZZTESTE 731178"
+          ]
+        }
+      },
+      "required": [
+        "carteiraID",
+        "nome"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "carteiraID",
+        "entity": "carteira",
+        "find_with": "bastter.ativos.bs2_init",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/CarteiraAlterarNome",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "carteiraID": "body",
+        "nome": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({carteiraID:bs.carteiraID,nome:$.trim($(\"#carteira-editar-nome\").val())})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "a carteira passou a se chamar ZZTESTE com o carimbo",
+    "from_scenario": "scenarios/config_carteira_alterar_nome.yaml#nome_mudou"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:20:04+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-carteira-alterar-nome-1793737198",
+    "notes": "a carteira voltou a se chamar Principal"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "muda o nome da carteira para Aposentadoria",
+    "renomeia minha carteira"
+  ]
+}

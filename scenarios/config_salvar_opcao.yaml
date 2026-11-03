@@ -1,0 +1,24 @@
+name: config-salvar-opcao
+description: Troca a opção UltimosProventos (filtro do gráfico de proventos) de 1 (Todos) para 2 (Somente pagos), lê de volta, restaura o valor antigo e confirma que todas as opções da carteira ficaram iguais às de antes.
+steps:
+  - name: opcoes_antes
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.UltimosProventos: "1"}}
+    save: {antes: CarteiraOpcoes.UltimosProventos, opcoes_antes: CarteiraOpcoes}
+  - name: mudar_opcao
+    action: bastter.ativos.salvar_opcao
+    inputs: {parameter: UltimosProventos, value: "2"}
+  - name: opcao_mudou
+    postcondition_of: bastter.ativos.salvar_opcao
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.UltimosProventos: "2"}}
+    proves: a opção passou a valer 2
+  - name: restaurar_opcao
+    undoes: mudar_opcao
+    action: bastter.ativos.salvar_opcao
+    inputs: {parameter: UltimosProventos, value: "${antes}"}
+  - name: opcao_restaurada
+    postcondition_of: bastter.ativos.salvar_opcao
+    action: bastter.ativos.bs2_init
+    assert: {equals: {CarteiraOpcoes.UltimosProventos: "${antes}", CarteiraOpcoes: "${opcoes_antes}"}}
+    proves: a opção voltou ao valor antigo e nenhuma outra opção da carteira mudou

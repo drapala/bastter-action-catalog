@@ -1,0 +1,92 @@
+{
+  "id": "bastter.ativos.meu_bs_proventos",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "meu_bs_proventos",
+  "operation_class": "action",
+  "label": "Ver o total de proventos (dividendos) de hoje, semana, mês e ano",
+  "description": "WS_Carteira.MeuBSProventos. Called from: Ativos - Imóveis - Minha Imobiliária, Ativos - Proventos, Ativos - Proventos - Calendário e Gráficos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MeuBSProventos",
+      "auth": "web session cookie (SessionV3)",
+      "params": {},
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel/minha-imobiliaria"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/ativos/proventos, /bs2/ativos/proventos/acao, /bs2/ativos/proventos/etf, /bs2/ativos/proventos/europa and it answered 200.",
+    "captured_keys": []
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.proventos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel/minha-imobiliaria"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/etf"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/europa"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quanto recebi de proventos hoje",
+    "total de dividendos do mês",
+    "quanto já caiu de proventos este ano"
+  ]
+}

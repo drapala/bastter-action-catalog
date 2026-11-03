@@ -1,0 +1,54 @@
+name: pas-agradecer-privado-ciclo
+description: Grava um agradecimento ZZTESTE marcado como privado (o app diz "Privado, só você pode ver"), confirma que está privado e fora da lista de outros usuários, edita, exclui e confirma que sumiu. Os passos de leitura não param a execução, para a exclusão rodar sempre.
+vars:
+  data: "11/03/2026"
+steps:
+  - name: agradecer_antes
+    action: bastter.pas.agradecer_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {Anotacoes: "${prefix} agradecimento ${ts}"}}}
+  - name: gravar_agradecimento
+    action: bastter.pas.agradecer_salvar
+    inputs: {agradecimento: {AgredecimentoID: 0, data: "${data}", privado: true, Anotacoes: "${prefix} agradecimento ${ts}"}}
+    assert: {equals: {Return: true}}
+    stop_on_fail: false
+  - name: agradecimento_gravado
+    postcondition_of: bastter.pas.agradecer_salvar
+    action: bastter.pas.agradecer_listar
+    inputs: {page: 1}
+    assert: {list_contains: {path: Items, where: {Anotacoes: "${prefix} agradecimento ${ts}", Privado: true}}}
+    save: {item: {path: Items, where: {Anotacoes: "${prefix} agradecimento ${ts}"}, field: AgredecimentoID}}
+    stop_on_fail: false
+    proves: o agradecimento aparece na lista do dono com o texto enviado e marcado como privado
+  - name: obter_agradecimento
+    action: bastter.pas.agradecer_obter
+    inputs: {itemID: "${item}"}
+    assert: {equals: {AgredecimentoID: "${item}", Privado: true, Anotacoes: "${prefix} agradecimento ${ts}"}}
+    stop_on_fail: false
+  - name: fora_da_lista_de_outros
+    action: bastter.pas.agradecer_outros_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {AgredecimentoID: "${item}"}}}
+    stop_on_fail: false
+  - name: editar_agradecimento
+    action: bastter.pas.agradecer_salvar
+    inputs: {agradecimento: {AgredecimentoID: "${item}", data: "${data}", privado: true, Anotacoes: "${prefix} agradecimento editado ${ts}"}}
+    assert: {equals: {Return: true}}
+    stop_on_fail: false
+  - name: agradecimento_editado
+    postcondition_of: bastter.pas.agradecer_salvar
+    action: bastter.pas.agradecer_obter
+    inputs: {itemID: "${item}"}
+    assert: {equals: {AgredecimentoID: "${item}", Privado: true, Anotacoes: "${prefix} agradecimento editado ${ts}"}}
+    stop_on_fail: false
+    proves: o mesmo registro passou a ter o texto novo e continua privado
+  - name: excluir_agradecimento
+    action: bastter.pas.agradecer_excluir
+    inputs: {itemID: "${item}"}
+    assert: {equals: {Return: true}}
+  - name: agradecimento_sumiu
+    postcondition_of: bastter.pas.agradecer_excluir
+    action: bastter.pas.agradecer_listar
+    inputs: {page: 1}
+    assert: {list_excludes: {path: Items, where: {AgredecimentoID: "${item}"}}}
+    proves: o agradecimento saiu da lista do dono

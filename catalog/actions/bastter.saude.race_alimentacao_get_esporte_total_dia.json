@@ -1,0 +1,80 @@
+{
+  "id": "bastter.saude.race_alimentacao_get_esporte_total_dia",
+  "product": "bastter",
+  "area": "Saúde",
+  "entity": "race_alimentacao_esporte_total_dia",
+  "operation_class": "read",
+  "label": "Ver o tempo de esporte de um dia, que vale ponto na alimentação",
+  "description": "WS_Esporte_Race.RaceAlimentacaoGetEsporteTotalDia. Called from: Saúde - Bastter Race Alimentação.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "examples": [
+            "2026-11-03"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Esporte_Race.asmx/RaceAlimentacaoGetEsporteTotalDia",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "data": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({data:$.toDateServerM(n)})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/saude/race/alimentacao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:14:54+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.saude.race.alimentacao-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/saude/race/alimentacao"
+    }
+  ],
+  "intent_examples": [
+    "quanto tempo de esporte fiz nesse dia",
+    "já ganhei o ponto de esporte na alimentação de hoje?"
+  ]
+}

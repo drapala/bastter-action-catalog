@@ -1,0 +1,85 @@
+{
+  "id": "bastter.faq.faq_deletar",
+  "product": "bastter",
+  "area": "FAQ",
+  "entity": "faq",
+  "operation_class": "delete",
+  "label": "Excluir faq",
+  "description": "WS_Carteira.FAQDeletar. Called from: FAQ.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "faqID": {
+          "type": "integer",
+          "description": "ID of the faq."
+        }
+      },
+      "required": [
+        "faqID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "faqID",
+        "entity": "faq",
+        "find_with": "bastter.faq.faq_listar",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/FAQDeletar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "faqID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({faqID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/faq"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.faq.faq_listar",
+    "assert": "the item is no longer in the list"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "admin-only method (edits content for every user)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.faq-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/faq"
+    }
+  ]
+}

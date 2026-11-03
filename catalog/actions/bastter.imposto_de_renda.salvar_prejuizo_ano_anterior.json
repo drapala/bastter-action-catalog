@@ -1,0 +1,101 @@
+{
+  "id": "bastter.imposto_de_renda.salvar_prejuizo_ano_anterior",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "prejuizo_ano_anterior",
+  "operation_class": "update",
+  "label": "Lançar ou editar um prejuízo de ano anterior a compensar",
+  "description": "WS_Carteira.SalvarPrejuizoAnoAnterior. Called from: Imposto de Renda - Ganho de Capital.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "examples": [
+            {
+              "ItemID": 0,
+              "Ano": "2001",
+              "AcaoValor": 5,
+              "FIIValor": 3
+            },
+            {
+              "ItemID": 978,
+              "Ano": "2001",
+              "AcaoValor": 7,
+              "FIIValor": 2
+            },
+            {
+              "ItemID": 0,
+              "Ano": "2001",
+              "AcaoValor": 5,
+              "FIIValor": 3
+            }
+          ]
+        }
+      },
+      "required": [
+        "item"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarPrejuizoAnoAnterior",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "item": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({item:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.listar_prejuizo_ano_anterior",
+    "assert": "the read shows the change (see scenarios/ir_ciclo.yaml, step prej_listado)",
+    "from_scenario": "scenarios/ir_ciclo.yaml#prej_listado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:52+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.ganhocapital-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "intent_examples": [
+    "lança 5 mil de prejuízo em ações de 2023",
+    "registra o prejuízo do ano passado para compensar"
+  ]
+}

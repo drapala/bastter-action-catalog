@@ -1,0 +1,142 @@
+{
+  "id": "bastter.ativos.imovel_benfeitoria_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "imovel_benfeitoria",
+  "operation_class": "update",
+  "label": "Lançar ou editar uma benfeitoria de um imóvel",
+  "description": "WS_Carteira.ImovelBenfeitoriaSalvar. Called from: Ativos - Imóveis.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoID": {
+          "type": "integer",
+          "examples": [
+            41241,
+            41242,
+            41242
+          ]
+        },
+        "benfeitoriaID": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            8963
+          ]
+        },
+        "data": {
+          "type": "string",
+          "examples": [
+            "2026-11-03",
+            "2026-11-03",
+            "2026-11-03"
+          ],
+          "description": "Date format: yyyy-mm-dd."
+        },
+        "descricao": {
+          "type": "string",
+          "examples": [
+            "ZZTESTE benfeitoria dev",
+            "ZZTESTE benfeitoria 730098",
+            "ZZTESTE benfeitoria 730098"
+          ]
+        },
+        "valor": {
+          "type": "integer",
+          "examples": [
+            5,
+            5,
+            6
+          ]
+        },
+        "valorExterior": {
+          "type": "integer",
+          "examples": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "required": [
+        "ativoID",
+        "benfeitoriaID",
+        "data",
+        "descricao",
+        "valor",
+        "valorExterior"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ImovelBenfeitoriaSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoID": "body",
+        "benfeitoriaID": "body",
+        "data": "body",
+        "descricao": "body",
+        "valor": "body",
+        "valorExterior": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify(i)"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.imovel_movimentacao_obter",
+    "assert": "a benfeitoria aparece no imóvel com a descrição, a data e o valor enviados",
+    "from_scenario": "scenarios/archive/imovel_ciclo.yaml#benfeitoria_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T19:51:20+00:00",
+    "evidence": "evidence/runs.jsonl#run=imovel-ciclo-1793735470",
+    "notes": "a mesma benfeitoria passou a valer 6, sem criar outra"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.imovel-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/runs.jsonl (bodies of successful scenario calls)"
+    }
+  ],
+  "intent_examples": [
+    "lança a reforma da cozinha de 20 mil no apartamento",
+    "registra uma benfeitoria na casa"
+  ]
+}

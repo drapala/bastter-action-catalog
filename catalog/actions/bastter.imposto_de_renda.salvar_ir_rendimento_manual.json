@@ -1,0 +1,114 @@
+{
+  "id": "bastter.imposto_de_renda.salvar_ir_rendimento_manual",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_rendimento_manual",
+  "operation_class": "update",
+  "label": "Lançar ou editar à mão um rendimento no IR",
+  "description": "WS_Carteira.SalvarIRRendimentoManual. Called from: Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "rendimento": {
+          "examples": [
+            {
+              "ItemID": 0,
+              "Ano": "2025",
+              "TipoRendimento": "1",
+              "CodigoDescricao": "09 - Lucros e dividendos recebidos",
+              "Descricao": "ZZTESTE rendimento 730438",
+              "CNPJFontePagadora": "11222333000181",
+              "NomeFontePagadora": "ZZTESTE fonte 730438",
+              "Valor": 10
+            },
+            {
+              "ItemID": 178,
+              "Ano": "2025",
+              "TipoRendimento": "1",
+              "CodigoDescricao": "09 - Lucros e dividendos recebidos",
+              "Descricao": "ZZTESTE rendimento 730438 b",
+              "CNPJFontePagadora": "11222333000181",
+              "NomeFontePagadora": "ZZTESTE fonte 730438",
+              "Valor": 12
+            },
+            {
+              "ItemID": 0,
+              "Ano": "2025",
+              "TipoRendimento": "1",
+              "CodigoDescricao": "09 - Lucros e dividendos recebidos",
+              "Descricao": "ZZTESTE rendimento 731549",
+              "CNPJFontePagadora": "11222333000181",
+              "NomeFontePagadora": "ZZTESTE fonte 731549",
+              "Valor": 10
+            }
+          ]
+        }
+      },
+      "required": [
+        "rendimento"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/SalvarIRRendimentoManual",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "rendimento": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({rendimento:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.obter_posicao_anual_proventos",
+    "assert": "o rendimento aparece em Rendimentos Isentos de 2025",
+    "from_scenario": "scenarios/ir_ciclo.yaml#rend_listado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:44+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "o mesmo item mudou de descrição e valor"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.rendimentos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "lança um rendimento isento de 5 mil no IR",
+    "adiciona o rendimento da fonte pagadora X",
+    "registra à mão um rendimento tributável"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "bastter.patrimonio.bs2_qualidade_carteira_concentracao",
+  "product": "bastter",
+  "area": "Patrimônio",
+  "entity": "qualidade_carteira_concentracao",
+  "operation_class": "action",
+  "label": "Ver a concentração da carteira por faixa de percentual",
+  "description": "WS_Carteira.BS2QualidadeCarteiraConcentracao. Called from: Patrimônio - Qualidade da Carteira, Patrimônio - Visão Geral.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classes": {}
+      },
+      "required": [
+        "classes"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/BS2QualidadeCarteiraConcentracao",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "classes": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({classes:t})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/patrimonio/qualidade-carteira"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.bs2.patrimonio.qualidade-carteira-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.patrimonio.qualidade-carteira-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/qualidade-carteira"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/patrimonio/visao-geral"
+    }
+  ],
+  "intent_examples": [
+    "minha carteira está muito concentrada?",
+    "quanto os maiores ativos concentram"
+  ]
+}

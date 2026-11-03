@@ -1,0 +1,123 @@
+{
+  "id": "bastter.pas.diario_sardinhagem_salvar",
+  "product": "bastter",
+  "area": "PAS",
+  "entity": "diario_sardinhagem",
+  "operation_class": "update",
+  "label": "Escrever ou editar um registro no Diário da Sardinhagem",
+  "description": "WS_Carteira.DiarioSardinhagemSalvar. Called from: #PAS - Diário da Sardinhagem.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "sardinhagem": {
+          "examples": [
+            {
+              "ItemID": 0,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE sardinhagem 730146"
+            },
+            {
+              "ItemID": 1594,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE sardinhagem editada 730146"
+            },
+            {
+              "ItemID": 0,
+              "data": "11/03/2026",
+              "privado": true,
+              "Anotacoes": "ZZTESTE sardinhagem 731681"
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd. Not confirmed by a read-back of the date.",
+          "type": "object",
+          "required": [
+            "privado"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ItemID": {
+              "type": "integer"
+            },
+            "data": {
+              "type": "string"
+            },
+            "privado": {
+              "const": true,
+              "description": "Must be true. A public entry can show to other users."
+            },
+            "Anotacoes": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "sardinhagem"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/DiarioSardinhagemSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "sardinhagem": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({sardinhagem:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/pas/diario-sardinhagem"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.pas.diariosardinhagem_listar",
+    "assert": "a sardinhagem aparece na lista do dono com o texto enviado e marcada como privada",
+    "from_scenario": "scenarios/pas_sardinhagem_privado_ciclo.yaml#sardinhagem_gravada"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false,
+    "notes": "Write it as private (the read-back shows Privado true). A public one can show to other users."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:44+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-sardinhagem-privado-ciclo-1793737658",
+    "notes": "o mesmo registro passou a ter o texto novo e continua privado"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.pas.diariosardinhagem-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/pas/diario-sardinhagem"
+    }
+  ],
+  "intent_examples": [
+    "anota uma sardinhagem de hoje",
+    "escreve no diário da sardinhagem"
+  ]
+}

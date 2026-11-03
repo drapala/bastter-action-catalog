@@ -1,0 +1,101 @@
+{
+  "id": "bastter.ativos.meu_bs_proventos_detalhes",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "meu_bs_proventos",
+  "operation_class": "read",
+  "label": "Ver os proventos de hoje, da semana, do mês ou do ano",
+  "description": "WS_Carteira.MeuBSProventosDetalhes. Called from: Ativos - Imóveis - Minha Imobiliária, Ativos - Proventos, Ativos - Proventos - Calendário e Gráficos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "periodo": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "examples": [
+            0
+          ]
+        }
+      },
+      "required": [
+        "periodo"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/MeuBSProventosDetalhes",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "periodo": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({periodo:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/imovel/minha-imobiliaria"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T18:13:15+00:00",
+    "evidence": "evidence/runs.jsonl#run=probe-reads-1793729579",
+    "notes": "A script call with the inputs in this entry answered 200 with no Error."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.proventos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/imovel/minha-imobiliaria"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/etf"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/proventos/europa"
+    }
+  ],
+  "intent_examples": [
+    "quais proventos caíram esta semana",
+    "detalha os dividendos de hoje",
+    "lista os proventos do mês por ativo"
+  ]
+}

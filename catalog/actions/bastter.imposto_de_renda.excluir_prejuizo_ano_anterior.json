@@ -1,0 +1,95 @@
+{
+  "id": "bastter.imposto_de_renda.excluir_prejuizo_ano_anterior",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "prejuizo_ano_anterior",
+  "operation_class": "delete",
+  "label": "Excluir um prejuízo de anos anteriores do IR",
+  "description": "WS_Carteira.ExcluirPrejuizoAnoAnterior. Called from: Imposto de Renda - Ganho de Capital.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "itemID": {
+          "type": "integer",
+          "description": "ID of the item.",
+          "examples": [
+            978,
+            979,
+            980
+          ]
+        }
+      },
+      "required": [
+        "itemID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "itemID",
+        "entity": "item",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ExcluirPrejuizoAnoAnterior",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "itemID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({itemID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.listar_prejuizo_ano_anterior",
+    "assert": "the read shows the change (see scenarios/ir_ciclo.yaml, step prej_sumiu)",
+    "from_scenario": "scenarios/ir_ciclo.yaml#prej_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:54+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.ganhocapital-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/ganho-capital"
+    }
+  ],
+  "intent_examples": [
+    "apaga o prejuízo de 2022 que lancei",
+    "exclui esse prejuízo a compensar"
+  ]
+}

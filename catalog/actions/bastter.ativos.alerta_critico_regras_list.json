@@ -1,0 +1,89 @@
+{
+  "id": "bastter.ativos.alerta_critico_regras_list",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "alerta_critico_regras",
+  "operation_class": "read",
+  "label": "Ver as regras de alerta crítico de um ativo",
+  "description": "WSWorks.AlertaCriticoRegrasList. Called from: Ativos - Ações.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ativoReferenciaID": {
+          "type": "integer",
+          "description": "ID of the ativoReferencia."
+        },
+        "tipoClasse": {}
+      },
+      "required": [
+        "ativoReferenciaID",
+        "tipoClasse"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "ativoReferenciaID",
+        "entity": "ativoreferencia",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WSWorks.asmx/AlertaCriticoRegrasList",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "ativoReferenciaID": "body",
+        "tipoClasse": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({tipoClasse:alertaCritico.tipoClasse,ativoReferenciaID:alertaCritico.ativoReferenciaID})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "seen",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "Found in /mercado/js/site.alertacritico-min.js. Not run yet."
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.alertacritico-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    }
+  ],
+  "intent_examples": [
+    "quais alertas críticos posso ligar para PETR4",
+    "mostra as regras de alerta da minha ação"
+  ]
+}

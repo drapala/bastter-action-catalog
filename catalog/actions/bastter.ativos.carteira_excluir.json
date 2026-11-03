@@ -1,0 +1,112 @@
+{
+  "id": "bastter.ativos.carteira_excluir",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "carteira",
+  "operation_class": "delete",
+  "label": "Excluir a carteira ativa, confirmando com a senha",
+  "description": "WS_Carteira.CarteiraExcluir. Called from: #PAS - Agradecer, #PAS - Cãotural, #PAS - Diário, #PAS - Diário da Sardinhagem, #PAS - Doações, #PAS - Metas.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "carteiraID": {
+          "type": "integer",
+          "description": "ID of the carteira."
+        },
+        "senha": {
+          "type": "string",
+          "description": "The account password. Ask the user to type it. Never store it."
+        }
+      },
+      "required": [
+        "carteiraID",
+        "senha"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "carteiraID",
+        "entity": "carteira",
+        "find_with": "bastter.ativos.bs2_init",
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/CarteiraExcluir",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "carteiraID": "body",
+        "senha": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({carteiraID:bs.carteiraID,senha:$.trim($(\"#carteira-excluir-senha\").val())})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/acao"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.bs2_init",
+    "assert": "the item is no longer in the list"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true,
+    "notes": "Needs the account password. Deletes a portfolio and everything in it. Not run."
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "excluded",
+    "route_kind": null,
+    "checked_at": null,
+    "evidence": null,
+    "notes": "never run: 'CarteiraExcluir' methods reach other people, security, integrations or imports, or need the account password (docs/SCENARIO_GUIDE.md rule 6)"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.base-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/graficos"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/acao/minha-holding"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/bdr/graficos"
+    }
+  ],
+  "intent_examples": [
+    "apaga essa carteira",
+    "exclui a carteira de teste"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "bastter.ativos.outro_provento_salvar",
+  "product": "bastter",
+  "area": "Ativos",
+  "entity": "outro_provento",
+  "operation_class": "update",
+  "label": "Lançar ou editar um rendimento de um ativo da classe Outros",
+  "description": "WS_Carteira.OutroProventoSalvar. Called from: Ativos - Outros.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "provento": {
+          "examples": [
+            {
+              "proventoID": 0,
+              "ativoID": 78442,
+              "data": "2026-11-01",
+              "valor": 2,
+              "moedaAtivoID": 0,
+              "valorReal": 2
+            },
+            {
+              "proventoID": 4086,
+              "ativoID": 78442,
+              "data": "2026-11-02",
+              "valor": 3,
+              "moedaAtivoID": 0,
+              "valorReal": 3
+            },
+            {
+              "proventoID": 0,
+              "ativoID": 78443,
+              "data": "2026-11-01",
+              "valor": 2,
+              "moedaAtivoID": 0,
+              "valorReal": 2
+            }
+          ],
+          "description": "Date format of data: yyyy-mm-dd."
+        }
+      },
+      "required": [
+        "provento"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/OutroProventoSalvar",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "provento": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({provento:e})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/ativos/outro"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.ativos.outro_provento_listar",
+    "assert": "o provento aparece na lista do item com o valor enviado",
+    "from_scenario": "scenarios/outro_ciclo.yaml#provento_gravado"
+  },
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:27:08+00:00",
+    "evidence": "evidence/runs.jsonl#run=outro-ciclo-1793737618",
+    "notes": "o mesmo provento passou a ter valor 3, sem criar outro"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.ativos.outro-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/outro"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/ativos/outro/graficos"
+    }
+  ],
+  "intent_examples": [
+    "lança um rendimento de 300 nesse ativo",
+    "registra o rendimento que recebi do investimento"
+  ]
+}

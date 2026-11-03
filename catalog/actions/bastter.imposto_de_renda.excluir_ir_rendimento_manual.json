@@ -1,0 +1,95 @@
+{
+  "id": "bastter.imposto_de_renda.excluir_ir_rendimento_manual",
+  "product": "bastter",
+  "area": "Imposto de Renda",
+  "entity": "ir_rendimento_manual",
+  "operation_class": "delete",
+  "label": "Excluir um rendimento lançado à mão no IR",
+  "description": "WS_Carteira.ExcluirIRRendimentoManual. Called from: Imposto de Renda - Rendimentos.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "itemID": {
+          "type": "integer",
+          "description": "ID of the item.",
+          "examples": [
+            178,
+            179,
+            180
+          ]
+        }
+      },
+      "required": [
+        "itemID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "itemID",
+        "entity": "item",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WS_Carteira.asmx/ExcluirIRRendimentoManual",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "itemID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. Body is JSON with every parameter, the answer is {\"d\": ...}. JS payload: JSON.stringify({itemID:n})"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": {
+    "check_with": "bastter.imposto_de_renda.obter_posicao_anual_proventos",
+    "assert": "the read shows the change (see scenarios/ir_ciclo.yaml, step rend_sumiu)",
+    "from_scenario": "scenarios/ir_ciclo.yaml#rend_sumiu"
+  },
+  "side_effects": {
+    "reversible": false,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": null,
+    "requires_confirmation": true
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "verified",
+    "route_kind": "undocumented_api",
+    "checked_at": "2026-11-03T20:25:47+00:00",
+    "evidence": "evidence/runs.jsonl#run=ir-ciclo-1793737531",
+    "notes": "ok"
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.impostorenda.rendimentos-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/imposto-de-renda/rendimentos"
+    }
+  ],
+  "intent_examples": [
+    "apaga esse rendimento manual do IR",
+    "exclui o rendimento que lancei errado na declaração"
+  ]
+}

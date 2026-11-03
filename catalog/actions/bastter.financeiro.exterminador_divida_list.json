@@ -1,0 +1,96 @@
+{
+  "id": "bastter.financeiro.exterminador_divida_list",
+  "product": "bastter",
+  "area": "Financeiro",
+  "entity": "exterminador_divida",
+  "operation_class": "read",
+  "label": "Listar as simulações do Exterminador de Dívidas",
+  "description": "WsWorks.ExterminadorDividaList. Called from: Financeiro - Dívidas - Exterminador.",
+  "inputs": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "simulacaoID": {
+          "description": "ID of the simulacao.",
+          "type": "integer",
+          "examples": [
+            0
+          ]
+        }
+      },
+      "required": [
+        "simulacaoID"
+      ],
+      "additionalProperties": false
+    },
+    "entity_refs": [
+      {
+        "input": "simulacaoID",
+        "entity": "simulacao",
+        "find_with": null,
+        "create_with": null
+      }
+    ],
+    "credential_ref": "bastter_session_cookie"
+  },
+  "routes": [
+    {
+      "kind": "undocumented_api",
+      "method": "POST",
+      "url": "https://bastter.com/mercado/WebServices/WsWorks.asmx/ExterminadorDividaList",
+      "auth": "web session cookie (SessionV3)",
+      "params": {
+        "simulacaoID": "body"
+      },
+      "success_status": [
+        200
+      ],
+      "notes": "ASP.NET web service. POST a JSON body with every field, the answer is {\"d\": ...}. Captured body: {\"simulacaoID\": 0}"
+    },
+    {
+      "kind": "ui_path",
+      "start_url": "https://bastter.com/bs2/financeiro/dividas/exterminador"
+    }
+  ],
+  "preconditions": [],
+  "postcondition": null,
+  "side_effects": {
+    "reversible": true,
+    "undo_with": null,
+    "external_effect": "none",
+    "idempotent": true,
+    "requires_confirmation": false
+  },
+  "availability": {
+    "status": "unknown",
+    "requires": []
+  },
+  "verification": {
+    "status": "observed",
+    "route_kind": "undocumented_api",
+    "checked_at": null,
+    "evidence": "evidence/ui-capture-2026-11-03-screens.jsonl",
+    "notes": "The app made this call on /bs2/financeiro/dividas/exterminador and it answered 200.",
+    "captured_keys": [
+      "simulacaoID"
+    ]
+  },
+  "sources": [
+    {
+      "kind": "js_bundle",
+      "ref": "/mercado/js/site.bs2.financeiro.divida.exterminador-min.js"
+    },
+    {
+      "kind": "ui_walk",
+      "ref": "/bs2/financeiro/dividas/exterminador"
+    },
+    {
+      "kind": "network_capture",
+      "ref": "evidence/ui-capture-2026-11-03-screens.jsonl"
+    }
+  ],
+  "intent_examples": [
+    "quais simulações de dívida eu salvei",
+    "lista minhas simulações do exterminador"
+  ]
+}

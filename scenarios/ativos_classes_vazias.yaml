@@ -1,0 +1,123 @@
+name: ativos-classes-vazias
+description: Leitura final. Confirma que as 12 abas de classes (fora Ações) e os Bens e Direitos de 2026 dessas classes estão vazios depois dos cenários.
+steps:
+  - name: aba_fii_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "fii", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_stock_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "stock", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_reit_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "reit", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_etf_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "etf", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_bdr_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "bdr", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_europa_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "europa", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_bond_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "bond", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_rendafixa_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "rendafixa", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_moeda_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "moeda", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_re_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "re", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_outro_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "outro", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: aba_fixo_vazia
+    action: bastter.ativos.obter_itens
+    inputs: {"tipo": "fixo", "ordenacao": 1, "classificacao": 0, "categoria": 0, "setor": 0, "segmento": 0, "country": 0, "gestorID": 0, "classificacao2": 0, "exchange": null, "mandatoID": 0}
+    assert: {equals: {Items: []}}
+    stop_on_fail: false
+  - name: bens_fii_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "fii", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_etf_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "etf", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_etfext_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "etfext", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_rendafixa_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "rendafixa", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_bond_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "bond", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_stock_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "stock", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_europa_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "europa", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_bdr_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "bdr", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_moeda_1_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "moeda", "destinoID": 1, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_moeda_2_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "moeda", "destinoID": 2, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_moeda_3_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "moeda", "destinoID": 3, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
+  - name: bens_outro_vazio
+    action: bastter.imposto_de_renda.obter_posicao_anual_ativos
+    inputs: {"tipo": "outro", "destinoID": null, "ano": 2026, "ordenacao": "1"}
+    assert: {equals: {"": []}}
+    stop_on_fail: false
