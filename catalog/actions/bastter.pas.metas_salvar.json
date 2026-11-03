@@ -86,8 +86,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:27:28+00:00",
-    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793737642",
+    "checked_at": "2026-11-03T21:05:25+00:00",
+    "evidence": "evidence/runs.jsonl#run=pas-metas-ciclo-1793739920",
     "notes": "a mesma meta passou a ter a descrição nova, sem criar outra"
   },
   "sources": [

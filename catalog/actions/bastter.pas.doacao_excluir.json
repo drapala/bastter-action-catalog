@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:21:12+00:00",
-    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793737259",
+    "checked_at": "2026-11-03T20:58:54+00:00",
+    "evidence": "evidence/runs.jsonl#run=doacoes-ciclo-1793739520",
     "notes": "ok"
   },
   "sources": [

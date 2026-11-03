@@ -76,8 +76,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:20:48+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-salvar-opcao-1793737243",
+    "checked_at": "2026-11-03T20:58:29+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-salvar-opcao-1793739504",
     "notes": "a opção voltou ao valor antigo e nenhuma outra opção da carteira mudou"
   },
   "sources": [

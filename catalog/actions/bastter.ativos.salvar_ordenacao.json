@@ -80,8 +80,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:20:58+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-salvar-ordenacao-1793737254",
+    "checked_at": "2026-11-03T20:58:40+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-salvar-ordenacao-1793739515",
     "notes": "a lista de ordenações voltou a ser a de antes",
     "captured_keys": [
       "aba",

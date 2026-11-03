@@ -96,7 +96,7 @@ def prechecks(
 def unsafe(
     ativo_id: int, tab_answer: dict | None, movement_answer: dict | None
 ) -> str | None:
-    """Why the item must not be deleted for good, or None. Both reads must have answered."""
+    """Why the item must not be deleted for good, or None. Both reads must have answered with a list."""
     if not isinstance(tab_answer, dict) or not isinstance(
         tab_answer.get("Items"), list
     ):
@@ -106,11 +106,11 @@ def unsafe(
         for i in tab_answer["Items"]
     ):
         return "the item is visible again (the ticker was added since)"
-    if movement_answer is not None and (
-        not isinstance(movement_answer, dict)
-        or movement_answer.get("Itens") not in (None, [])
+    if not isinstance(movement_answer, dict) or movement_answer.get("Itens") not in (
+        None,
+        [],
     ):
-        return "the item has movements, or the movement read gave no list"
+        return "the item has movements, or no movement read could check it"
     return None
 
 
@@ -169,9 +169,7 @@ def main() -> int:
             reason = unsafe(
                 ativo_id,
                 tab_out["payload"] if tab_out["ok"] else None,
-                (mov_out["payload"] if mov_out["ok"] else {"Itens": "no answer"})
-                if mov_out
-                else None,
+                mov_out["payload"] if mov_out and mov_out["ok"] else None,
             )
         if reason:
             print(f"{'SKIPPED':12} {tipo:10} {ativo_id}  {reason}")

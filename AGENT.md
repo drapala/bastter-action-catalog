@@ -19,12 +19,12 @@ The current values, generated from `catalog/claims.json` by the build (do not ed
 | `verified_writes` | 90 | Verified actions that change data. Each one passed a read-back in a scenario. |
 | `writes_with_passing_read_back` | 90 | Write actions with at least one passing read-back line in the evidence log. |
 | `requires_confirmation` | 86 | Actions that need the user's OK before they run: deletes, writes that cannot be undone or that change a whole tab or setting, and writes that reach people (those never run). |
-| `live_calls` | 3664 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
+| `live_calls` | 4295 | Calls made by the scripts to the live Bastter web services. Each is one line in the evidence log. |
 | `screens_walked` | 105 | BS2 screens the crawler fetched with the session (the browser capture opened the same screens). |
 | `captured_calls` | 606 | Web service calls the app made while the browser opened the screens. |
 | `scenarios` | 40 | Scenario files (in scenarios/ and scenarios/archive/) with at least one write proved by a read-back. |
-| `corrections` | 36 | Mistakes logged while building the catalog. |
-| `corrections_with_check` | 33 | Logged mistakes that name the automated check that now catches them. |
+| `corrections` | 41 | Mistakes logged while building the catalog. |
+| `corrections_with_check` | 38 | Logged mistakes that name the automated check that now catches them. |
 | `lint_errors` | 0 | Errors from the catalog lint. Must be 0. |
 <!-- claims:end -->
 
@@ -95,7 +95,7 @@ Some writes that publish or notify other users have status `seen`, and one has s
 | A 200 can be a refusal | Many writes answer 200 with `{"Error": "..."}`. `run_action` returns that as an error with the message. | C015 |
 | Saves rarely return the new ID | Most saves return only `{"Return": true}`. Find the new record in the list by a field you sent (a description or code). `salvar` for imóvel returns `AtivoID: 0`. | `docs/families/*.md` |
 | Item vs asset ID | `pesquisar` returns the asset ID, which is also the item's `ReferenciaID`. `salvar` adds the asset to a tab and returns the item ID. All movement actions use the item ID. | `scenarios/acao_ciclo_completo.yaml` (steps `pesquisar`, `incluir_ativo`, `itens_com_ativo`) |
-| Date formats change by screen | Movements: `mm/dd/yyyy`. Finanças: `dd/mm/yyyy`. Imóvel rent: `dd/mm/yyyy`. Imóvel purchase, improvements, expenses and donations: `yyyy-mm-dd`. DARF: `yyyy-MM-01`. Copy the format from the field examples. | `docs/families/*.md` |
+| Date formats change by screen | Movements: `mm/dd/yyyy`. Finanças: `dd/mm/yyyy`. Imóvel rent: `dd/mm/yyyy`. Imóvel purchase, improvements, expenses and donations: `yyyy-mm-dd`. DARF: `yyyy-MM-01`. Use the format in the field description. The examples can hold another format that the server also took. | `docs/families/*.md` |
 | Removing an item is two steps | `excluir_item` hides the item (`restaurar_item` brings it back). It refuses with `Error` while the item has an open position. `excluir_movimentacao_ativo` then deletes it for good. | `docs/families/ativos-classes.md`, `scenarios/item_ajustes.yaml`, `scenarios/fii_excluir_definitivo.yaml` |
 | Adding an asset you already have returns your item | `salvar` with `ativoID: 0` and a ticker the tab already holds, even a hidden one, returns the existing item. It does not create a new one. Look the ticker up in the tab first. | `evidence/runs.jsonl` (VOO item reused by `etf-ciclo` runs) |
 | An imóvel shows up in the income tax screens | Adding a purchase to an imóvel also creates IR rows. Deleting the purchase removes them. | `scenarios/archive/imovel_ciclo.yaml` |
@@ -115,7 +115,7 @@ Some writes that publish or notify other users have status `seen`, and one has s
 ## 7. Limits you must not infer past
 
 - One account. `gated` would mean "this account cannot", not "no account can".
-- No message reached anyone. Methods that notify people, send email or publish to the community were never run. Three reads that touch integrations or a raffle (`integracao_b3_init`, `remessa_online_get_authorization`, `sorteio_ativos_list`) were called by the bulk read probe, and two of them also by the replay of observed reads, before the never-run list excluded them.
+- No message reached anyone. Methods that notify people, send email or publish to the community were never run, except the activity diary (section 5), with amounts below the public ranking. Three reads that touch integrations or a raffle (`integracao_b3_init`, `remessa_online_get_authorization`, `sorteio_ativos_list`) were called by the bulk read probe, and two of them also by the replay of observed reads, before the never-run list excluded them.
 - Calls an agent makes through the MCP server, the calls it refused, and the demo's calls are logged in `logs/mcp-runs.jsonl`, outside git, because they carry real trades. They never change the catalog.
 - `evidence/runs.jsonl` keeps the inputs the scripts sent: the account's own IDs, the ZZTESTE test values and, for a restore step, the old setting it sends back (for example the portfolio name). It never keeps an answer.
 - The account keeps 5 hidden ZZTESTE imóveis (41241 to 41245). No method deletes an imóvel for good, and they show on no screen.

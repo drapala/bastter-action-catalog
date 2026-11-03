@@ -197,8 +197,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:25:10+00:00",
-    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793737491",
+    "checked_at": "2026-11-03T21:03:08+00:00",
+    "evidence": "evidence/runs.jsonl#run=financas-ciclo-1793739768",
     "notes": "a periodicidade Mensal gerou a mesma receita em 12/2026"
   },
   "sources": [

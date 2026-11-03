@@ -159,8 +159,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:28:18+00:00",
-    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "checked_at": "2026-11-03T21:06:14+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793739969",
     "notes": "a mesma movimentação passou a ter o total 15, sem criar outra",
     "captured_keys": [
       "ativoID",

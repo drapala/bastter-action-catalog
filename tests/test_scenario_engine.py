@@ -172,7 +172,6 @@ def test_a_failed_step_runs_only_the_deletes_that_use_this_runs_ids(
         "  - {name: ler, action: a.b.ler, assert: {equals: {Quantidade: 3}}}\n"
         "  - {name: editar, action: a.b.editar}\n"
         "  - {name: apagar, action: a.b.apagar, inputs: {ativoID: '${item}'}}\n"
-        "  - {name: apagar_unico, action: a.b.apagar_unico}\n"
     )
     answers = {
         "criar": {"AtivoID": 7},
@@ -197,7 +196,6 @@ def test_a_failed_guard_runs_no_cleanup(monkeypatch, tmp_path):
         "  - {name: antes, action: a.b.ler, guard: true, assert: {equals: {'': 'null'}}}\n"
         "  - {name: criar, action: a.b.criar}\n"
         "  - {name: apagar_unico, action: a.b.apagar_unico, undoes: criar}\n"
-        "  - {name: apagar, action: a.b.apagar, inputs: {ativoID: '${item}'}}\n"
     )
     calls = _fake_run(monkeypatch, tmp_path, {"antes": {"SemanaPontos": 9}}, CATALOG)
     assert bx.scenario(str(spec)) == 1
@@ -258,6 +256,12 @@ def test_a_ticker_add_without_guards_around_it_is_a_problem():
     guard = {"name": "guarda", "action": "a.b.ler", "guard": True}
     catalog = {**CATALOG, "bastter.ativos.salvar": {"operation_class": "update"}}
     assert bx.scenario_problems({"steps": [salvar, read, guard]}, catalog)
+    assert bx.scenario_problems({"steps": [guard, salvar, read]}, catalog), (
+        "the guard after salvar is missing"
+    )
+    assert bx.scenario_problems({"steps": [read, salvar, guard]}, catalog), (
+        "the guard before salvar is missing"
+    )
     assert bx.scenario_problems({"steps": [guard, salvar, guard]}, catalog) == []
     test_record = {
         **salvar,
@@ -289,7 +293,6 @@ def test_undoes_restores_a_setting_after_a_failed_read_back(monkeypatch, tmp_pat
         "  - {name: mudar, action: a.b.editar, inputs: {nome: ZZTESTE}}\n"
         "  - {name: mudou, action: a.b.ler, assert: {equals: {Nome: ZZTESTE}}}\n"
         "  - {name: restaurar, action: a.b.editar, undoes: mudar, inputs: {nome: '${antes}'}}\n"
-        "  - {name: nunca, action: a.b.editar, undoes: outro_passo}\n"
     )
     answers = {
         "antes": {"Nome": "Principal"},
@@ -411,3 +414,74 @@ def test_the_cleanup_rules_catch_a_delete_with_no_id():
     }
     problems = bx.scenario_problems(spec, CATALOG)
     assert len(problems) == 3 and "needs undoes" in problems[0]
+
+
+def test_undo_blocker_skips_unsafe_cleanup_steps():
+    assert (
+        bx.undo_blocker({"name": "x", "action": "a.b.apagar_unico"}, set(), {}, CATALOG)
+        == "it uses no value this run saved"
+    )
+    assert "was not reached" in bx.undo_blocker(
+        {"name": "x", "action": "a.b.editar", "undoes": "mudar"}, set(), {}, CATALOG
+    )
+    assert (
+        bx.undo_blocker(
+            {"name": "x", "action": "a.b.apagar", "inputs": {"id": "${item}"}},
+            {"g"},
+            {"item": 7},
+            CATALOG,
+            ["g"],
+        )
+        is None
+    )
+    assert "did not run" in bx.undo_blocker(
+        {"name": "x", "action": "a.b.apagar", "inputs": {"id": "${item}"}},
+        set(),
+        {"item": 7},
+        CATALOG,
+        ["g"],
+    )
+
+
+def test_a_file_that_breaks_the_cleanup_rules_makes_no_call(monkeypatch, tmp_path):
+    """Audit round 4: scenario() ran files that only the test suite checked."""
+    spec = tmp_path / "s.yaml"
+    spec.write_text(
+        "name: t\nsteps:\n  - {name: criar, action: a.b.criar}\n  - {name: apagar_unico, action: a.b.apagar_unico}\n"
+    )
+    calls = _fake_run(monkeypatch, tmp_path, {}, CATALOG)
+    assert bx.scenario(str(spec)) == 1 and calls == []
+
+
+def test_a_skipped_cleanup_step_blocks_later_steps_on_the_same_record(
+    monkeypatch, tmp_path
+):
+    """Audit round 4: the buy was not deleted (its ID was not saved), and the item was hidden with the buy inside."""
+    spec = tmp_path / "s.yaml"
+    spec.write_text(
+        "name: t\nsteps:\n"
+        "  - {name: criar, action: a.b.criar, save: {item: AtivoID}}\n"
+        "  - {name: compra, action: a.b.criar, inputs: {ativoID: '${item}'}}\n"
+        "  - {name: compra_lida, action: a.b.ler, save: {mov: Id}}\n"
+        "  - {name: apagar_compra, action: a.b.apagar, inputs: {ativoID: '${item}', movID: '${mov}'}}\n"
+        "  - {name: apagar_item, action: a.b.apagar, inputs: {ativoID: '${item}'}}\n"
+    )
+    answers = {"criar": {"AtivoID": 7}, "compra": {}, "compra_lida": {"Outro": 1}}
+    calls = _fake_run(monkeypatch, tmp_path, answers, CATALOG)
+    assert bx.scenario(str(spec)) == 1
+    assert [c[0] for c in calls] == ["criar", "compra", "compra_lida"]
+
+
+def test_a_failed_guard_leaves_a_log_line(monkeypatch, tmp_path):
+    import json
+
+    spec = tmp_path / "s.yaml"
+    spec.write_text(
+        "name: t\nsteps:\n  - {name: antes, action: a.b.ler, guard: true, assert: {empty: [Itens]}}\n"
+    )
+    _fake_run(monkeypatch, tmp_path, {"antes": {"Itens": [1]}}, CATALOG)
+    assert bx.scenario(str(spec)) == 1
+    line = json.loads((tmp_path / "runs.jsonl").read_text().splitlines()[-1])
+    assert (
+        line["check"] == "guard" and line["passed"] is False and line["step"] == "antes"
+    )

@@ -118,4 +118,7 @@ def test_an_item_that_is_visible_again_or_has_movements_is_not_deleted():
     )
     assert ph.unsafe(2, None, None) == "the tab read gave no list"
     assert ph.unsafe(2, {"Items": [{"AtivoID": 3}]}, {"Itens": []}) is None
-    assert ph.unsafe(2, {"Items": []}, None) is None
+    assert (
+        ph.unsafe(2, {"Items": []}, None)
+        == "the item has movements, or no movement read could check it"
+    )

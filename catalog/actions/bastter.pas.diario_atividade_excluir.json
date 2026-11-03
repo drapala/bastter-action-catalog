@@ -63,9 +63,10 @@
   "side_effects": {
     "reversible": false,
     "undo_with": null,
-    "external_effect": "none",
+    "external_effect": "publishes",
     "idempotent": null,
-    "requires_confirmation": true
+    "requires_confirmation": true,
+    "notes": "Deleting an activity changes the public top 50 (diario_atividade_rank_listar). The MCP server does not run it."
   },
   "availability": {
     "status": "unknown",

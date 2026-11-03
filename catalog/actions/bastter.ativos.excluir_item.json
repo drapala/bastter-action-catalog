@@ -105,8 +105,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:29:29+00:00",
-    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793737755",
+    "checked_at": "2026-11-03T21:07:25+00:00",
+    "evidence": "evidence/runs.jsonl#run=stock-ciclo-1793740031",
     "notes": "o ativo saiu da aba Stocks"
   },
   "sources": [

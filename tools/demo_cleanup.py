@@ -1,12 +1,13 @@
 """Removes only what the agent demo created, by matching the account against the demo's own MCP calls.
 
 demo/run_agent_demo.py calls snapshot() before the first request and saves .cache/demo_before.json. The demo's
-calls are in logs/mcp-runs.jsonl. A record is removed only when it is new since the snapshot AND a demo call
-created it:
-- an acao movement, when the demo created at least as many movements on that item as there are new ones;
+calls are in logs/mcp-runs.jsonl under run ids mcp-demo-* (the demo starts the MCP server with
+BASTTER_RUN_LABEL=demo). A record is removed only when it is new since the snapshot AND a demo call created it:
+- an acao movement, when the demo left at least as many movements on that item as there are new ones (creates
+  minus its own deletes) and each new movement has a quantity the demo sent;
 - an acao item, when the demo added that ticker. The item is only hidden, never deleted for good, because salvar
   can return (and show again) an item the user hid before. Hiding puts such an item back where it was;
-- a finance entry or category, when the demo created one with that description.
+- a finance entry or category, when the demo created one with that description and the ZZTESTE prefix.
 Anything else that looks new is reported as LEFT and not touched. Every delete is checked, and the account is
 read again. A snapshot older than MAX_AGE_S, or without a time, is refused. After a clean pass the snapshot
 is deleted, so a second run cannot act on later records.
@@ -67,7 +68,7 @@ def read_state(call) -> dict:
             },
         )
         movements[str(item["AtivoID"])] = [
-            {"id": m["MovimentacaoID"], "tipo": m["Tipo"]}
+            {"id": m["MovimentacaoID"], "tipo": m["Tipo"], "qtd": m.get("Quantidade")}
             for m in movs["payload"]["Itens"]
         ]
     fin = call("financeiro.financa_obter_itens", FINANCAS)["payload"]
@@ -85,29 +86,49 @@ def read_state(call) -> dict:
     }
 
 
+DEMO_RUNS = "mcp-demo-"
+
+
 def demo_creates(lines: list[dict], since: float) -> dict:
-    """What the demo's MCP calls created after `since`: tickers, movements per item, entry and category names."""
-    made = {"tickers": set(), "movements": {}, "entries": set(), "categories": set()}
+    """What the demo's own MCP calls (run mcp-demo-*) left after `since`.
+
+    movements: per item, how many the demo created minus how many it deleted, and the quantities it sent.
+    Entries and categories count only with the ZZTESTE prefix.
+    """
+    made = {
+        "tickers": set(),
+        "movements": {},
+        "quantities": {},
+        "entries": set(),
+        "categories": set(),
+    }
     for line in lines:
-        if not str(line.get("run", "")).startswith("mcp-") or not line.get("ok"):
+        if not str(line.get("run", "")).startswith(DEMO_RUNS) or not line.get("ok"):
             continue
         if datetime.fromisoformat(line["at"]).timestamp() < since:
             continue
         action, inputs = line.get("action"), line.get("inputs") or {}
+        key = str(inputs.get("ativoID"))
         if action == "bastter.ativos.salvar" and inputs.get("ativoID") == 0:
             made["tickers"].add(inputs.get("descricao"))
-        elif (
-            action == "bastter.ativos.salvar_movimentacao"
-            and inputs.get("movimentacaoID") == 0
-        ):
-            key = str(inputs.get("ativoID"))
-            made["movements"][key] = made["movements"].get(key, 0) + 1
+        elif action == "bastter.ativos.salvar_movimentacao":
+            made["quantities"].setdefault(key, set()).add(
+                float(inputs.get("quantidade") or 0)
+            )
+            if inputs.get("movimentacaoID") == 0:
+                made["movements"][key] = made["movements"].get(key, 0) + 1
+        elif action == "bastter.ativos.excluir_movimentacao":
+            made["movements"][key] = made["movements"].get(key, 0) - 1
         elif action == "bastter.financeiro.financa_salvar" and not inputs.get(
             "lancamentoID"
         ):
-            made["entries"].add(inputs.get("descricao"))
-            if not inputs.get("categoriaID") and inputs.get("categoriaDescricao"):
-                made["categories"].add(inputs["categoriaDescricao"])
+            if str(inputs.get("descricao", "")).startswith(bastter_exec.FIXTURE_PREFIX):
+                made["entries"].add(inputs["descricao"])
+            category = str(inputs.get("categoriaDescricao") or "")
+            if not inputs.get("categoriaID") and category.startswith(
+                bastter_exec.FIXTURE_PREFIX
+            ):
+                made["categories"].add(category)
     return made
 
 
@@ -138,7 +159,10 @@ def clean(before: dict, call, made: dict) -> list[str]:
         new = [m for m in movs if m["id"] not in known]
         if not new:
             continue
-        if len(new) > made["movements"].get(item_id, 0):
+        unknown_qtd = [
+            m for m in new if m.get("qtd") not in made["quantities"].get(item_id, set())
+        ]
+        if len(new) > made["movements"].get(item_id, 0) or unknown_qtd:
             untouched.add(item_id)
             problems.append(
                 f"item {item_id} has {len(new)} new movements and the demo created {made['movements'].get(item_id, 0)}: not touched"

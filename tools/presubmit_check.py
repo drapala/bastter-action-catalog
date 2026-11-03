@@ -19,6 +19,7 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
+import bastter_exec
 import session
 
 
@@ -83,9 +84,9 @@ def main() -> int:
         if "payload" in row:
             failures.append(f"evidence/runs.jsonl line {n} stores an answer payload")
             break
-        if str(row.get("run", "")).startswith(("mcp-", "demo-")):
+        if str(row.get("run", "")).startswith(bastter_exec.PRIVATE_RUNS):
             failures.append(
-                f"evidence/runs.jsonl line {n} is an MCP or demo call (it can hold real trades)"
+                f"evidence/runs.jsonl line {n} is a private run (MCP, demo or market): it can hold real trades"
             )
             break
     for f in failures:

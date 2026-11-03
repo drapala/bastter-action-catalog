@@ -18,11 +18,13 @@ client's approval prompt for each tool call is where a person checks it.
 
 Run: .venv/bin/python tools/mcp_server.py   (stdio)
 The session cookies come from the macOS keychain (service bastter-session), as in session.py.
+BASTTER_RUN_LABEL=demo makes the run id mcp-demo-<time>, so the demo cleanup can tell the demo's calls apart.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 from datetime import UTC, datetime
@@ -42,7 +44,8 @@ except ImportError:
 ROOT = Path(__file__).resolve().parent.parent
 ACTIONS = ROOT / "catalog/actions"
 INDEX = ROOT / "catalog/index.json"
-RUN = f"mcp-{int(time.time())}"
+RUN_LABEL = re.sub(r"[^a-z0-9]", "", os.environ.get("BASTTER_RUN_LABEL", "").lower())
+RUN = f"mcp-{RUN_LABEL + '-' if RUN_LABEL else ''}{int(time.time())}"
 RUNNABLE = {"verified", "observed", "failed"}
 NEVER_RUN = {"publishes", "notifies_people"}
 
@@ -370,7 +373,7 @@ if market is not None:
     def market_rank_returns(
         index: str = "SMLL", period: str = "1y", top: int = 10
     ) -> dict:
-        """Total return, with dividends reinvested, of every current member of a B3 index over a period, highest first.
+        """Ranks every current member of a B3 index by total return (dividends reinvested) and returns the top and bottom 3.
 
         period: 1mo, 3mo, 6mo, ytd, 1y, 2y, 5y, 10y or max. Prices come from Yahoo Finance. The list uses today's
         members, so a stock that left the index in the period is missing. A date under `check` had a daily move above

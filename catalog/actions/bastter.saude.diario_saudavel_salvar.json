@@ -92,8 +92,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:28:37+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793737708",
+    "checked_at": "2026-11-03T21:06:33+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-diarios-1793739984",
     "notes": "o dia aparece no diário com alimentação, esporte e sono enviados"
   },
   "sources": [

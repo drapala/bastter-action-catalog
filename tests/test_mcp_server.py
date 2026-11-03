@@ -168,7 +168,7 @@ def test_ids_outside_the_catalog_pattern_are_rejected(offline):
 def examples(e):
     return {
         k: p["examples"][0]
-        for k, p in e["inputs"]["schema"]["properties"].items()
+        for k, p in e["inputs"]["schema"].get("properties", {}).items()
         if p.get("examples")
     }
 
@@ -249,3 +249,27 @@ def test_a_refused_call_is_logged_privately(offline):
     assert line["run"].startswith("mcp-") and line["error"].startswith(
         "not sent: status is seen"
     )
+
+
+PUBLIC_WRITES = [
+    "bastter.pas.diario_atividade_salvar",
+    "bastter.pas.diario_atividade_excluir",
+    "bastter.pas.diario_salvar",
+    "bastter.saude.gym_save_treino",
+    "bastter.saude.gym_delete_treino",
+    "bastter.saude.race_atividade_salvar",
+    "bastter.saude.race_atividade_excluir",
+    "bastter.saude.race_alimentacao_save",
+    "bastter.saude.race_inspiracao_salvar",
+    "bastter.saude.parou_beber_save",
+    "bastter.saude.race_pendencia_salvar",
+]
+
+
+@pytest.mark.parametrize("action_id", PUBLIC_WRITES)
+def test_every_known_public_write_is_marked_and_never_runs(offline, action_id):
+    """Corrections C030 and C036: each write that other users can see stays marked, whatever its status."""
+    e = entry(action_id)
+    assert e["side_effects"]["external_effect"] in srv.NEVER_RUN
+    reply = tool(srv.run_action)(action_id, examples(e), confirmed=True)
+    assert reply["ran"] is False and offline == []

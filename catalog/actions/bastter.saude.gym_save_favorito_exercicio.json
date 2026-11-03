@@ -74,8 +74,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:28:49+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "checked_at": "2026-11-03T21:06:45+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793739998",
     "notes": "a busca de favoritos traz o exercício marcado"
   },
   "sources": [

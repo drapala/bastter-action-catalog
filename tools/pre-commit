@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs ruff and the secret check before every commit. Install: ln -s ../../tools/pre-commit .git/hooks/pre-commit
+ROOT="$(git rev-parse --show-toplevel)"
+"$ROOT/.venv/bin/ruff" check "$ROOT/tools" "$ROOT/sources" "$ROOT/demo" "$ROOT/tests" -q || exit 1
+exec "$ROOT/.venv/bin/python" "$ROOT/tools/presubmit_check.py"

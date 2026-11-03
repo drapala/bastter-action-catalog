@@ -57,6 +57,24 @@ steps:
     inputs: "${itens_filtro}"
     assert: {list_contains: {path: Items, where: {AtivoID: "${item}", Quantidade: 3.0, PrecoMedio: 5.0}}}
     proves: a posição do ativo soma 3 ações a preço médio 5
+  - name: lancar_compra_antiga
+    action: bastter.ativos.salvar_movimentacao
+    inputs: {movimentacaoID: 0, tipo: acao, tipomov: compra, ativoID: "${item}", quantidade: 1, data: "01/02/2019", totalOperacaoBruto: 5, totalOperacaoLiq: null, ignorair: false, ignoraIsencao: false, subscricaoID: 0, gasto: false, observacao: null}
+    assert: {equals: {Return: true}}
+  - name: compra_antiga_listada
+    postcondition_of: bastter.ativos.salvar_movimentacao
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_contains: {path: Itens, where: {Tipo: Compra, Quantidade: 1.0, Data: "/Date(1546394400000)/"}}}
+    save: {mov_antiga: {path: Itens, where: {Quantidade: 1.0}, field: MovimentacaoID}}
+    proves: a compra foi gravada em 02/01/2019 e a leitura com mes 0 e ano 0 a lista, então ela cobre os anos anteriores (a conferência sem_movimentacao depende disso)
+  - name: excluir_compra_antiga
+    action: bastter.ativos.excluir_movimentacao
+    inputs: {tipo: acao, tipomov: compra, movimentacaoID: "${mov_antiga}", ativoID: "${item}"}
+  - name: compra_antiga_sumiu
+    action: bastter.ativos.obter_movimentacao
+    inputs: {codigo: "${ticker}", tipo: acao, ativoID: "${item}", mes: 0, ano: 0}
+    assert: {list_excludes: {path: Itens, where: {MovimentacaoID: "${mov_antiga}"}}}
   - name: excluir_compra
     action: bastter.ativos.excluir_movimentacao
     inputs: {tipo: acao, tipomov: compra, movimentacaoID: "${mov}", ativoID: "${item}"}

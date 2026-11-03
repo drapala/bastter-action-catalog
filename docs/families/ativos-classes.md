@@ -99,3 +99,9 @@ The cycles did leave hidden rows: `excluir_item` only hides an item. `tools/purg
 - The earlier purge runs counted a first `Return: OK` as proof. They had no repeat call. Run `purge-hidden-items-1793735050` repeated the check with the current rule (gone only after the not-found Error): 48 items gone, 34 of them already gone from the earlier runs.
 - Every asset scenario now has two guard steps before it writes: the tab does not hold the ticker, and the item that `salvar` returns has no movements. `salvar` with `ativoID: 0` returns the existing item for a ticker, even a hidden one (the ETF runs reused item 55738).
 - Correction after audit round 3: the second guard (no movements) runs right after `salvar`, before any other step, and the cleanup never runs past a guard that has not run. The guards cannot tell a hidden item of the user that has no movements from a new one. The purge reads each item again before it deletes it.
+
+## Update after audit round 4 (2026-11-03)
+
+- Surprise 6 is wrong. 55738 was a row id. After the purge deleted it, the ETF runs got new rows (55749, 55751, 55754, 55756). `salvar` reused 55738 only while that row existed hidden. A probe on VALE3 (run `dev-data-probe-*`) got a new item (1755507) while the scenario's hidden item 1755506 still existed, so reuse does not always happen. The guards stay, because it can happen.
+- The movement read with `mes: 0, ano: 0` lists past years. `acao_ciclo_completo.yaml` writes a buy dated 01/02/2019, reads it back with `Data: /Date(1546394400000)/` (2 January 2019) and deletes it. The guard `ativo_sem_movimentacao` and the purge recheck rely on this read.
+

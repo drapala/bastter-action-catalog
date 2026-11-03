@@ -72,6 +72,8 @@ bastter.ativos.salvar_opcoes:
   side_effects: {reversible: false, requires_confirmation: true, notes: "The server writes 0 to ProventosPizzaTipo and ProventosPizzaItem on every call, whatever the body holds. The app's own Configurações save does the same."}
 bastter.ativos.abas_salvar:
   side_effects: {reversible: false, requires_confirmation: true, notes: "An empty list is stored as [\"\"] and null is refused, so the original [] cannot come back. No tab is hidden by [\"\"]."}
+bastter.pas.diario_atividade_excluir:
+  side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Deleting an activity changes the public top 50 (diario_atividade_rank_listar). The MCP server does not run it."}
 bastter.pas.diario_atividade_salvar:
   side_effects: {external_effect: publishes, requires_confirmation: true, notes: "Activity amounts feed a public top 50 per activity type (diario_atividade_rank_listar). A large amount shows the user in it. The MCP server does not run it. The scenario wrote 1 and 2 minutes, below the lowest ranked 104."}
 bastter.pas.diario_salvar:

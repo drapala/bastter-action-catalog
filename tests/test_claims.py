@@ -36,3 +36,22 @@ def test_agent_doc_shows_the_current_claims():
 
     claims = json.loads((ROOT / "catalog/claims.json").read_text())["claims"]
     assert make_claims.table(claims) in (ROOT / "AGENT.md").read_text()
+
+
+def test_the_scenarios_claim_counts_files_with_a_read_back_step():
+    """Correction C036: the grep once counted a file that only mentions postcondition_of in its description."""
+    import yaml
+
+    files = sorted(ROOT.glob("scenarios/*.yaml")) + sorted(
+        ROOT.glob("scenarios/archive/*.yaml")
+    )
+    real = sum(
+        any("postcondition_of" in s for s in yaml.safe_load(f.read_text())["steps"])
+        for f in files
+    )
+    claim = next(
+        c
+        for c in json.loads((ROOT / "catalog/claims.json").read_text())["claims"]
+        if c["id"] == "scenarios"
+    )
+    assert claim["value"] == real

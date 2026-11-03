@@ -35,7 +35,7 @@ Every call is logged to `evidence/runs.jsonl` with the SHAPE of the answer, neve
 
 ## Scenario format
 
-See `scenarios/acao_ciclo_completo.yaml` (passes, 12 steps). Rules:
+See `scenarios/acao_ciclo_completo.yaml` (passes, 18 steps). Rules:
 
 - `vars:` constants. `${ts}` is a run stamp, `${prefix}` is `ZZTESTE`.
 - `save:` stores a value from the answer: `{name: "path.to.field"}` or `{name: {path: List, where: {Field: value}, field: IdField}}`. A save that finds nothing fails the step. A saved null fails too, unless the rule says `nullable: true` (for an old setting that is really null): `{name: {path: Opcoes.Campo, nullable: true}}`.
@@ -44,7 +44,7 @@ See `scenarios/acao_ciclo_completo.yaml` (passes, 12 steps). Rules:
 - `guard: true` marks a read that checks the account holds no real data the scenario would touch. When a guard fails, the run stops and nothing else runs.
 - `undoes: <step>` marks a step that undoes a write step (a restore, or a delete that takes no ID).
 - Default `stop_on_fail: true`. When a step fails, the run stops and runs only the later steps that undo its own writes: a step with `undoes` whose write step was reached, and a delete step whose inputs use IDs this run saved. No cleanup step runs past a guard that has not run. A guard always stops the run. Every skipped step is printed. Check the saved values the run prints, and run any cleanup that is still needed by hand with `call`.
-- `tests/test_scenario_engine.py::test_every_scenario_file_follows_the_cleanup_rules` fails when a delete has neither a saved ID nor `undoes`, when `undoes` names no earlier step, or when a guard is not a read.
+- `scenario_problems` checks five rules: a delete needs a saved ID or `undoes`; `undoes` names an earlier step; a guard is a read; a guard stops the run; a `salvar` that adds a ticker has a guard right before and right after it. `bastter_exec.py scenario` refuses to run a file that breaks one, and `tests/test_scenario_engine.py::test_every_scenario_file_follows_the_cleanup_rules` checks every file.
 
 ## Report
 

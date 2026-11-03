@@ -3,8 +3,8 @@
 Every call adds one line to a log. The line keeps the inputs, the HTTP status, the error message and the
 SHAPE of the answer (types, keys, list sizes). It never keeps the values of the answer, because the answers
 hold the user's financial data. Script runs log to evidence/runs.jsonl (tracked). Runs of the MCP server
-(mcp-*), the demo (demo-*) and tools/market.py (market-*) log to logs/mcp-runs.jsonl (not tracked), because
-they touch real records. The inputs are logged as sent: a restore step sends an old setting it read before,
+(mcp-*), the demo (demo-*) and the market data tool (market-*) log to logs/mcp-runs.jsonl (not tracked),
+because they touch real records. The inputs are logged as sent: a restore step sends an old setting it read before,
 so that setting is in the log.
 
 CLI:
@@ -68,7 +68,7 @@ def succeeded(line: dict) -> bool:
 
 
 def scenario_names() -> set[str]:
-    """Names of every scenario file, including the archived one-off cleanups."""
+    """Names of every scenario file, including the archived ones that no longer run."""
     import yaml
 
     files = list((ROOT / "scenarios").glob("*.yaml")) + list(
@@ -474,12 +474,19 @@ def scenario(file: str) -> int:
       else runs;
     - otherwise only the later steps that undo_blocker allows run, so the run undoes its own writes and
       never deletes a record it did not create.
-    Every skipped undo and the values the run saved are printed for a manual check.
+    Every skipped undo and the values the run saved are printed for a manual check. A file that breaks the
+    cleanup rules (scenario_problems) does not run at all.
     """
     import session as _session
     import yaml
 
     spec = yaml.safe_load(Path(file).read_text())
+    problems = scenario_problems(spec, load_catalog())
+    if problems:
+        for problem in problems:
+            print(f"RULE {problem}")
+        print(f"{file} breaks the cleanup rules and did not run")
+        return len(problems)
     run = f"{spec['name']}-{int(time.time())}"
     ctx: dict = {"run": run, "prefix": FIXTURE_PREFIX, "ts": str(int(time.time()))[-6:]}
     ctx.update(spec.get("vars") or {})
@@ -555,6 +562,18 @@ def scenario(file: str) -> int:
                     "detail": (step.get("proves") or "ok") if ok else why,
                 }
             )
+        elif not ok and (step.get("assert") or step.get("guard")):
+            log(
+                {
+                    "run": run,
+                    "at": datetime.now(UTC).isoformat(timespec="seconds"),
+                    "action": step["action"],
+                    "check": "guard" if step.get("guard") else "assert",
+                    "step": step["name"],
+                    "passed": ok,
+                    "detail": why,
+                }
+            )
         print(
             f"{'PASS' if ok else 'FAIL'} {step['name']:32} {step['action']} {'' if ok else why}"
         )
@@ -569,9 +588,24 @@ def scenario(file: str) -> int:
                 f"GUARD {step['name']} failed: no cleanup runs. Steps this run reached: {sorted(reached)}"
             )
         else:
+            blocked: set[str] = set()
             for j, later in enumerate(steps[i + 1 :], start=i + 1):
                 guards_before = [s["name"] for s in steps[:j] if s.get("guard")]
                 blocker = undo_blocker(later, reached, saved, catalog, guards_before)
+                shared = refs(later.get("inputs") or {}) & blocked
+                if not blocker and shared:
+                    blocker = f"an earlier cleanup step on {sorted(shared)} was skipped"
+                is_undo = (
+                    later.get("undoes")
+                    or catalog.get(later["action"], {}).get("operation_class")
+                    == "delete"
+                )
+                if blocker and is_undo:
+                    blocked |= {
+                        n
+                        for n in refs(later.get("inputs") or {})
+                        if saved.get(n) is not None
+                    }
                 if blocker:
                     print(
                         f"CLEANUP skipped {later['name']:24} {later['action']}: {blocker}"

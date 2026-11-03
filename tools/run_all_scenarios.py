@@ -1,8 +1,8 @@
 """Runs every scenario one at a time, then deletes for good the items the scenarios hid, then runs the state checks.
 
 One at a time on purpose: calls from several clients on the same session got slow (up to 65 s).
-Scenarios in scenarios/archive/ are not run again: one-off cleanups, and the activity diary scenario,
-whose write feeds a public ranking.
+Scenarios in scenarios/archive/ are not run again: one-off cleanups, the activity diary scenario (its write
+feeds a public ranking) and the imóvel cycle (an imóvel cannot be deleted for good).
 
 Run: .venv/bin/python tools/run_all_scenarios.py
 """

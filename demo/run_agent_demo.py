@@ -85,7 +85,8 @@ def short(text: str, limit: int = 600) -> str:
 def main() -> None:
     config = Path("/tmp/bastter-catalog-mcp.json")
     config.write_text(json.dumps({"mcpServers": {SERVER: {"command": str(ROOT / ".venv/bin/python"),
-                                                           "args": [str(ROOT / "tools/mcp_server.py")]}}}))
+                                                           "args": [str(ROOT / "tools/mcp_server.py")],
+                                                           "env": {"BASTTER_RUN_LABEL": "demo"}}}}))
     lines = [f"# Agent demo, {date.today().isoformat()}", "",
              ("A fresh Claude agent got each request with only three tools: `find_actions`, `get_action` and "
              "`run_action` from `tools/mcp_server.py`. It had no other context. Its instructions:"), "", f"> {SYSTEM}", ""]

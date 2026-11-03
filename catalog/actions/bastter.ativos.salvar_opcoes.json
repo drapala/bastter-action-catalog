@@ -662,8 +662,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:20:53+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-salvar-opcoes-1793737248",
+    "checked_at": "2026-11-03T20:58:34+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-salvar-opcoes-1793739510",
     "notes": "o objeto de opções inteiro voltou a ser o de antes"
   },
   "sources": [

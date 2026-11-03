@@ -65,8 +65,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:20:20+00:00",
-    "evidence": "evidence/runs.jsonl#run=config-modo-onde-aportar-1793737215",
+    "checked_at": "2026-11-03T20:58:03+00:00",
+    "evidence": "evidence/runs.jsonl#run=config-modo-onde-aportar-1793739478",
     "notes": "o modo voltou ao valor antigo e nenhuma outra opção da carteira mudou"
   },
   "sources": [

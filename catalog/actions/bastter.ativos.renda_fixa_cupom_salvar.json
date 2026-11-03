@@ -97,8 +97,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:28:22+00:00",
-    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793737691",
+    "checked_at": "2026-11-03T21:06:18+00:00",
+    "evidence": "evidence/runs.jsonl#run=rendafixa-ciclo-1793739969",
     "notes": "o mesmo cupom passou a ter valor 3 e data 02/11, sem criar outro"
   },
   "sources": [

@@ -1,0 +1,7 @@
+httpx==0.28.1
+fastmcp==4.1.6
+jsonschema==4.26.0
+PyYAML==6.0.3
+playwright==1.64.1
+pytest==9.2.0
+ruff==0.17.3

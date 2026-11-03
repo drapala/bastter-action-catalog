@@ -1,6 +1,7 @@
 """The demo cleanup removes only records that are new since the snapshot AND that the demo's own calls created."""
 
 import json
+from datetime import datetime
 
 import demo_cleanup as dc
 import pytest
@@ -10,8 +11,8 @@ class FakeAccount:
     def __init__(self):
         self.items = {"100": "ITSA4", "200": "ITSA4"}
         self.movements = {
-            "100": [{"MovimentacaoID": 1, "Tipo": "Compra"}],
-            "200": [{"MovimentacaoID": 2, "Tipo": "Compra"}],
+            "100": [{"MovimentacaoID": 1, "Tipo": "Compra", "Quantidade": 5.0}],
+            "200": [{"MovimentacaoID": 2, "Tipo": "Compra", "Quantidade": 3.0}],
         }
         self.entries = {10: "aluguel", 11: "ZZTESTE gasto de mercado"}
         self.categories = {5: "ZZTESTE mercado"}
@@ -81,13 +82,14 @@ class FakeAccount:
 
 BEFORE = {
     "items": {"100": "ITSA4"},
-    "movements": {"100": [{"id": 1, "tipo": "Compra"}]},
+    "movements": {"100": [{"id": 1, "tipo": "Compra", "qtd": 5.0}]},
     "entries": {"10": "aluguel"},
     "categories": {},
 }
 MADE = {
     "tickers": {"ITSA4"},
     "movements": {"200": 1},
+    "quantities": {"200": {3.0}},
     "entries": {"ZZTESTE gasto de mercado"},
     "categories": {"ZZTESTE mercado"},
 }
@@ -99,23 +101,43 @@ def test_only_records_the_demo_created_are_removed():
     assert account.items == {"100": "ITSA4"}, (
         "the item that existed before (same ticker) stays"
     )
-    assert account.movements["100"] == [{"MovimentacaoID": 1, "Tipo": "Compra"}]
+    assert account.movements["100"] == [
+        {"MovimentacaoID": 1, "Tipo": "Compra", "Quantidade": 5.0}
+    ]
     assert account.entries == {10: "aluguel"} and account.categories == {}
-    assert [a for a, _ in account.calls].index("ativos.excluir_movimentacao") < [
-        a for a, _ in account.calls
-    ].index("ativos.excluir_item")
+    actions = [a for a, _ in account.calls]
+    assert actions.index("ativos.excluir_movimentacao") < actions.index(
+        "ativos.excluir_item"
+    )
 
 
 def test_a_returned_hidden_item_with_old_movements_is_not_touched():
     """Audit round 3: salvar can return the user's hidden ITSA4, whose old movements then look new."""
     account = FakeAccount()
-    account.movements["200"] = [
-        {"MovimentacaoID": 2, "Tipo": "Compra"},
-        {"MovimentacaoID": 3, "Tipo": "Venda"},
-    ]
+    account.movements["200"].append(
+        {"MovimentacaoID": 3, "Tipo": "Venda", "Quantidade": -3.0}
+    )
     problems = dc.clean(BEFORE, account, MADE)
-    assert any("2 new movements and the demo created 1" in p for p in problems)
+    assert any("item 200" in p for p in problems)
     assert len(account.movements["200"]) == 2 and "200" in account.items
+
+
+def test_the_users_movement_on_a_returned_item_survives_a_demo_create_and_delete():
+    """Audit round 4: the demo created and then deleted its own buy on the user's returned ITSA4."""
+    account = FakeAccount()
+    problems = dc.clean(BEFORE, account, {**MADE, "movements": {"200": 0}})
+    assert any("item 200" in p for p in problems)
+    assert account.movements["200"] == [
+        {"MovimentacaoID": 2, "Tipo": "Compra", "Quantidade": 3.0}
+    ]
+    assert "200" in account.items
+
+
+def test_a_new_movement_with_a_quantity_the_demo_never_sent_is_not_touched():
+    account = FakeAccount()
+    problems = dc.clean(BEFORE, account, {**MADE, "quantities": {"200": {7.0}}})
+    assert any("item 200" in p for p in problems)
+    assert len(account.movements["200"]) == 1
 
 
 def test_a_new_record_the_demo_did_not_create_is_reported_not_deleted():
@@ -143,14 +165,10 @@ def test_a_refused_delete_is_reported_and_the_account_does_not_match():
     assert "entries differ from the snapshot" in problems
 
 
-def test_demo_creates_reads_only_the_demo_window():
-    line = lambda at, action, inputs: {
-        "run": "mcp-1",
-        "at": at,
-        "action": action,
-        "ok": True,
-        "inputs": inputs,
-    }
+def test_demo_creates_reads_only_the_demo_runs_in_the_window():
+    def line(at, action, inputs, run="mcp-demo-1"):
+        return {"run": run, "at": at, "action": action, "ok": True, "inputs": inputs}
+
     lines = [
         line(
             "2026-11-03T10:00:00+00:00",
@@ -165,29 +183,50 @@ def test_demo_creates_reads_only_the_demo_window():
         line(
             "2026-11-03T12:01:00+00:00",
             "bastter.ativos.salvar_movimentacao",
-            {"movimentacaoID": 0, "ativoID": 200},
+            {"movimentacaoID": 0, "ativoID": 200, "quantidade": 3},
         ),
         line(
             "2026-11-03T12:02:00+00:00",
             "bastter.ativos.salvar_movimentacao",
-            {"movimentacaoID": 9, "ativoID": 200},
+            {"movimentacaoID": 9, "ativoID": 200, "quantidade": 4},
         ),
         line(
             "2026-11-03T12:03:00+00:00",
             "bastter.financeiro.financa_salvar",
-            {"descricao": "x", "categoriaID": 0, "categoriaDescricao": "c"},
+            {
+                "descricao": "ZZTESTE x",
+                "categoriaID": 0,
+                "categoriaDescricao": "ZZTESTE c",
+            },
+        ),
+        line(
+            "2026-11-03T12:04:00+00:00",
+            "bastter.financeiro.financa_salvar",
+            {"descricao": "luz", "categoriaID": 0, "categoriaDescricao": "casa"},
+        ),
+        line(
+            "2026-11-03T12:05:00+00:00",
+            "bastter.ativos.salvar",
+            {"ativoID": 0, "descricao": "MINE3"},
+            run="mcp-1793700000",
+        ),
+        line(
+            "2026-11-03T12:06:00+00:00",
+            "bastter.ativos.excluir_movimentacao",
+            {"ativoID": 300, "movimentacaoID": 1},
         ),
     ]
-    from datetime import datetime
-
     since = datetime.fromisoformat("2026-11-03T11:00:00+00:00").timestamp()
     made = dc.demo_creates(lines, since)
     assert made == {
         "tickers": {"ITSA4"},
-        "movements": {"200": 1},
-        "entries": {"x"},
-        "categories": {"c"},
-    }
+        "movements": {"200": 1, "300": -1},
+        "quantities": {"200": {3.0, 4.0}},
+        "entries": {"ZZTESTE x"},
+        "categories": {"ZZTESTE c"},
+    }, (
+        "another MCP session and names without ZZTESTE never count; the demo's deletes are subtracted"
+    )
 
 
 def test_an_old_snapshot_is_refused(monkeypatch, tmp_path):
@@ -212,10 +251,10 @@ def test_a_clean_pass_deletes_the_snapshot(monkeypatch, tmp_path):
     monkeypatch.setattr(dc.bastter_exec, "PRIVATE_LOG", tmp_path / "none.jsonl")
     snap.write_text(json.dumps({**BEFORE, "taken_at": time.time()}))
     account = FakeAccount()
-    account.items, account.movements = (
-        {"100": "ITSA4"},
-        {"100": [{"MovimentacaoID": 1, "Tipo": "Compra"}]},
-    )
+    account.items = {"100": "ITSA4"}
+    account.movements = {
+        "100": [{"MovimentacaoID": 1, "Tipo": "Compra", "Quantidade": 5.0}]
+    }
     account.entries, account.categories = {10: "aluguel"}, {}
     monkeypatch.setattr(dc, "caller", lambda run, note: account)
     assert dc.main() == 0 and not snap.exists()

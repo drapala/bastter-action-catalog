@@ -95,8 +95,8 @@
   "verification": {
     "status": "verified",
     "route_kind": "undocumented_api",
-    "checked_at": "2026-11-03T20:28:45+00:00",
-    "evidence": "evidence/runs.jsonl#run=saude-gym-1793737721",
+    "checked_at": "2026-11-03T21:06:41+00:00",
+    "evidence": "evidence/runs.jsonl#run=saude-gym-1793739998",
     "notes": "o exercício aparece na lista do usuário com o nome enviado"
   },
   "sources": [
